@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIKON - Update & Regulasi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .filter-bar { display: flex; gap: 12px; margin-bottom: 32px; }
+        .filter-btn { background: white; padding: 10px 20px; border-radius: 20px; border: 1px solid #E2E8F0; font-size: 14px; font-weight: 500; color: var(--text-muted); transition: 0.2s; }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+
+        .update-grid { display: flex; flex-direction: column; gap: 20px; }
+        .update-card { background: white; border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid transparent; transition: all 0.3s ease; display: flex; flex-direction: column; gap: 12px; }
+        .update-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--secondary-cyan); }
+        
+        .card-header-info { display: flex; justify-content: space-between; align-items: center; }
+        .update-date { font-size: 12px; color: var(--text-muted); }
+        .badge { font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 600; text-transform: uppercase; }
+        .badge.regulasi { background: #EBF5FF; color: var(--primary-blue); }
+        .badge.sop { background: #ECFDF5; color: var(--success-green); }
+        .badge.prosedur { background: #FFF7ED; color: #EA580C; }
+
+        .update-card h3 { font-size: 18px; font-weight: 700; color: var(--text-main); }
+        .update-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+        .read-more-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--primary-blue); transition: 0.2s; align-self: flex-start; background: transparent; padding: 0; }
+        .read-more-btn:hover { color: var(--secondary-cyan); }
+    </style>
+</head>
+<body class="dashboard-page">
+    <div class="mobile-header">
+        <button class="menu-toggle-btn" id="menuToggle"><i data-lucide="menu"></i></button>
+        <div class="mobile-logo">AI<span>KON</span></div>
+        <div class="profile-img" style="width:30px; height:30px;"></div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i data-lucide="bot" style="color:var(--secondary-cyan)"></i>
+            <span>AIKON</span>
+        </div>
+        <nav style="flex: 1">
+            <a href="index.html" class="nav-item">
+                <i data-lucide="home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="knowledge-base.html" class="nav-item">
+                <i data-lucide="book"></i>
+                <span>Knowledge Base</span>
+            </a>
+            <a href="onboarding.html" class="nav-item">
+                <i data-lucide="users"></i>
+                <span>Onboarding</span>
+            </a>
+            <a href="update.html" class="nav-item active">
+                <i data-lucide="bell"></i>
+                <span>Update</span>
+            </a>
+            <a href="dashboard.html" class="nav-item">
+                <i data-lucide="layout"></i>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i data-lucide="help-circle"></i>
+                <span>Bantuan</span>
+            </a>
+            <a href="login.html" class="nav-item">
+                <i data-lucide="log-out"></i>
+                <span>Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content fade-in">
+        <header class="content-header">
+            <h1>Update & Notifikasi</h1>
+            <p>Informasi terbaru seputar regulasi, SOP, dan prosedur kerja di BPJS Kesehatan.</p>
+        </header>
+
+        <div class="filter-bar">
+            <button class="filter-btn active">Semua</button>
+            <button class="filter-btn">Regulasi</button>
+            <button class="filter-btn">SOP</button>
+            <button class="filter-btn">Prosedur Kerja</button>
+        </div>
+
+        <div class="update-grid">
+            <article class="update-card">
+                <div class="card-header-info">
+                    <span class="update-date">28 Juni 2026</span>
+                    <span class="badge regulasi">Regulasi</span>
+                </div>
+                <h3>Pemberlakuan Peraturan BPJS Kesehatan No. 4 Tahun 2026</h3>
+                <p>Regulasi terbaru mengenai penyesuaian tarif pelayanan kapitasi dan non-kapitasi di Fasilitas Kesehatan Tingkat Pertama (FKTP) untuk meningkatkan efisiensi operasional.</p>
+                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
+            </article>
+
+            <article class="update-card">
+                <div class="card-header-info">
+                    <span class="update-date">24 Juni 2026</span>
+                    <span class="badge sop">SOP</span>
+                </div>
+                <h3>SOP Baru: Validasi dan Verifikasi Pendaftaran Bayi Baru Lahir</h3>
+                <p>Penyempurnaan alur pendaftaran bagi Bayi Baru Lahir (BBL) dari peserta PBI (Penerima Bantuan Iuran) guna mempercepat proses penerbitan nomor kepesertaan aktif.</p>
+                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
+            </article>
+
+            <article class="update-card">
+                <div class="card-header-info">
+                    <span class="update-date">18 Juni 2026</span>
+                    <span class="badge prosedur">Prosedur Kerja</span>
+                </div>
+                <h3>Alur Pelayanan Pengaduan Peserta di Kantor Cabang</h3>
+                <p>Panduan praktis penanganan keluhan langsung di loket Front Office (FO) untuk mempersingkat Service Level Agreement (SLA) penyelesaian masalah dari 3 hari menjadi maksimal 24 jam.</p>
+                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
+            </article>
+
+            <article class="update-card">
+                <div class="card-header-info">
+                    <span class="update-date">12 Juni 2026</span>
+                    <span class="badge regulasi">Regulasi</span>
+                </div>
+                <h3>Integrasi Sistem Informasi Rujukan FKRTL Terbaru</h3>
+                <p>Pembaharuan petunjuk teknis integrasi aplikasi rujukan online dari faskes primer ke faskes rujukan tingkat lanjutan untuk mengurangi antrean pasien.</p>
+                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
+            </article>
+        </div>
+    </main>
+
+    <aside class="chat-sidebar">
+        <header class="chat-header">
+            <i data-lucide="message-square" style="color:var(--primary-blue)"></i>
+            Tanya AIKON
+        </header>
+        <div class="chat-messages">
+            <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:20px;">
+                <img src="assets/mascot.png" alt="AIKON" style="width:64px;">
+            </div>
+            <div class="chat-bubble user">
+                Apa saja regulasi terbaru di bulan ini?
+            </div>
+            <div class="chat-bubble bot">
+                Regulasi terbaru bulan ini adalah <strong>Peraturan BPJS Kesehatan No. 4 Tahun 2026</strong> mengenai penyesuaian tarif kapitasi di FKTP, serta pembaharuan integrasi rujukan online.
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <div class="chat-input">
+                <input type="text" placeholder="Tanyakan update lain...">
+                <button class="chat-send"><i data-lucide="send" size="18"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <script>
+        lucide.createIcons();
+
+        // Mobile Menu Toggle logic
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            });
+        }
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

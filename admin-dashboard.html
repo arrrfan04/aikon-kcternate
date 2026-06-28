@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIKON - Panel Pengelola Konten Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-page-content { display: none; }
+        .admin-page-content.active { display: block; }
+        
+        /* Table Responsive Container */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            margin-top: 16px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            white-space: nowrap;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 14px;
+        }
+        
+        .admin-table th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        
+        .admin-table td {
+            color: var(--text-muted);
+        }
+        
+        .admin-table tr:hover td {
+            background: #FAFAFA;
+        }
+
+        /* Modern Action Buttons */
+        .btn-action-edit {
+            background: #EBF5FF;
+            color: var(--primary-blue);
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 8px;
+            transition: 0.2s;
+            border: none;
+        }
+        
+        .btn-action-edit:hover {
+            background: #DBEAFE;
+        }
+        
+        .btn-action-delete {
+            background: #FEF2F2;
+            color: #DC2626;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+        }
+
+        .btn-action-delete:hover {
+            background: #FEE2E2;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+            border: 1px solid #E2E8F0;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #E2E8F0;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 71, 186, 0.1);
+        }
+        
+        .admin-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 16px;
+        }
+
+        .admin-section-header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        
+        .btn-add {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--success-green);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            border: none;
+        }
+        
+        .btn-add:hover {
+            background: #0d9668;
+            transform: translateY(-2px);
+        }
+
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #10B981;
+            color: white;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            z-index: 3000;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .status-badge {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .status-badge.active {
+            background: #ECFDF5;
+            color: var(--success-green);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Layouts */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .admin-section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn-add {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body class="dashboard-page">
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button class="menu-toggle-btn" id="menuToggle"><i data-lucide="menu"></i></button>
+        <div class="mobile-logo">AI<span>KON</span></div>
+        <div class="profile-img" style="width:30px; height:30px;"></div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i data-lucide="bot" style="color:var(--secondary-cyan)"></i>
+            <span>AIKON <span style="font-size: 9px; font-weight: 800; background: #00F0FF; color: #0A1931; padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;">ADMIN</span></span>
+        </div>
+        <nav style="flex: 1">
+            <button class="nav-item active" onclick="switchPage('overview', this)">
+                <i data-lucide="home"></i>
+                <span>Beranda</span>
+            </button>
+            <button class="nav-item" onclick="switchPage('sop', this)">
+                <i data-lucide="file-text"></i>
+                <span>SOP Kerja</span>
+            </button>
+            <button class="nav-item" onclick="switchPage('regulasi', this)">
+                <i data-lucide="shield-alert"></i>
+                <span>Regulasi</span>
+            </button>
+            <button class="nav-item" onclick="switchPage('panduan', this)">
+                <i data-lucide="book-open"></i>
+                <span>Panduan Kerja</span>
+            </button>
+            <button class="nav-item" onclick="switchPage('dokumen', this)">
+                <i data-lucide="files"></i>
+                <span>Form & Dokumen</span>
+            </button>
+            <button class="nav-item" onclick="switchPage('faq', this)">
+                <i data-lucide="help-circle"></i>
+                <span>FAQ</span>
+            </button>
+            <button class="nav-item" onclick="switchPage('users', this)">
+                <i data-lucide="users"></i>
+                <span>Manajemen User</span>
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="admin-login.html" class="nav-item">
+                <i data-lucide="log-out"></i>
+                <span>Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content fade-in">
+        <!-- Toast Success Notification -->
+        <div class="toast-notification" id="toast">
+            <i data-lucide="check-circle" size="20"></i>
+            <span id="toastText">Data berhasil ditambahkan!</span>
+        </div>
+
+        <!-- SECTION 1: OVERVIEW -->
+        <div id="overview" class="admin-page-content active">
+            <header class="content-header">
+                <h1>Beranda Pengelolaan</h1>
+                <p>Pantau analitik konten pengetahuan, jumlah dokumen aktif, dan sebaran unit user.</p>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i data-lucide="file-text" size="20"></i></div>
+                    <h3>Total SOP Kerja</h3>
+                    <span class="value" id="countSop">18</span>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon"><i data-lucide="shield-alert" size="20"></i></div>
+                    <h3>Total Regulasi</h3>
+                    <span class="value" id="countRegulasi">12</span>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i data-lucide="users" size="20"></i></div>
+                    <h3>User Pegawai</h3>
+                    <span class="value" id="countUsers">65</span>
+                </div>
+                <div class="stat-card cyan">
+                    <div class="stat-icon"><i data-lucide="help-circle" size="20"></i></div>
+                    <h3>FAQ Aktif</h3>
+                    <span class="value" id="countFaq">30</span>
+                </div>
+            </div>
+
+            <div class="dashboard-row">
+                <div class="dashboard-card">
+                    <h2>Distribusi Dokumen per Kategori</h2>
+                    <div class="progress-list" style="display:flex; flex-direction:column; gap:16px;">
+                        <div class="progress-item">
+                            <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
+                                <span>SOP Pelayanan & Administrasi</span>
+                                <span style="font-weight:600;">18 Dokumen (40%)</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
+                                <span>Regulasi & Kebijakan Pusat</span>
+                                <span style="font-weight:600;">12 Dokumen (25%)</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 25%; background: var(--primary-blue);"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
+                                <span>Panduan Kerja Operasional</span>
+                                <span style="font-weight:600;">10 Dokumen (20%)</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 20%; background: #EA580C;"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
+                                <span>Formulir & FAQ Berkas</span>
+                                <span style="font-weight:600;">15 Dokumen (15%)</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 15%; background: var(--secondary-cyan);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <h2>User Pegawai per Unit Kerja</h2>
+                    <div class="chart-container" style="display:flex; align-items:flex-end; justify-content:space-between; height:150px; border-bottom:1px solid #F1F5F9; padding-bottom:8px;">
+                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
+                            <div class="chart-bar" style="height: 100px; width:24px; background:var(--secondary-cyan); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">25</span></div>
+                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">FO</span>
+                        </div>
+                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
+                            <div class="chart-bar" style="height: 120px; width:24px; background:var(--primary-blue); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">30</span></div>
+                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">Layanan</span>
+                        </div>
+                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
+                            <div class="chart-bar" style="height: 80px; width:24px; background:#EA580C; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">20</span></div>
+                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">Klaim</span>
+                        </div>
+                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
+                            <div class="chart-bar" style="height: 40px; width:24px; background:var(--success-green); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">10</span></div>
+                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">TI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card" style="margin-bottom: 24px;">
+                <h2>Log Aktivitas Terakhir Admin</h2>
+                <div class="activity-timeline">
+                    <div class="activity-timeline-item">
+                        <div class="activity-timeline-icon user-add">
+                            <i data-lucide="user-plus" size="16"></i>
+                        </div>
+                        <div class="activity-timeline-content">
+                            <div class="activity-timeline-header">
+                                <span class="activity-timeline-title">Menambahkan User Pegawai Baru: <strong>Andi Wijaya (NPP: 98124)</strong></span>
+                                <span class="activity-timeline-time">10 menit yang lalu</span>
+                            </div>
+                            <p class="activity-timeline-desc">Otorisasi login pegawai baru untuk divisi Front Office (FO) telah aktif.</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-timeline-item">
+                        <div class="activity-timeline-icon regulasi-update">
+                            <i data-lucide="shield-alert" size="16"></i>
+                        </div>
+                        <div class="activity-timeline-content">
+                            <div class="activity-timeline-header">
+                                <span class="activity-timeline-title">Memperbarui Regulasi: <strong>BPJS No. 4 Tahun 2026 Kapitasi FKTP</strong></span>
+                                <span class="activity-timeline-time">2 jam yang lalu</span>
+                            </div>
+                            <p class="activity-timeline-desc">Melakukan update intisari peraturan penyesuaian tarif kapitasi dan non-kapitasi.</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-timeline-item">
+                        <div class="activity-timeline-icon sop-add">
+                            <i data-lucide="file-text" size="16"></i>
+                        </div>
+                        <div class="activity-timeline-content">
+                            <div class="activity-timeline-header">
+                                <span class="activity-timeline-title">Menambahkan SOP Kerja: <strong>Validasi Pendaftaran Bayi Baru Lahir</strong></span>
+                                <span class="activity-timeline-time">Kemarin</span>
+                            </div>
+                            <p class="activity-timeline-desc">Mengunggah alur verifikasi data BBL untuk peserta segmen Penerima Bantuan Iuran (PBI).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: SOP KERJA -->
+        <div id="sop" class="admin-page-content">
+            <div class="admin-section-header">
+                <div>
+                    <h1>Penambahan & Update SOP Kerja</h1>
+                    <p>Kelola Standard Operating Procedure (SOP) pelayanan dan administrasi.</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm('formSop')"><i data-lucide="plus"></i> Tambah SOP</button>
+            </div>
+
+            <!-- Add Form -->
+            <div class="form-container" id="formSop" style="display:none">
+                <h2>Form Tambah / Edit SOP</h2>
+                <form onsubmit="handleFormSubmit(event, 'sop')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Kode SOP</label>
+                            <input type="text" placeholder="Contoh: SOP-FO-01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama SOP</label>
+                            <input type="text" placeholder="Contoh: Alur Pengaduan Loket FKTP" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <select required>
+                                <option>Pelayanan FKTP</option>
+                                <option>Pelayanan FKRTL</option>
+                                <option>Administrasi Kepesertaan</option>
+                                <option>Verifikasi Klaim</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Rilis</label>
+                            <input type="date" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Ringkasan Isi SOP</label>
+                        <textarea placeholder="Masukkan ringkasan atau alur utama SOP..." rows="4" required></textarea>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan SOP</button>
+                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formSop')">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- List Table -->
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama SOP</th>
+                            <th>Kategori</th>
+                            <th>Tanggal Rilis</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sopList">
+                        <tr>
+                            <td>SOP-FO-01</td>
+                            <td>Validasi & Verifikasi Pendaftaran Bayi Baru Lahir</td>
+                            <td>Administrasi Kepesertaan</td>
+                            <td>24 Juni 2026</td>
+                            <td>
+                                <button class="btn-action-edit">Edit</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>SOP-KL-04</td>
+                            <td>Verifikasi Kelayakan Klaim Non-Kapitasi Primer</td>
+                            <td>Verifikasi Klaim</td>
+                            <td>10 Juni 2026</td>
+                            <td>
+                                <button class="btn-action-edit">Edit</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 3: REGULASI -->
+        <div id="regulasi" class="admin-page-content">
+            <div class="admin-section-header">
+                <div>
+                    <h1>Penambahan & Update Regulasi</h1>
+                    <p>Kelola peraturan dasar, kebijakan pusat, dan regulasi pelayanan JKN.</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm('formRegulasi')"><i data-lucide="plus"></i> Tambah Regulasi</button>
+            </div>
+
+            <!-- Add Form -->
+            <div class="form-container" id="formRegulasi" style="display:none">
+                <h2>Form Tambah / Edit Regulasi</h2>
+                <form onsubmit="handleFormSubmit(event, 'regulasi')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nomor Regulasi</label>
+                            <input type="text" placeholder="Contoh: Perpres No. 59 Tahun 2024" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tentang (Judul)</label>
+                            <input type="text" placeholder="Contoh: Jaminan Kesehatan Tingkat Primer" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Kebijakan</label>
+                            <select required>
+                                <option>Undang-Undang / Perpres</option>
+                                <option>Peraturan Direksi BPJS</option>
+                                <option>Surat Edaran Bersama</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Ditetapkan</label>
+                            <input type="date" required>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Ringkasan Pokok Regulasi</label>
+                        <textarea placeholder="Masukkan intisari regulasi..." rows="4" required></textarea>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Regulasi</button>
+                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formRegulasi')">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nomor</th>
+                            <th>Tentang</th>
+                            <th>Jenis</th>
+                            <th>Tanggal Rilis</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="regList">
+                        <tr>
+                            <td>Per BPJS No. 4 Tahun 2026</td>
+                            <td>Penyesuaian Tarif Pelayanan Kapitasi & Non-Kapitasi FKTP</td>
+                            <td>Peraturan Direksi</td>
+                            <td>28 Juni 2026</td>
+                            <td>
+                                <button class="btn-action-edit">Edit</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 4: PANDUAN KERJA -->
+        <div id="panduan" class="admin-page-content">
+            <div class="admin-section-header">
+                <div>
+                    <h1>Penambahan & Update Panduan Kerja</h1>
+                    <p>Kelola petunjuk teknis operasional (Juknis) langkah-demi-langkah bagi staf lapangan.</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm('formPanduan')"><i data-lucide="plus"></i> Tambah Panduan</button>
+            </div>
+
+            <div class="form-container" id="formPanduan" style="display:none">
+                <h2>Form Tambah / Edit Panduan</h2>
+                <form onsubmit="handleFormSubmit(event, 'panduan')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Judul Panduan</label>
+                            <input type="text" placeholder="Contoh: Petunjuk Penggunaan Aplikasi SIPP" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Modul / Bidang</label>
+                            <select required>
+                                <option>Aplikasi Internal</option>
+                                <option>Pelayanan Lapangan</option>
+                                <option>Klaim Rumah Sakit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px;">
+                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Panduan</button>
+                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formPanduan')">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Judul Panduan</th>
+                            <th>Modul / Bidang</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Panduan Teknis Bridging SIMRS V2 BPJS</td>
+                            <td>Aplikasi Internal</td>
+                            <td>
+                                <button class="btn-action-edit">Edit</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 5: FORM & DOKUMEN -->
+        <div id="dokumen" class="admin-page-content">
+            <div class="admin-section-header">
+                <div>
+                    <h1>Penambahan & Update Form & Dokumen</h1>
+                    <p>Unggah dan kelola formulir resmi, template surat, dan lampiran berkas klaim.</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm('formDokumen')"><i data-lucide="plus"></i> Tambah Dokumen</button>
+            </div>
+
+            <div class="form-container" id="formDokumen" style="display:none">
+                <h2>Form Tambah / Edit Dokumen</h2>
+                <form onsubmit="handleFormSubmit(event, 'dokumen')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nama Formulir/Dokumen</label>
+                            <input type="text" placeholder="Contoh: Form Pengajuan Kredensialing FKTP" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipe Berkas / Format</label>
+                            <select required>
+                                <option>PDF Dokumentasi</option>
+                                <option>Microsoft Word (.docx)</option>
+                                <option>Microsoft Excel (.xlsx)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px;">
+                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Dokumen</button>
+                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formDokumen')">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nama Formulir/Dokumen</th>
+                            <th>Tipe / Format</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Formulir Rekonsiliasi Iuran Badan Usaha JKN</td>
+                            <td>Microsoft Excel (.xlsx)</td>
+                            <td>
+                                <button class="btn-action-edit">Edit</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 6: FAQ -->
+        <div id="faq" class="admin-page-content">
+            <div class="admin-section-header">
+                <div>
+                    <h1>Penambahan & Update FAQ</h1>
+                    <p>Kelola daftar Pertanyaan Sering Ditanyakan (FAQ) sebagai rujukan asisten AIKON.</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm('formFaq')"><i data-lucide="plus"></i> Tambah FAQ</button>
+            </div>
+
+            <div class="form-container" id="formFaq" style="display:none">
+                <h2>Form Tambah / Edit FAQ</h2>
+                <form onsubmit="handleFormSubmit(event, 'faq')">
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <label>Pertanyaan</label>
+                        <input type="text" placeholder="Bagaimana alur pendaftaran bagi Bayi Baru Lahir?" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Jawaban</label>
+                        <textarea placeholder="Tuliskan jawaban yang ringkas dan jelas..." rows="3" required></textarea>
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan FAQ</button>
+                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formFaq')">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%">Pertanyaan</th>
+                            <th style="width: 55%">Jawaban</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bagaimana jika kartu JKN KIS hilang?</td>
+                            <td>Peserta dapat mencetak kartu digital KIS melalui aplikasi Mobile JKN tanpa biaya administrasi.</td>
+                            <td>
+                                <button class="btn-action-edit">Edit</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 7: MANAJEMEN USER PEGAWAI -->
+        <div id="users" class="admin-page-content">
+            <div class="admin-section-header">
+                <div>
+                    <h1>Manajemen User Pegawai</h1>
+                    <p>Tambahkan dan kelola hak akses akun pegawai BPJS Kesehatan untuk login ke AIKON.</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm('formUser')"><i data-lucide="user-plus"></i> Tambah Pegawai</button>
+            </div>
+
+            <!-- Add Form -->
+            <div class="form-container" id="formUser" style="display:none">
+                <h2>Form Tambah Pegawai Baru</h2>
+                <form onsubmit="handleFormSubmit(event, 'user')">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <input type="text" id="addName" placeholder="Contoh: Rian Pratama" required>
+                        </div>
+                        <div class="form-group">
+                            <label>NPP (Nomor Pokok Pegawai)</label>
+                            <input type="text" id="addNpp" placeholder="Contoh: 12563" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit Kerja / Divisi</label>
+                            <select id="addUnit" required>
+                                <option>Front Office (FO)</option>
+                                <option>Kepesertaan & Pelayanan</option>
+                                <option>Manajemen Klaim (Jaminan)</option>
+                                <option>TI & Dukungan Operasional</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Password Akun</label>
+                            <input type="password" id="addPassword" placeholder="Buat password sementara" required>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px;">
+                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Akun Pegawai</button>
+                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formUser')">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>NPP</th>
+                            <th>Nama Pegawai</th>
+                            <th>Unit Kerja</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userList">
+                        <tr>
+                            <td>12345</td>
+                            <td>Budi Santoso</td>
+                            <td>Kepesertaan & Pelayanan</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <button class="btn-action-edit">Suspended</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>98321</td>
+                            <td>Siti Rahmawati</td>
+                            <td>Front Office (FO)</td>
+                            <td><span class="status-badge active">Aktif</span></td>
+                            <td>
+                                <button class="btn-action-edit">Suspended</button>
+                                <button class="btn-action-delete">Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Switch admin sub-pages
+        function switchPage(pageId, element) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.admin-page-content');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            // Show target section
+            const targetSection = document.getElementById(pageId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Update active menu tab
+            const navItems = document.querySelectorAll('.sidebar .nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            // Close mobile sidebar if open
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+        }
+
+        // Toggle Form container visibility
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+
+        // Handle Add Form Submissions
+        function handleFormSubmit(event, type) {
+            event.preventDefault();
+
+            if (type === 'user') {
+                const name = document.getElementById('addName').value;
+                const npp = document.getElementById('addNpp').value;
+                const unit = document.getElementById('addUnit').value;
+
+                // Add row to user list table
+                const tableBody = document.getElementById('userList');
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${npp}</td>
+                    <td>${name}</td>
+                    <td>${unit}</td>
+                    <td><span class="status-badge active">Aktif</span></td>
+                    <td>
+                        <button class="btn-action-edit">Suspended</button>
+                        <button class="btn-action-delete">Hapus</button>
+                    </td>
+                `;
+                tableBody.appendChild(newRow);
+
+                // Increment stats counter
+                const statsCounter = document.getElementById('countUsers');
+                statsCounter.innerText = parseInt(statsCounter.innerText) + 1;
+
+                // Reset and Close Form
+                document.getElementById('formUser').style.display = "none";
+                event.target.reset();
+
+                // Show Success Toast
+                showToast(`Akun pegawai ${name} (NPP: ${npp}) berhasil ditambahkan!`);
+            } else if (type === 'sop') {
+                showToast('SOP kerja baru berhasil ditambahkan!');
+                document.getElementById('formSop').style.display = "none";
+                event.target.reset();
+                
+                // Increment stats
+                const statsCounter = document.getElementById('countSop');
+                statsCounter.innerText = parseInt(statsCounter.innerText) + 1;
+            } else if (type === 'regulasi') {
+                showToast('Regulasi baru berhasil ditambahkan!');
+                document.getElementById('formRegulasi').style.display = "none";
+                event.target.reset();
+
+                // Increment stats
+                const statsCounter = document.getElementById('countRegulasi');
+                statsCounter.innerText = parseInt(statsCounter.innerText) + 1;
+            } else {
+                showToast('Data berhasil disimpan!');
+                event.target.reset();
+            }
+        }
+
+        // Show Toast helper
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toastText');
+            toastText.innerText = text;
+            toast.style.display = 'flex';
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 4000);
+        }
+
+        // Mobile Menu Toggle logic
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            });
+        }
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

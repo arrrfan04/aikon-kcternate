@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIKON - Masuk Pegawai</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body.login-page {
+            background: linear-gradient(135deg, #0A1931 0%, #102A50 50%, #0047BA 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Left Panel - Branding */
+        .login-branding {
+            background: #FFFFFF;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--text-main);
+            position: relative;
+            border-right: 1px solid #E2E8F0;
+        }
+
+        .branding-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .branding-header span {
+            color: var(--success-green);
+        }
+
+        .branding-body {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .branding-body img {
+            width: 240px;
+            margin-bottom: 28px;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
+        }
+
+        .branding-body h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            color: var(--text-main);
+        }
+
+        .branding-body p {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        .branding-footer {
+            font-size: 12px;
+            color: #94A3B8;
+            text-align: center;
+        }
+
+        /* Right Panel - Form */
+        .login-form-panel {
+            background: white;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 32px;
+        }
+
+        .form-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 16px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #E2E8F0;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #F8FAFC;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--primary-blue);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 71, 186, 0.15);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            color: var(--text-muted);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 32px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .remember-me input {
+            cursor: pointer;
+            accent-color: var(--primary-blue);
+        }
+
+        .forgot-password-link {
+            color: var(--primary-blue);
+            font-weight: 600;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .forgot-password-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--success-green);
+            color: white;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background: #0d9668;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .error-message {
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            color: #DC2626;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .switch-login {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            gap: 6px;
+        }
+
+        .switch-login a {
+            color: var(--primary-blue);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .switch-login a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 25, 49, 0.7);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 32px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .modal-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-modal-submit {
+            flex: 1;
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            background: #F1F5F9;
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        .success-banner {
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .login-branding {
+                padding: 32px;
+                text-align: center;
+            }
+
+            .branding-body {
+                margin: 20px 0;
+            }
+
+            .branding-body img {
+                width: 120px;
+            }
+
+            .login-form-panel {
+                padding: 32px;
+            }
+        }
+    </style>
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <!-- Left Branding Panel -->
+        <div class="login-branding">
+            <div class="branding-header">
+                <i data-lucide="bot" style="color:var(--primary-blue)"></i>
+                AI<span>KON</span>
+            </div>
+            
+            <div class="branding-body">
+                <img src="assets/logo_bpjs.png" alt="BPJS Kesehatan Logo">
+                <h2>Asisten Pengetahuan Internal Anda</h2>
+                <p>Akses cepat informasi SOP, regulasi, dan modul onboarding dalam satu platform pintar.</p>
+            </div>
+
+            <div class="branding-footer">
+                &copy; 2026 BPJS Kesehatan. Hak Cipta Dilindungi.
+            </div>
+        </div>
+
+        <!-- Right Form Panel -->
+        <div class="login-form-panel">
+            <div class="form-header">
+                <h1>Masuk Pegawai</h1>
+                <p>Gunakan NPP dan password Anda untuk masuk ke sistem.</p>
+            </div>
+
+            <!-- Error Banner -->
+            <div class="error-message" id="errorBanner">
+                <i data-lucide="alert-circle" size="18"></i>
+                <span id="errorText">NPP atau password salah!</span>
+            </div>
+
+            <!-- Success Reset Banner -->
+            <div class="success-banner" id="successBanner">
+                <div style="display:flex; align-items:center; gap:8px; font-weight:700;">
+                    <i data-lucide="check-circle" size="18"></i>
+                    <span>Tautan Terkirim!</span>
+                </div>
+                <span>Tautan untuk mengatur ulang password telah dikirimkan ke email terdaftar Anda.</span>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label for="username">NPP Pegawai</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="user" class="input-icon" size="18"></i>
+                        <input type="text" id="username" placeholder="Masukkan NPP Anda (contoh: 12345)" required autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="lock" class="input-icon" size="18"></i>
+                        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                            <i data-lucide="eye" id="eyeIcon" size="18"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox">
+                        Ingat saya di perangkat ini
+                    </label>
+                    <button type="button" class="forgot-password-link" onclick="openForgotPasswordModal()">Lupa password?</button>
+                </div>
+
+            </form>
+
+            <div class="switch-login">
+                <span>Ingin mengelola konten?</span>
+                <a href="admin-login.html">Masuk sebagai Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Lupa Password</h2>
+                <p>Masukkan NPP dan email terdaftar Anda untuk mengirim tautan pemulihan.</p>
+            </div>
+
+            <form id="resetForm" onsubmit="handleResetPassword(event)">
+                <div class="input-group">
+                    <label for="resetNpp">NPP Pegawai</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="user" class="input-icon" size="18"></i>
+                        <input type="text" id="resetNpp" placeholder="Contoh: 12345" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="resetEmail">Email Terdaftar</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="mail" class="input-icon" size="18"></i>
+                        <input type="email" id="resetEmail" placeholder="nama@bpjs-kesehatan.go.id" required>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-modal-cancel" onclick="closeForgotPasswordModal()">Batal</button>
+                    <button type="submit" class="btn-modal-submit">Kirim Tautan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Handle Login Submission
+        function handleLogin(event) {
+            event.preventDefault();
+            const npp = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const errorBanner = document.getElementById('errorBanner');
+            
+            // Simple validation simulation
+            // In a real application, this would verify via backend API
+            if (npp.trim() === "" || pass.trim() === "") {
+                errorBanner.style.display = 'flex';
+                document.getElementById('errorText').innerText = "Mohon isi semua field.";
+            } else {
+                // Mock successful login and redirect to homepage/index.html
+                console.log('Login success for NPP:', npp);
+                window.location.href = "index.html";
+            }
+        }
+
+        // Toggle Password Visibility
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                passwordField.type = "password";
+                eyeIcon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons(); // refresh lucide icons
+        }
+
+        // Forgot Password Modal Controls
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.add('open');
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.remove('open');
+        }
+
+        function handleResetPassword(event) {
+            event.preventDefault();
+            const resetNpp = document.getElementById('resetNpp').value;
+            const resetEmail = document.getElementById('resetEmail').value;
+            
+            console.log(`Reset link requested for NPP: ${resetNpp}, Email: ${resetEmail}`);
+            
+            closeForgotPasswordModal();
+            
+            // Show Success Banner
+            const successBanner = document.getElementById('successBanner');
+            successBanner.style.display = 'flex';
+            
+            // Auto hide success banner after 8 seconds
+            setTimeout(() => {
+                successBanner.style.display = 'none';
+            }, 8000);
+        }
+    </script>
+</body>
+</html>

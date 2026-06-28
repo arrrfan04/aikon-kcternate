@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIKON - Knowledge Base</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .search-filter-bar { display: flex; gap: 16px; margin-bottom: 40px; }
+        .search-kb { flex: 1; background: white; border-radius: var(--radius-sm); border: 1px solid #E2E8F0; display: flex; align-items: center; padding: 0 16px; }
+        .search-kb input { flex: 1; border: none; padding: 12px; outline: none; }
+        .category-select { background: white; border-radius: var(--radius-sm); border: 1px solid #E2E8F0; padding: 0 16px; display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
+
+        .filter-icons { display: flex; gap: 32px; margin-bottom: 48px; }
+        .filter-item { display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+        .filter-item:hover, .filter-item.active { color: var(--primary-blue); }
+        .filter-icon-box { width: 48px; height: 48px; border-radius: 12px; border: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: center; }
+        .filter-item.active .filter-icon-box { background: var(--light-blue); border-color: var(--primary-blue); }
+        .filter-item span { font-size: 13px; font-weight: 500; }
+
+        .doc-section { background: white; border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); }
+        .doc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .doc-header h2 { font-size: 18px; }
+        .doc-header a { color: var(--primary-blue); font-size: 14px; font-weight: 500; }
+
+        .doc-list { display: flex; flex-direction: column; gap: 12px; }
+        .doc-item { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: var(--radius-sm); border: 1px solid #F1F5F9; transition: 0.2s; }
+        .doc-item:hover { background: #F8FAFC; border-color: var(--primary-blue); }
+        .doc-file-icon { width: 40px; height: 40px; background: #FEF2F2; color: #EF4444; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .doc-info { flex: 1; }
+        .doc-info h3 { font-size: 15px; margin-bottom: 4px; }
+        .doc-info p { font-size: 12px; color: var(--text-muted); }
+        .doc-badge { background: #DCFCE7; color: #166534; font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: 600; }
+    </style>
+</head>
+<body class="dashboard-page">
+    <div class="mobile-header">
+        <button class="menu-toggle-btn" id="menuToggle"><i data-lucide="menu"></i></button>
+        <div class="mobile-logo">AI<span>KON</span></div>
+        <div class="profile-img" style="width:30px; height:30px;"></div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i data-lucide="bot" style="color:var(--secondary-cyan)"></i>
+            <span>AIKON</span>
+        </div>
+        <nav style="flex: 1">
+            <a href="index.html" class="nav-item">
+                <i data-lucide="home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="knowledge-base.html" class="nav-item active">
+                <i data-lucide="book"></i>
+                <span>Knowledge Base</span>
+            </a>
+            <a href="onboarding.html" class="nav-item">
+                <i data-lucide="users"></i>
+                <span>Onboarding</span>
+            </a>
+            <a href="update.html" class="nav-item">
+                <i data-lucide="bell"></i>
+                <span>Update</span>
+            </a>
+            <a href="dashboard.html" class="nav-item">
+                <i data-lucide="layout"></i>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i data-lucide="help-circle"></i>
+                <span>Bantuan</span>
+            </a>
+            <a href="login.html" class="nav-item">
+                <i data-lucide="log-out"></i>
+                <span>Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content fade-in">
+        <header class="content-header">
+            <h1>Knowledge Base</h1>
+            <p>Temukan informasi yang Anda butuhkan dengan cepat.</p>
+        </header>
+
+        <div class="search-filter-bar">
+            <div class="search-kb">
+                <i data-lucide="search" size="18" style="color:var(--text-muted)"></i>
+                <input type="text" placeholder="Cari dokumen atau ketik pertanyaan...">
+            </div>
+            <div class="category-select">
+                <span>Semua Kategori</span>
+                <i data-lucide="chevron-down" size="16"></i>
+            </div>
+        </div>
+
+        <div class="filter-icons">
+            <div class="filter-item active">
+                <div class="filter-icon-box"><i data-lucide="file-check"></i></div>
+                <span>SOP & Prosedur</span>
+            </div>
+            <div class="filter-item">
+                <div class="filter-icon-box"><i data-lucide="scroll-text"></i></div>
+                <span>Regulasi</span>
+            </div>
+            <div class="filter-item">
+                <div class="filter-icon-box"><i data-lucide="briefcase"></i></div>
+                <span>Panduan Kerja</span>
+            </div>
+            <div class="filter-item">
+                <div class="filter-icon-box"><i data-lucide="form-input"></i></div>
+                <span>Form & Dokumen</span>
+            </div>
+            <div class="filter-item">
+                <div class="filter-icon-box"><i data-lucide="help-circle"></i></div>
+                <span>FAQ</span>
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <div class="doc-header">
+                <h2>Dokumen Terbaru</h2>
+                <a href="#">Lihat semua</a>
+            </div>
+            <div class="doc-list">
+                <div class="doc-item">
+                    <div class="doc-file-icon"><i data-lucide="file-text"></i></div>
+                    <div class="doc-info">
+                        <h3>SOP Verifikasi Data Peserta</h3>
+                        <p>SOP • 25 Apr 2024</p>
+                    </div>
+                    <span class="doc-badge">Baru</span>
+                </div>
+                <div class="doc-item">
+                    <div class="doc-file-icon" style="background:#EBF5FF; color:var(--primary-blue);"><i data-lucide="file-text"></i></div>
+                    <div class="doc-info">
+                        <h3>Protokol Pelayanan di FKTP</h3>
+                        <p>Protokol • 20 Apr 2024</p>
+                    </div>
+                </div>
+                <div class="doc-item">
+                    <div class="doc-file-icon" style="background:#FEF3C7; color:#D97706;"><i data-lucide="file-text"></i></div>
+                    <div class="doc-info">
+                        <h3>Peraturan Direksi No. 56 Tahun 2021</h3>
+                        <p>Regulasi • 15 Apr 2024</p>
+                    </div>
+                </div>
+                <div class="doc-item">
+                    <div class="doc-file-icon"><i data-lucide="file-text"></i></div>
+                    <div class="doc-info">
+                        <h3>Panduan Penggunaan Mobile JKN</h3>
+                        <p>Panduan • 10 Apr 2024</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <aside class="chat-sidebar">
+        <header class="chat-header">
+            <i data-lucide="message-square" style="color:var(--primary-blue)"></i>
+            Tanya AIKON
+        </header>
+        <div class="chat-messages">
+            <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:20px;">
+                <img src="assets/mascot.png" alt="AIKON" style="width:64px;">
+            </div>
+            <div class="chat-bubble user">
+                Bagaimana alur perubahan data peserta?
+            </div>
+            <div class="chat-bubble bot">
+                Berikut ringkasan alur perubahan data peserta:<br><br>
+                1. Peserta mengajukan permohonan perubahan data...<br>
+                2. Petugas melakukan verifikasi...<br>
+                3. Update data di sistem...<br><br>
+                Untuk detail lengkap silakan lihat <strong>SOP Verifikasi Data Peserta</strong>.<br>
+                <button style="background:var(--primary-blue); color:white; padding:8px 16px; border-radius:8px; margin-top:12px; width:100%; font-size:12px;">Lihat Dokumen</button>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <div class="chat-input">
+                <input type="text" placeholder="Tanyakan hal lain...">
+                <button class="chat-send"><i data-lucide="send" size="18"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <script>
+        lucide.createIcons();
+
+        // Mobile Menu Toggle logic
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            });
+        }
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

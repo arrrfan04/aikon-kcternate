@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIKON - Onboarding Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .onboarding-layout { display: grid; grid-template-columns: 280px 1fr; gap: 24px; align-items: start; }
+        
+        .onboarding-sidebar { background: white; border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); position: sticky; top: 0px; }
+        .progress-circle-container { position: relative; width: 120px; height: 120px; margin: 0 auto 24px; }
+        .progress-circle-bg { fill: none; stroke: #F1F5F9; stroke-width: 8; }
+        .progress-circle-fill { fill: none; stroke: var(--success-green); stroke-width: 8; stroke-dasharray: 440; stroke-dashoffset: 154; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .progress-text h3 { font-size: 24px; font-weight: 800; }
+        .progress-text p { font-size: 10px; color: var(--text-muted); }
+
+        .module-list { display: flex; flex-direction: column; gap: 6px; }
+        .module-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; color: var(--text-muted); transition: 0.2s; }
+        .module-item.completed { color: var(--success-green); }
+        .module-item.active { background: var(--light-blue); color: var(--primary-blue); }
+        .module-item i { width: 18px; }
+
+        .onboarding-content { background: white; border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm); min-height: 70vh; }
+
+        .step-section h2 { font-size: 20px; margin-bottom: 12px; }
+        .step-description { color: var(--text-muted); margin-bottom: 32px; }
+
+        .process-flow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; position: relative; padding: 0 20px; }
+        .process-flow::before { content: ''; position: absolute; top: 30px; left: 80px; right: 80px; height: 2px; background: #E2E8F0; z-index: 0; }
+        .flow-step { position: relative; z-index: 1; text-align: center; width: 100px; }
+        .flow-icon { width: 60px; height: 60px; border-radius: 50%; background: white; border: 2px solid var(--success-green); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: var(--success-green); box-shadow: var(--shadow-md); transition: 0.3s; }
+        .flow-step:hover .flow-icon { transform: scale(1.1); }
+        .flow-step span { font-size: 12px; font-weight: 600; color: var(--text-main); display: block; line-height: 1.4; }
+
+        .summary-box { background: #F8FAFC; border-radius: var(--radius-md); padding: 24px; margin-bottom: 32px; }
+        .summary-box h3 { font-size: 16px; margin-bottom: 12px; }
+        .summary-box p { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+
+        .action-btns { display: flex; gap: 16px; }
+        .btn-primary { background: var(--primary-blue); color: white; padding: 12px 32px; border-radius: var(--radius-sm); font-weight: 600; transition: 0.2s; }
+        .btn-primary:hover { background: #0037a0; box-shadow: var(--shadow-md); }
+    </style>
+</head>
+<body class="dashboard-page">
+    <div class="mobile-header">
+        <button class="menu-toggle-btn" id="menuToggle"><i data-lucide="menu"></i></button>
+        <div class="mobile-logo">AI<span>KON</span></div>
+        <div class="profile-img" style="width:30px; height:30px;"></div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i data-lucide="bot" style="color:var(--secondary-cyan)"></i>
+            <span>AIKON</span>
+        </div>
+        <nav style="flex: 1">
+            <a href="index.html" class="nav-item">
+                <i data-lucide="home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="knowledge-base.html" class="nav-item">
+                <i data-lucide="book"></i>
+                <span>Knowledge Base</span>
+            </a>
+            <a href="onboarding.html" class="nav-item active">
+                <i data-lucide="users"></i>
+                <span>Onboarding</span>
+            </a>
+            <a href="update.html" class="nav-item">
+                <i data-lucide="bell"></i>
+                <span>Update</span>
+            </a>
+            <a href="dashboard.html" class="nav-item">
+                <i data-lucide="layout"></i>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i data-lucide="help-circle"></i>
+                <span>Bantuan</span>
+            </a>
+            <a href="login.html" class="nav-item">
+                <i data-lucide="log-out"></i>
+                <span>Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content fade-in">
+        <header class="content-header">
+            <h1>Onboarding Guide</h1>
+            <p>Panduan langkah demi langkah untuk membantu Anda memahami alur kerja.</p>
+        </header>
+
+        <div class="onboarding-layout">
+            <aside class="onboarding-sidebar">
+                <div class="progress-circle-container">
+                    <svg viewBox="0 0 160 160" width="120" height="120">
+                        <circle class="progress-circle-bg" cx="80" cy="80" r="70" />
+                        <circle class="progress-circle-fill" cx="80" cy="80" r="70" />
+                    </svg>
+                    <div class="progress-text">
+                        <h3>65%</h3>
+                        <p>4 dari 6 modul selesai</p>
+                    </div>
+                </div>
+
+                <div class="module-list">
+                    <div class="module-item completed">
+                        <i data-lucide="check-circle-2" size="18"></i>
+                        <span>1. Selamat Datang</span>
+                    </div>
+                    <div class="module-item completed">
+                        <i data-lucide="check-circle-2" size="18"></i>
+                        <span>2. Mengenal BPJS Kesehatan</span>
+                    </div>
+                    <div class="module-item completed">
+                        <i data-lucide="check-circle-2" size="18"></i>
+                        <span>3. Sistem & Aplikasi</span>
+                    </div>
+                    <div class="module-item active">
+                        <i data-lucide="circle" size="18"></i>
+                        <span>4. Alur Kerja Utama</span>
+                    </div>
+                    <div class="module-item">
+                        <i data-lucide="circle" size="18" style="opacity:0.3"></i>
+                        <span>5. Pelayanan Peserta</span>
+                    </div>
+                    <div class="module-item">
+                        <i data-lucide="circle" size="18" style="opacity:0.3"></i>
+                        <span>6. Evaluasi</span>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="onboarding-content">
+                <div class="step-section">
+                    <h2>4. Alur Kerja Utama</h2>
+                    <p class="step-description">Memahami alur kerja utama di BPJS Kesehatan Kantor Cabang.</p>
+
+                    <div class="process-flow">
+                        <div class="flow-step">
+                            <div class="flow-icon"><i data-lucide="file-input"></i></div>
+                            <span>Input Permintaan</span>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-icon"><i data-lucide="user-check"></i></div>
+                            <span>Verifikasi Data</span>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-icon"><i data-lucide="laptop"></i></div>
+                            <span>Proses di Sistem</span>
+                        </div>
+                        <div class="flow-step">
+                            <div class="flow-icon"><i data-lucide="info"></i></div>
+                            <span>Tindak Lanjut & Informasi</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-box">
+                        <h3>Ringkasan</h3>
+                        <p>Alur kerja dimulai dari penerimaan permintaan, verifikasi data, proses di sistem terkait, hingga tindak lanjut dan penyampaian informasi kepada peserta. Seluruh proses harus terdokumentasi dengan baik sesuai dengan SOP yang berlaku.</p>
+                    </div>
+
+                    <div class="action-btns">
+                        <button class="btn-primary">Pelajari Lebih Lanjut</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        lucide.createIcons();
+
+        // Mobile Menu Toggle logic
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            });
+        }
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>
