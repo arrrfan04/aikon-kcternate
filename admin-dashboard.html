@@ -6,6 +6,7 @@
     <title>AIKON - Panel Pengelola Konten Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="database.js"></script>
     <link rel="stylesheet" href="style.css">
     <style>
         .admin-page-content { display: none; }
@@ -448,6 +449,10 @@
                             <label>Tanggal Rilis</label>
                             <input type="date" required>
                         </div>
+                        <div class="form-group">
+                            <label>Link Google Drive</label>
+                            <input type="url" id="sopLink" placeholder="Contoh: https://drive.google.com/..." required>
+                        </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Ringkasan Isi SOP</label>
@@ -533,6 +538,10 @@
                             <label>Tanggal Ditetapkan</label>
                             <input type="date" required>
                         </div>
+                        <div class="form-group">
+                            <label>Link Google Drive</label>
+                            <input type="url" id="regulasiLink" placeholder="Contoh: https://drive.google.com/..." required>
+                        </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Ringkasan Pokok Regulasi</label>
@@ -598,6 +607,14 @@
                                 <option>Klaim Rumah Sakit</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Deskripsi Singkat</label>
+                            <input type="text" id="panduanDesc" placeholder="Contoh: Langkah integrasi aplikasi..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Link Google Drive</label>
+                            <input type="url" id="panduanLink" placeholder="Contoh: https://drive.google.com/..." required>
+                        </div>
                     </div>
                     <div style="display:flex; gap:12px; margin-top:20px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Panduan</button>
@@ -654,6 +671,10 @@
                                 <option>Microsoft Word (.docx)</option>
                                 <option>Microsoft Excel (.xlsx)</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Link Google Drive</label>
+                            <input type="url" id="dokumenLink" placeholder="Contoh: https://drive.google.com/..." required>
                         </div>
                     </div>
                     <div style="display:flex; gap:12px; margin-top:20px;">
@@ -846,6 +867,8 @@
                 sidebar.classList.remove('open');
                 overlay.classList.remove('active');
             }
+
+            refreshAllTables();
         }
 
         // Toggle Form container visibility
@@ -858,60 +881,176 @@
             }
         }
 
+        // Refresh all standard dashboard tables from AikonDB
+        function refreshAllTables() {
+            const db = AikonDB.get();
+
+            // Update stats
+            document.getElementById('countSop').innerText = db.sop.length;
+            document.getElementById('countRegulasi').innerText = db.regulasi.length;
+            document.getElementById('countUsers').innerText = db.users.length;
+            document.getElementById('countFaq').innerText = db.faq.length;
+
+            // Render SOP Table
+            const sopBody = document.querySelector('#sop .admin-table tbody');
+            if (sopBody) {
+                sopBody.innerHTML = db.sop.map((item, idx) => `
+                    <tr>
+                        <td style="font-weight:600; color:var(--text-main);">${item.judul}</td>
+                        <td>${item.unit}</td>
+                        <td>${item.tanggal}</td>
+                        <td>
+                            <button class="btn-action-delete" onclick="deleteDbRow('sop', ${idx})">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Regulasi Table
+            const regulasiBody = document.querySelector('#regulasi .admin-table tbody');
+            if (regulasiBody) {
+                regulasiBody.innerHTML = db.regulasi.map((item, idx) => `
+                    <tr>
+                        <td style="font-weight:600; color:var(--text-main);">${item.nomor}</td>
+                        <td style="max-width:300px; overflow:hidden; text-overflow:ellipsis;">${item.tentang}</td>
+                        <td>${item.tanggal}</td>
+                        <td><span class="status-badge active">${item.status}</span></td>
+                        <td>
+                            <button class="btn-action-delete" onclick="deleteDbRow('regulasi', ${idx})">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Panduan Table
+            const panduanBody = document.querySelector('#panduan .admin-table tbody');
+            if (panduanBody) {
+                panduanBody.innerHTML = db.panduan.map((item, idx) => `
+                    <tr>
+                        <td style="font-weight:600; color:var(--text-main);">${item.judul}</td>
+                        <td>${item.modul}</td>
+                        <td>
+                            <button class="btn-action-delete" onclick="deleteDbRow('panduan', ${idx})">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Dokumen Table
+            const dokumenBody = document.querySelector('#dokumen .admin-table tbody');
+            if (dokumenBody) {
+                dokumenBody.innerHTML = db.dokumen.map((item, idx) => `
+                    <tr>
+                        <td style="font-weight:600; color:var(--text-main);">${item.nama}</td>
+                        <td>${item.tipe}</td>
+                        <td>
+                            <button class="btn-action-delete" onclick="deleteDbRow('dokumen', ${idx})">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render FAQ Table
+            const faqBody = document.querySelector('#faq .admin-table tbody');
+            if (faqBody) {
+                faqBody.innerHTML = db.faq.map((item, idx) => `
+                    <tr>
+                        <td style="font-weight:600; color:var(--text-main); max-width:250px; white-space:normal;">${item.pertanyaan}</td>
+                        <td style="white-space:normal; max-width:400px;">${item.jawaban}</td>
+                        <td>
+                            <button class="btn-action-delete" onclick="deleteDbRow('faq', ${idx})">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Users Table
+            const userBody = document.getElementById('userList');
+            if (userBody) {
+                userBody.innerHTML = db.users.map((item, idx) => `
+                    <tr>
+                        <td>${item.npp}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.nama}</td>
+                        <td>${item.unit}</td>
+                        <td><span class="status-badge active">${item.status}</span></td>
+                        <td>
+                            <button class="btn-action-delete" onclick="deleteDbRow('users', ${idx})">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // Delete row helper
+        window.deleteDbRow = function(table, index) {
+            if (confirm('Apakah Anda yakin ingin menghapus baris data ini?')) {
+                AikonDB.deleteRow(table, index);
+                refreshAllTables();
+                showToast('Data berhasil dihapus dan disinkronkan ke spreadsheet!');
+            }
+        };
+
         // Handle Add Form Submissions
         function handleFormSubmit(event, type) {
             event.preventDefault();
+            const form = event.target;
 
             if (type === 'user') {
                 const name = document.getElementById('addName').value;
                 const npp = document.getElementById('addNpp').value;
                 const unit = document.getElementById('addUnit').value;
 
-                // Add row to user list table
-                const tableBody = document.getElementById('userList');
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>${npp}</td>
-                    <td>${name}</td>
-                    <td>${unit}</td>
-                    <td><span class="status-badge active">Aktif</span></td>
-                    <td>
-                        <button class="btn-action-edit">Suspended</button>
-                        <button class="btn-action-delete">Hapus</button>
-                    </td>
-                `;
-                tableBody.appendChild(newRow);
-
-                // Increment stats counter
-                const statsCounter = document.getElementById('countUsers');
-                statsCounter.innerText = parseInt(statsCounter.innerText) + 1;
-
-                // Reset and Close Form
+                AikonDB.addRow('users', { npp: npp, nama: name, unit: unit, status: 'Aktif' });
                 document.getElementById('formUser').style.display = "none";
-                event.target.reset();
-
-                // Show Success Toast
-                showToast(`Akun pegawai ${name} (NPP: ${npp}) berhasil ditambahkan!`);
+                showToast(`Akun pegawai ${name} berhasil ditambahkan ke spreadsheet!`);
             } else if (type === 'sop') {
-                showToast('SOP kerja baru berhasil ditambahkan!');
-                document.getElementById('formSop').style.display = "none";
-                event.target.reset();
-                
-                // Increment stats
-                const statsCounter = document.getElementById('countSop');
-                statsCounter.innerText = parseInt(statsCounter.innerText) + 1;
-            } else if (type === 'regulasi') {
-                showToast('Regulasi baru berhasil ditambahkan!');
-                document.getElementById('formRegulasi').style.display = "none";
-                event.target.reset();
+                const judul = form.querySelectorAll('input[type="text"]')[0].value;
+                const unit = form.querySelector('select').value;
+                const desc = form.querySelector('textarea').value;
+                const link = document.getElementById('sopLink').value;
+                const today = new Date().toISOString().split('T')[0];
 
-                // Increment stats
-                const statsCounter = document.getElementById('countRegulasi');
-                statsCounter.innerText = parseInt(statsCounter.innerText) + 1;
-            } else {
-                showToast('Data berhasil disimpan!');
-                event.target.reset();
+                AikonDB.addRow('sop', { judul: judul, unit: unit, deskripsi: desc, tanggal: today, link: link });
+                document.getElementById('formSop').style.display = "none";
+                showToast('SOP kerja baru berhasil ditambahkan ke spreadsheet!');
+            } else if (type === 'regulasi') {
+                const nomor = form.querySelectorAll('input[type="text"]')[0].value;
+                const tentang = form.querySelectorAll('input[type="text"]')[1].value;
+                const link = document.getElementById('regulasiLink').value;
+                const today = new Date().toISOString().split('T')[0];
+
+                AikonDB.addRow('regulasi', { nomor: nomor, tentang: tentang, tanggal: today, status: 'Aktif', link: link });
+                document.getElementById('formRegulasi').style.display = "none";
+                showToast('Regulasi baru berhasil ditambahkan ke spreadsheet!');
+            } else if (type === 'panduan') {
+                const judul = form.querySelectorAll('input[type="text"]')[0].value;
+                const modul = form.querySelector('select').value;
+                const desc = document.getElementById('panduanDesc').value;
+                const link = document.getElementById('panduanLink').value;
+
+                AikonDB.addRow('panduan', { judul: judul, modul: modul, deskripsi: desc, link: link });
+                document.getElementById('formPanduan').style.display = "none";
+                showToast('Panduan baru berhasil ditambahkan ke spreadsheet!');
+            } else if (type === 'dokumen') {
+                const nama = form.querySelectorAll('input[type="text"]')[0].value;
+                const tipe = form.querySelector('select').value;
+                const link = document.getElementById('dokumenLink').value;
+                const today = new Date().toISOString().split('T')[0];
+
+                AikonDB.addRow('dokumen', { nama: nama, tipe: tipe, tanggal: today, link: link });
+                document.getElementById('formDokumen').style.display = "none";
+                showToast('Dokumen baru berhasil ditambahkan ke spreadsheet!');
+            } else if (type === 'faq') {
+                const q = form.querySelector('input[type="text"]').value;
+                const a = form.querySelector('textarea').value;
+
+                AikonDB.addRow('faq', { pertanyaan: q, jawaban: a });
+                document.getElementById('formFaq').style.display = "none";
+                showToast('FAQ baru berhasil ditambahkan ke spreadsheet!');
             }
+
+            form.reset();
+            refreshAllTables();
         }
 
         // Show Toast helper
@@ -925,6 +1064,12 @@
                 toast.style.display = 'none';
             }, 4000);
         }
+
+        // Load tables on init
+        refreshAllTables();
+
+        // Listen for DB changes
+        window.addEventListener('aikon_db_changed', refreshAllTables);
 
         // Mobile Menu Toggle logic
         const menuToggle = document.getElementById('menuToggle');

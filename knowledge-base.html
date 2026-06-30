@@ -6,6 +6,7 @@
     <title>AIKON - Knowledge Base</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="database.js"></script>
     <link rel="stylesheet" href="style.css">
     <style>
         .search-filter-bar { display: flex; gap: 16px; margin-bottom: 40px; }
@@ -49,7 +50,7 @@
             <span>AIKON</span>
         </div>
         <nav style="flex: 1">
-            <a href="index.html" class="nav-item">
+            <a href="home.html" class="nav-item">
                 <i data-lucide="home"></i>
                 <span>Beranda</span>
             </a>
@@ -75,7 +76,7 @@
                 <i data-lucide="help-circle"></i>
                 <span>Bantuan</span>
             </a>
-            <a href="login.html" class="nav-item">
+            <a href="index.html" class="nav-item">
                 <i data-lucide="log-out"></i>
                 <span>Keluar</span>
             </a>
@@ -99,24 +100,24 @@
             </div>
         </div>
 
-        <div class="filter-icons">
-            <div class="filter-item active">
+        <div class="filter-icons" id="kbTabs">
+            <div class="filter-item active" onclick="switchKbTab('sop', this)">
                 <div class="filter-icon-box"><i data-lucide="file-check"></i></div>
                 <span>SOP & Prosedur</span>
             </div>
-            <div class="filter-item">
+            <div class="filter-item" onclick="switchKbTab('regulasi', this)">
                 <div class="filter-icon-box"><i data-lucide="scroll-text"></i></div>
                 <span>Regulasi</span>
             </div>
-            <div class="filter-item">
+            <div class="filter-item" onclick="switchKbTab('panduan', this)">
                 <div class="filter-icon-box"><i data-lucide="briefcase"></i></div>
                 <span>Panduan Kerja</span>
             </div>
-            <div class="filter-item">
+            <div class="filter-item" onclick="switchKbTab('dokumen', this)">
                 <div class="filter-icon-box"><i data-lucide="form-input"></i></div>
                 <span>Form & Dokumen</span>
             </div>
-            <div class="filter-item">
+            <div class="filter-item" onclick="switchKbTab('faq', this)">
                 <div class="filter-icon-box"><i data-lucide="help-circle"></i></div>
                 <span>FAQ</span>
             </div>
@@ -124,39 +125,10 @@
 
         <div class="doc-section">
             <div class="doc-header">
-                <h2>Dokumen Terbaru</h2>
-                <a href="#">Lihat semua</a>
+                <h2 id="sectionTitle">SOP & Prosedur</h2>
             </div>
-            <div class="doc-list">
-                <div class="doc-item">
-                    <div class="doc-file-icon"><i data-lucide="file-text"></i></div>
-                    <div class="doc-info">
-                        <h3>SOP Verifikasi Data Peserta</h3>
-                        <p>SOP • 25 Apr 2024</p>
-                    </div>
-                    <span class="doc-badge">Baru</span>
-                </div>
-                <div class="doc-item">
-                    <div class="doc-file-icon" style="background:#EBF5FF; color:var(--primary-blue);"><i data-lucide="file-text"></i></div>
-                    <div class="doc-info">
-                        <h3>Protokol Pelayanan di FKTP</h3>
-                        <p>Protokol • 20 Apr 2024</p>
-                    </div>
-                </div>
-                <div class="doc-item">
-                    <div class="doc-file-icon" style="background:#FEF3C7; color:#D97706;"><i data-lucide="file-text"></i></div>
-                    <div class="doc-info">
-                        <h3>Peraturan Direksi No. 56 Tahun 2021</h3>
-                        <p>Regulasi • 15 Apr 2024</p>
-                    </div>
-                </div>
-                <div class="doc-item">
-                    <div class="doc-file-icon"><i data-lucide="file-text"></i></div>
-                    <div class="doc-info">
-                        <h3>Panduan Penggunaan Mobile JKN</h3>
-                        <p>Panduan • 10 Apr 2024</p>
-                    </div>
-                </div>
+            <div class="doc-list" id="kbDocList">
+                <!-- Dynamically Rendered -->
             </div>
         </div>
     </main>
@@ -192,6 +164,124 @@
 
     <script>
         lucide.createIcons();
+
+        let activeTab = 'sop';
+        const tabTitleMap = {
+            sop: 'SOP & Prosedur',
+            regulasi: 'Peraturan & Regulasi',
+            panduan: 'Panduan Kerja Operasional',
+            dokumen: 'Formulir & Dokumen',
+            faq: 'FAQ JKN KIS'
+        };
+
+        // Render documents dynamically based on tab and search
+        function renderKbContent() {
+            const data = AikonDB.getTable(activeTab);
+            const searchVal = document.querySelector('.search-kb input').value.trim().toLowerCase();
+            const listContainer = document.getElementById('kbDocList');
+            document.getElementById('sectionTitle').innerText = tabTitleMap[activeTab];
+
+            // Filter data
+            const filtered = data.filter(item => {
+                if (!searchVal) return true;
+                if (activeTab === 'sop') {
+                    return item.judul.toLowerCase().includes(searchVal) || item.deskripsi.toLowerCase().includes(searchVal);
+                } else if (activeTab === 'regulasi') {
+                    return item.nomor.toLowerCase().includes(searchVal) || item.tentang.toLowerCase().includes(searchVal);
+                } else if (activeTab === 'panduan') {
+                    return item.judul.toLowerCase().includes(searchVal) || item.deskripsi.toLowerCase().includes(searchVal);
+                } else if (activeTab === 'dokumen') {
+                    return item.nama.toLowerCase().includes(searchVal) || item.tipe.toLowerCase().includes(searchVal);
+                } else if (activeTab === 'faq') {
+                    return item.pertanyaan.toLowerCase().includes(searchVal) || item.jawaban.toLowerCase().includes(searchVal);
+                }
+                return false;
+            });
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `<div style="padding:40px 20px; text-align:center; color:var(--text-muted);">Tidak ada dokumen ditemukan di kategori ini.</div>`;
+                return;
+            }
+
+            // Render matching html
+            let html = '';
+            if (activeTab === 'sop') {
+                html = filtered.map(item => `
+                    <div class="doc-item">
+                        <div class="doc-file-icon"><i data-lucide="file-text"></i></div>
+                        <div class="doc-info" style="flex: 1;">
+                            <h3>${item.judul}</h3>
+                            <p>${item.unit} • ${item.tanggal}</p>
+                            <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:4px;">${item.deskripsi}</span>
+                        </div>
+                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                    </div>
+                `).join('');
+            } else if (activeTab === 'regulasi') {
+                html = filtered.map(item => `
+                    <div class="doc-item">
+                        <div class="doc-file-icon" style="background:#FEF3C7; color:#D97706;"><i data-lucide="scroll-text"></i></div>
+                        <div class="doc-info" style="flex: 1;">
+                            <h3>${item.nomor}</h3>
+                            <p>${item.tentang}</p>
+                            <span style="font-size:11px; padding:2px 6px; background:#D1FAE5; color:#059669; border-radius:4px; font-weight:600; display:inline-block; margin-top:4px;">${item.status}</span>
+                            <span style="font-size:12px; color:var(--text-muted); margin-left:8px;">Berlaku: ${item.tanggal}</span>
+                        </div>
+                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                    </div>
+                `).join('');
+            } else if (activeTab === 'panduan') {
+                html = filtered.map(item => `
+                    <div class="doc-item">
+                        <div class="doc-file-icon" style="background:#E1F5FE; color:#0288D1;"><i data-lucide="book-open"></i></div>
+                        <div class="doc-info" style="flex: 1;">
+                            <h3>${item.judul}</h3>
+                            <p>${item.modul}</p>
+                            <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:4px;">${item.deskripsi}</span>
+                        </div>
+                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                    </div>
+                `).join('');
+            } else if (activeTab === 'dokumen') {
+                html = filtered.map(item => `
+                    <div class="doc-item">
+                        <div class="doc-file-icon" style="background:#E8F5E9; color:#2E7D32;"><i data-lucide="file-text"></i></div>
+                        <div class="doc-info" style="flex: 1;">
+                            <h3>${item.nama}</h3>
+                            <p>${item.tipe} • Diunggah: ${item.tanggal}</p>
+                        </div>
+                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                    </div>
+                `).join('');
+            } else if (activeTab === 'faq') {
+                html = filtered.map(item => `
+                    <div class="doc-item" style="flex-direction:column; align-items:flex-start; gap:8px; padding:20px;">
+                        <h3 style="color:var(--primary-blue); font-size:15px; margin:0;"><i data-lucide="help-circle" size="16" style="vertical-align:middle; margin-right:6px;"></i> ${item.pertanyaan}</h3>
+                        <p style="color:var(--text-main); font-size:13px; margin:0; line-height:1.6; padding-left:22px;">${item.jawaban}</p>
+                    </div>
+                `).join('');
+            }
+
+            listContainer.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        window.switchKbTab = function(tabName, element) {
+            activeTab = tabName;
+            const items = document.querySelectorAll('#kbTabs .filter-item');
+            items.forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+            renderKbContent();
+        };
+
+        // Listen for search input
+        document.querySelector('.search-kb input').addEventListener('input', renderKbContent);
+
+        // Load initially
+        renderKbContent();
+
+        // Listen for DB changes
+        window.addEventListener('aikon_db_changed', renderKbContent);
 
         // Mobile Menu Toggle logic
         const menuToggle = document.getElementById('menuToggle');

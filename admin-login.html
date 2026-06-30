@@ -450,7 +450,7 @@
 
             <div class="switch-login">
                 <span>Bukan admin?</span>
-                <a href="login.html">Masuk sebagai Pegawai</a>
+                <a href="index.html">Masuk sebagai Pegawai</a>
             </div>
         </div>
     </div>
@@ -493,9 +493,12 @@
             if (user.trim() === "" || pass.trim() === "") {
                 errorBanner.style.display = 'flex';
                 document.getElementById('errorText').innerText = "Mohon isi semua field.";
-            } else {
+            } else if (user === "kcternate2503" && pass === "adminkcternate123") {
                 console.log('Admin login success for:', user);
                 window.location.href = "admin-dashboard.html";
+            } else {
+                errorBanner.style.display = 'flex';
+                document.getElementById('errorText').innerText = "Username atau password salah.";
             }
         }
 

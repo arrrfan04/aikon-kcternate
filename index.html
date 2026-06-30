@@ -3,199 +3,549 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIKON - Beranda</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>AIKON - Masuk Pegawai</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="database.js"></script>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Home Specific Styles */
-        nav {
-            background: white;
-            padding: 16px 0;
-            border-bottom: 1px solid #F1F5F9;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        body.login-page {
+            background: linear-gradient(135deg, #0A1931 0%, #102A50 50%, #0047BA 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
         }
-        .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 24px; }
-        .nav-logo span { color: var(--success-green); }
-        .nav-links { display: flex; gap: 32px; font-weight: 500; color: var(--text-muted); }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary-blue); }
-        .nav-actions { display: flex; align-items: center; gap: 20px; }
-        .profile-img { width: 36px; height: 36px; border-radius: 50%; background: #CBD5E1; }
 
-        .hero-content { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; position: relative; }
-        .hero-text h1 { font-size: 42px; margin-bottom: 16px; font-weight: 800; }
-        .hero-text h1 span { color: var(--success-green); position: relative; }
-        .hero-text p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 500px; }
-        
-        .search-container {
-            background: white;
-            padding: 8px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Left Panel - Branding */
+        .login-branding {
+            background: #FFFFFF;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--text-main);
+            position: relative;
+            border-right: 1px solid #E2E8F0;
+        }
+
+        .branding-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            max-width: 600px;
-        }
-        .search-container input { flex: 1; border: none; padding: 12px; font-size: 16px; outline: none; }
-        .search-btn { background: var(--primary-blue); color: white; padding: 12px; border-radius: var(--radius-sm); }
-
-        .popular-tags { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-        .tag { background: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; border: 1px solid #E2E8F0; color: var(--text-muted); transition: 0.2s; }
-        .tag:hover { background: var(--light-blue); color: var(--primary-blue); border-color: var(--primary-blue); }
-
-        .mascot-container { 
-            position: relative; 
-            text-align: center; 
-            padding-left: 40px; /* Shift right to avoid text overlap */
-        }
-        .mascot-container img { 
-            width: 100%; 
-            max-width: 380px; 
-            filter: brightness(1.05) contrast(1.05) drop-shadow(0 20px 40px rgba(0,0,0,0.1));
-            animation: floatMascot 3s ease-in-out infinite;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-blue);
         }
 
-        @keyframes floatMascot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-40px); }
+        .branding-header span {
+            color: var(--success-green);
         }
-        .speech-bubble {
-            position: absolute;
-            top: -90px;
-            right: -30px;
-            background: white;
-            padding: 16px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            max-width: 200px;
+
+        .branding-body {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .branding-body img {
+            width: 240px;
+            margin-bottom: 28px;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
+        }
+
+        .branding-body h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            color: var(--text-main);
+        }
+
+        .branding-body p {
             font-size: 14px;
-            text-align: left;
-            z-index: 10;
+            color: var(--text-muted);
+            max-width: 320px;
+            margin: 0 auto;
         }
 
-        .quick-access { padding: 60px 0; }
-        .quick-access h2 { margin-bottom: 32px; font-size: 24px; }
-        .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        .access-card {
+        .branding-footer {
+            font-size: 12px;
+            color: #94A3B8;
+            text-align: center;
+        }
+
+        /* Right Panel - Form */
+        .login-form-panel {
             background: white;
-            padding: 24px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+            padding: 48px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            justify-content: center;
         }
-        .access-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--primary-blue); }
-        .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: var(--light-blue); color: var(--primary-blue); }
-        .card-content h3 { font-size: 18px; margin-bottom: 8px; }
-        .card-content p { font-size: 14px; color: var(--text-muted); }
-        .card-arrow { align-self: flex-end; color: var(--text-muted); }
-        .access-card:hover .card-arrow { color: var(--primary-blue); }
+
+        .form-header {
+            margin-bottom: 32px;
+        }
+
+        .form-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 16px;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #E2E8F0;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+            background: #F8FAFC;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--primary-blue);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 71, 186, 0.15);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            color: var(--text-muted);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 32px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .remember-me input {
+            cursor: pointer;
+            accent-color: var(--primary-blue);
+        }
+
+        .forgot-password-link {
+            color: var(--primary-blue);
+            font-weight: 600;
+            background: transparent;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .forgot-password-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--success-green);
+            color: white;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background: #0d9668;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .error-message {
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            color: #DC2626;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .switch-login {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            gap: 6px;
+        }
+
+        .switch-login a {
+            color: var(--primary-blue);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .switch-login a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 25, 49, 0.7);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 32px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .modal-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-modal-submit {
+            flex: 1;
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            background: #F1F5F9;
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        .success-banner {
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .login-branding {
+                padding: 32px;
+                text-align: center;
+            }
+
+            .branding-body {
+                margin: 20px 0;
+            }
+
+            .branding-body img {
+                width: 120px;
+            }
+
+            .login-form-panel {
+                padding: 32px;
+            }
+        }
     </style>
 </head>
-<body>
-    <nav>
-        <div class="container flex items-center justify-between">
-            <div class="nav-logo">
-                <img src="" alt="" style="display:none">
+<body class="login-page">
+    <div class="login-container">
+        <!-- Left Branding Panel -->
+        <div class="login-branding">
+            <div class="branding-header">
+                <i data-lucide="bot" style="color:var(--primary-blue)"></i>
                 AI<span>KON</span>
             </div>
-            <div class="nav-links">
-                <a href="index.html" class="active">Beranda</a>
-                <a href="knowledge-base.html">Knowledge Base</a>
-                <a href="onboarding.html">Onboarding</a>
-                <a href="update.html">Update</a>
-                <a href="dashboard.html">Dashboard</a>
+            
+            <div class="branding-body">
+                <img src="assets/logo_bpjs.png" alt="BPJS Kesehatan Logo">
+                <h2>Asisten Pengetahuan Internal Anda</h2>
+                <p>Akses cepat informasi SOP, regulasi, dan modul onboarding dalam satu platform pintar.</p>
             </div>
-            <div class="nav-actions">
-                <i data-lucide="bell" style="color:var(--primary-blue)"></i>
-                <div class="profile-img"></div>
+
+            <div class="branding-footer">
+                &copy; 2026 BPJS Kesehatan. Hak Cipta Dilindungi.
             </div>
         </div>
-    </nav>
 
-    <header class="hero">
-        <div class="container hero-content">
-            <div class="hero-text fade-in">
-                <h1>Hai, Selamat Datang di <span>AIKON 👋</span></h1>
-                <p>Tanyakan apa saja seputar SOP, regulasi, alur kerja, dan informasi internal BPJS Kesehatan.</p>
-                
-                <div class="search-container">
-                    <input type="text" placeholder="Tanyakan sesuatu, misal: 'Bagaimana alur perubahan data peserta?'">
-                    <button class="search-btn"><i data-lucide="chevron-right"></i></button>
-                </div>
-
-                <div class="popular-questions">
-                    <p style="margin-top:20px; font-size:14px; color:var(--text-muted);">Contoh pertanyaan populer:</p>
-                    <div class="popular-tags">
-                        <a href="#" class="tag">Alur Pendaftaran Peserta</a>
-                        <a href="#" class="tag">SOP Pelayanan di FKTP</a>
-                        <a href="#" class="tag">Prosedur Klaim</a>
-                        <a href="#" class="tag">Regulasi Terbaru</a>
-                    </div>
-                </div>
+        <!-- Right Form Panel -->
+        <div class="login-form-panel">
+            <div class="form-header">
+                <h1>Masuk Pegawai</h1>
+                <p>Gunakan NPP dan password Anda untuk masuk ke sistem.</p>
             </div>
-            <div class="mascot-container fade-in" style="animation-delay: 0.2s">
-                <div class="speech-bubble">
-                    Saya AIKON, asisten pengetahuan anda. Ada yang bisa saya bantu?
-                </div>
-                <img src="assets/mascot.png" alt="AIKON Mascot">
-            </div>
-        </div>
-    </header>
 
-    <section class="quick-access">
-        <div class="container">
-            <h2>Akses Cepat</h2>
-            <div class="card-grid">
-                <a href="knowledge-base.html" class="access-card">
-                    <div class="card-icon"><i data-lucide="book-open"></i></div>
-                    <div class="card-content">
-                        <h3>Knowledge Base</h3>
-                        <p>Cari dokumen, SOP, regulasi, panduan, dan FAQ.</p>
+            <!-- Error Banner -->
+            <div class="error-message" id="errorBanner">
+                <i data-lucide="alert-circle" size="18"></i>
+                <span id="errorText">NPP atau password salah!</span>
+            </div>
+
+            <!-- Success Reset Banner -->
+            <div class="success-banner" id="successBanner">
+                <div style="display:flex; align-items:center; gap:8px; font-weight:700;">
+                    <i data-lucide="check-circle" size="18"></i>
+                    <span>Tautan Terkirim!</span>
+                </div>
+                <span>Tautan untuk mengatur ulang password telah dikirimkan ke email terdaftar Anda.</span>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label for="username">NPP Pegawai</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="user" class="input-icon" size="18"></i>
+                        <input type="text" id="username" placeholder="Masukkan NPP Anda (contoh: 12345)" required autocomplete="username">
                     </div>
-                    <div class="card-arrow"><i data-lucide="arrow-right" size="18"></i></div>
-                </a>
-                <a href="onboarding.html" class="access-card">
-                    <div class="card-icon"><i data-lucide="user-plus"></i></div>
-                    <div class="card-content">
-                        <h3>Onboarding Guide</h3>
-                        <p>Panduan langkah demi langkah untuk staf baru.</p>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="lock" class="input-icon" size="18"></i>
+                        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                            <i data-lucide="eye" id="eyeIcon" size="18"></i>
+                        </button>
                     </div>
-                    <div class="card-arrow"><i data-lucide="arrow-right" size="18"></i></div>
-                </a>
-                <a href="update.html" class="access-card">
-                    <div class="card-icon" style="background:#FEF2F2; color:#EF4444;"><i data-lucide="bell"></i></div>
-                    <div class="card-content">
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <span style="background:#EF4444; color:white; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">3</span>
-                            <h3>Update & Notifikasi</h3>
-                        </div>
-                        <p>Informasi terbaru seputar regulasi, SOP, dan prosedur.</p>
-                    </div>
-                    <div class="card-arrow"><i data-lucide="arrow-right" size="18"></i></div>
-                </a>
-                <a href="dashboard.html" class="access-card">
-                    <div class="card-icon" style="background:#F0FDF4; color:#22C55E;"><i data-lucide="bar-chart-2"></i></div>
-                    <div class="card-content">
-                        <h3>Dashboard Saya</h3>
-                        <p>Lihat progres adaptasi dan aktivitas pembelajaran.</p>
-                    </div>
-                    <div class="card-arrow"><i data-lucide="arrow-right" size="18"></i></div>
-                </a>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox">
+                        Ingat saya di perangkat ini
+                    </label>
+                    <button type="button" class="forgot-password-link" onclick="openForgotPasswordModal()">Lupa password?</button>
+                </div>
+
+                <button type="submit" class="btn-submit">Masuk Pegawai</button>
+            </form>
+
+            <div class="switch-login">
+                <span>Ingin mengelola konten?</span>
+                <a href="admin-login.html">Masuk sebagai Admin</a>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Lupa Password</h2>
+                <p>Masukkan NPP dan email terdaftar Anda untuk mengirim tautan pemulihan.</p>
+            </div>
+
+            <form id="resetForm" onsubmit="handleResetPassword(event)">
+                <div class="input-group">
+                    <label for="resetNpp">NPP Pegawai</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="user" class="input-icon" size="18"></i>
+                        <input type="text" id="resetNpp" placeholder="Contoh: 12345" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="resetEmail">Email Terdaftar</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="mail" class="input-icon" size="18"></i>
+                        <input type="email" id="resetEmail" placeholder="nama@bpjs-kesehatan.go.id" required>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-modal-cancel" onclick="closeForgotPasswordModal()">Batal</button>
+                    <button type="submit" class="btn-modal-submit">Kirim Tautan</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
+
+        // Handle Login Submission
+        function handleLogin(event) {
+            event.preventDefault();
+            const npp = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const errorBanner = document.getElementById('errorBanner');
+            
+            if (npp === "" || pass === "") {
+                errorBanner.style.display = 'flex';
+                document.getElementById('errorText').innerText = "Mohon isi semua field.";
+                return;
+            }
+
+            // Find user in database
+            const users = AikonDB.getTable('users');
+            const foundUser = users.find(u => u.npp === npp);
+
+            if (foundUser && foundUser.status === 'Aktif') {
+                console.log('Login success for NPP:', npp);
+                // Save session in localStorage
+                localStorage.setItem('aikon_current_user', JSON.stringify(foundUser));
+                window.location.href = "home.html";
+            } else {
+                errorBanner.style.display = 'flex';
+                document.getElementById('errorText').innerText = "NPP tidak terdaftar atau akun dinonaktifkan.";
+            }
+        }
+
+        // Toggle Password Visibility
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                passwordField.type = "password";
+                eyeIcon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons(); // refresh lucide icons
+        }
+
+        // Forgot Password Modal Controls
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.add('open');
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.remove('open');
+        }
+
+        function handleResetPassword(event) {
+            event.preventDefault();
+            const resetNpp = document.getElementById('resetNpp').value;
+            const resetEmail = document.getElementById('resetEmail').value;
+            
+            console.log(`Reset link requested for NPP: ${resetNpp}, Email: ${resetEmail}`);
+            
+            closeForgotPasswordModal();
+            
+            // Show Success Banner
+            const successBanner = document.getElementById('successBanner');
+            successBanner.style.display = 'flex';
+            
+            // Auto hide success banner after 8 seconds
+            setTimeout(() => {
+                successBanner.style.display = 'none';
+            }, 8000);
+        }
     </script>
 </body>
 </html>

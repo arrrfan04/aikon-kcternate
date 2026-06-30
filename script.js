@@ -1,7 +1,7 @@
 // Shared logic for AIKON Website
 document.addEventListener('DOMContentLoaded', () => {
     // Navigation highlighting (simple simulation)
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPath = window.location.pathname.split('/').pop() || 'home.html';
     const navLinks = document.querySelectorAll('.nav-links a, .nav-item');
     
     navLinks.forEach(link => {

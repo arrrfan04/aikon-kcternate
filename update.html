@@ -6,6 +6,7 @@
     <title>AIKON - Update & Regulasi</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="database.js"></script>
     <link rel="stylesheet" href="style.css">
     <style>
         .filter-bar { display: flex; gap: 12px; margin-bottom: 32px; }
@@ -43,7 +44,7 @@
             <span>AIKON</span>
         </div>
         <nav style="flex: 1">
-            <a href="index.html" class="nav-item">
+            <a href="home.html" class="nav-item">
                 <i data-lucide="home"></i>
                 <span>Beranda</span>
             </a>
@@ -69,7 +70,7 @@
                 <i data-lucide="help-circle"></i>
                 <span>Bantuan</span>
             </a>
-            <a href="login.html" class="nav-item">
+            <a href="index.html" class="nav-item">
                 <i data-lucide="log-out"></i>
                 <span>Keluar</span>
             </a>
@@ -82,53 +83,14 @@
             <p>Informasi terbaru seputar regulasi, SOP, dan prosedur kerja di BPJS Kesehatan.</p>
         </header>
 
-        <div class="filter-bar">
-            <button class="filter-btn active">Semua</button>
-            <button class="filter-btn">Regulasi</button>
-            <button class="filter-btn">SOP</button>
-            <button class="filter-btn">Prosedur Kerja</button>
+        <div class="filter-bar" id="updateFilters">
+            <button class="filter-btn active" onclick="switchUpdateFilter('all', this)">Semua</button>
+            <button class="filter-btn" onclick="switchUpdateFilter('regulasi', this)">Regulasi</button>
+            <button class="filter-btn" onclick="switchUpdateFilter('sop', this)">SOP</button>
         </div>
 
-        <div class="update-grid">
-            <article class="update-card">
-                <div class="card-header-info">
-                    <span class="update-date">28 Juni 2026</span>
-                    <span class="badge regulasi">Regulasi</span>
-                </div>
-                <h3>Pemberlakuan Peraturan BPJS Kesehatan No. 4 Tahun 2026</h3>
-                <p>Regulasi terbaru mengenai penyesuaian tarif pelayanan kapitasi dan non-kapitasi di Fasilitas Kesehatan Tingkat Pertama (FKTP) untuk meningkatkan efisiensi operasional.</p>
-                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
-            </article>
-
-            <article class="update-card">
-                <div class="card-header-info">
-                    <span class="update-date">24 Juni 2026</span>
-                    <span class="badge sop">SOP</span>
-                </div>
-                <h3>SOP Baru: Validasi dan Verifikasi Pendaftaran Bayi Baru Lahir</h3>
-                <p>Penyempurnaan alur pendaftaran bagi Bayi Baru Lahir (BBL) dari peserta PBI (Penerima Bantuan Iuran) guna mempercepat proses penerbitan nomor kepesertaan aktif.</p>
-                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
-            </article>
-
-            <article class="update-card">
-                <div class="card-header-info">
-                    <span class="update-date">18 Juni 2026</span>
-                    <span class="badge prosedur">Prosedur Kerja</span>
-                </div>
-                <h3>Alur Pelayanan Pengaduan Peserta di Kantor Cabang</h3>
-                <p>Panduan praktis penanganan keluhan langsung di loket Front Office (FO) untuk mempersingkat Service Level Agreement (SLA) penyelesaian masalah dari 3 hari menjadi maksimal 24 jam.</p>
-                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
-            </article>
-
-            <article class="update-card">
-                <div class="card-header-info">
-                    <span class="update-date">12 Juni 2026</span>
-                    <span class="badge regulasi">Regulasi</span>
-                </div>
-                <h3>Integrasi Sistem Informasi Rujukan FKRTL Terbaru</h3>
-                <p>Pembaharuan petunjuk teknis integrasi aplikasi rujukan online dari faskes primer ke faskes rujukan tingkat lanjutan untuk mengurangi antrean pasien.</p>
-                <button class="read-more-btn">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></button>
-            </article>
+        <div class="update-grid" id="updateGrid">
+            <!-- Dynamically Rendered -->
         </div>
     </main>
 
@@ -158,6 +120,86 @@
 
     <script>
         lucide.createIcons();
+
+        let activeFilter = 'all';
+
+        function renderUpdates() {
+            const db = AikonDB.get();
+            const grid = document.getElementById('updateGrid');
+            
+            // Format regulasi items into update structure
+            const regulasiItems = db.regulasi.map(item => ({
+                date: item.tanggal,
+                type: 'regulasi',
+                badgeText: 'Regulasi',
+                title: item.nomor,
+                desc: item.tentang,
+                link: item.link
+            }));
+
+            // Format SOP items into update structure
+            const sopItems = db.sop.map(item => ({
+                date: item.tanggal,
+                type: 'sop',
+                badgeText: 'SOP',
+                title: item.judul,
+                desc: item.deskripsi,
+                link: item.link
+            }));
+
+            // Merge and sort by date descending
+            let allUpdates = [...regulasiItems, ...sopItems].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Apply filter
+            if (activeFilter !== 'all') {
+                allUpdates = allUpdates.filter(item => item.type === activeFilter);
+            }
+
+            if (allUpdates.length === 0) {
+                grid.innerHTML = `<div style="padding:40px; text-align:center; color:var(--text-muted);">Tidak ada notifikasi atau update terbaru saat ini.</div>`;
+                return;
+            }
+
+            grid.innerHTML = allUpdates.map(item => {
+                // Formatting Date to Indonesian style (e.g. 28 Juni 2026)
+                const IndonesianMonths = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                let dateStr = item.date;
+                try {
+                    const d = new Date(item.date);
+                    if (!isNaN(d.getTime())) {
+                        dateStr = `${d.getDate()} ${IndonesianMonths[d.getMonth()]} ${d.getFullYear()}`;
+                    }
+                } catch(e){}
+
+                return `
+                    <article class="update-card fade-in">
+                        <div class="card-header-info">
+                            <span class="update-date">${dateStr}</span>
+                            <span class="badge ${item.type}">${item.badgeText}</span>
+                        </div>
+                        <h3>${item.title}</h3>
+                        <p>${item.desc}</p>
+                        <a href="${item.link || '#'}" target="_blank" class="read-more-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">Buka Dokumen <i data-lucide="external-link" size="14"></i></a>
+                    </article>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        window.switchUpdateFilter = function(filterName, element) {
+            activeFilter = filterName;
+            const buttons = document.querySelectorAll('#updateFilters .filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            renderUpdates();
+        };
+
+        // Load initially
+        renderUpdates();
+
+        // Listen for DB changes
+        window.addEventListener('aikon_db_changed', renderUpdates);
 
         // Mobile Menu Toggle logic
         const menuToggle = document.getElementById('menuToggle');
