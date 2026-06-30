@@ -31,9 +31,9 @@ const DEFAULT_DATABASE = {
         { id: 3, pertanyaan: "Apakah bayi baru lahir wajib langsung didaftarkan?", jawaban: "Ya, bayi dari peserta JKN wajib didaftarkan maksimal 28 hari sejak kelahiran untuk menjamin coverage." }
     ],
     users: [
-        { id: 1, npp: "12345", nama: "Budi Santoso", unit: "Kepesertaan & Pelayanan", status: "Aktif" },
-        { id: 2, npp: "98321", nama: "Siti Rahmawati", unit: "Front Office (FO)", status: "Aktif" },
-        { id: 3, npp: "kcternate2503", nama: "Admin KC Ternate", unit: "TI & Dukungan Operasional", status: "Aktif" }
+        { id: 1, npp: "12345", nama: "Budi Santoso", unit: "Bagian Kepesertaan", status: "Aktif" },
+        { id: 2, npp: "98321", nama: "Siti Rahmawati", unit: "Bagian Pelayanan Peserta", status: "Aktif" },
+        { id: 3, npp: "kcternate2503", nama: "Admin KC Ternate", unit: "Bagian SDMUK", status: "Aktif" }
     ]
 };
 
