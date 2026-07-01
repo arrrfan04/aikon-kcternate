@@ -214,7 +214,7 @@
                             <p>${item.unit} • ${item.tanggal}</p>
                             <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:4px;">${item.deskripsi}</span>
                         </div>
-                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                        <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.judul || '').replace(/'/g, "\\'")}')" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="download" size="14"></i> Unduh</a>
                     </div>
                 `).join('');
             } else if (activeTab === 'regulasi') {
@@ -227,7 +227,7 @@
                             <span style="font-size:11px; padding:2px 6px; background:#D1FAE5; color:#059669; border-radius:4px; font-weight:600; display:inline-block; margin-top:4px;">${item.status}</span>
                             <span style="font-size:12px; color:var(--text-muted); margin-left:8px;">Berlaku: ${item.tanggal}</span>
                         </div>
-                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                        <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.nomor || '').replace(/'/g, "\\'")}')" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="download" size="14"></i> Unduh</a>
                     </div>
                 `).join('');
             } else if (activeTab === 'panduan') {
@@ -239,7 +239,7 @@
                             <p>${item.modul}</p>
                             <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:4px;">${item.deskripsi}</span>
                         </div>
-                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                        <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.judul || '').replace(/'/g, "\\'")}')" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="download" size="14"></i> Unduh</a>
                     </div>
                 `).join('');
             } else if (activeTab === 'dokumen') {
@@ -250,7 +250,7 @@
                             <h3>${item.nama}</h3>
                             <p>${item.tipe} • Diunggah: ${item.tanggal}</p>
                         </div>
-                        <a href="${item.link || '#'}" target="_blank" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="external-link" size="14"></i> Buka / Unduh</a>
+                        <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.nama || '').replace(/'/g, "\\'")}')" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0;"><i data-lucide="download" size="14"></i> Unduh</a>
                     </div>
                 `).join('');
             } else if (activeTab === 'faq') {

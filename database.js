@@ -126,8 +126,17 @@ window.AikonDB = {
             .then(res => res.json())
             .then(data => {
                 if (data && typeof data === 'object') {
-                    // Save cloud data into local storage database
-                    localStorage.setItem('aikon_database', JSON.stringify(data));
+                    // Merge cloud data with existing local database to prevent wiping out tables not in the cloud
+                    const localDb = window.AikonDB.get();
+                    const mergedDb = { ...localDb };
+                    
+                    Object.keys(data).forEach(table => {
+                        if (Array.isArray(data[table])) {
+                            mergedDb[table] = data[table];
+                        }
+                    });
+
+                    localStorage.setItem('aikon_database', JSON.stringify(mergedDb));
                     window.dispatchEvent(new Event('aikon_db_changed'));
                     console.log('Successfully fetched and synchronized database from Google Sheets!');
                 }
@@ -140,3 +149,79 @@ window.AikonDB = {
 document.addEventListener('DOMContentLoaded', () => {
     window.AikonDB.fetchFromCloud();
 });
+
+// Helper function to trigger direct file download
+window.downloadFile = function (url, filename) {
+    if (!url || url === '#' || url.trim() === '') return;
+
+    // Check if it's a Google Drive file link (not folders)
+    const driveFileMatch = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (driveFileMatch) {
+        const fileId = driveFileMatch[1];
+        window.location.href = `https://docs.google.com/uc?export=download&id=${fileId}`;
+        return;
+    }
+
+    // Check if it's a Google Docs document link
+    const docFileMatch = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
+    if (docFileMatch) {
+        const fileId = docFileMatch[1];
+        window.location.href = `https://docs.google.com/document/d/${fileId}/export?format=docx`;
+        return;
+    }
+
+    // Check if it's a Google Sheets link
+    const sheetFileMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+    if (sheetFileMatch) {
+        const fileId = sheetFileMatch[1];
+        window.location.href = `https://docs.google.com/spreadsheets/d/${fileId}/export?format=xlsx`;
+        return;
+    }
+
+    // Check if it's a Google Slides link
+    const slideFileMatch = url.match(/\/presentation\/d\/([a-zA-Z0-9_-]+)/);
+    if (slideFileMatch) {
+        const fileId = slideFileMatch[1];
+        window.location.href = `https://docs.google.com/presentation/d/${fileId}/export/pdf`;
+        return;
+    }
+
+    // Try fetching same-origin or CORS-enabled files to force local download
+    const isGoogle = url.includes('drive.google.com') || url.includes('docs.google.com');
+    if (!isGoogle && (url.startsWith('http') || url.startsWith('/') || url.startsWith('.') || url.startsWith('assets/'))) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.blob();
+            })
+            .then(blob => {
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename || url.substring(url.lastIndexOf('/') + 1) || 'unduh_dokumen';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(blobUrl);
+            })
+            .catch(() => {
+                // Fallback for CORS: Open in a new tab with download attribute
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename || 'unduh_dokumen';
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+    } else {
+        // External non-fetchable links (like Google Drive folder links)
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename || 'unduh_dokumen';
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+};

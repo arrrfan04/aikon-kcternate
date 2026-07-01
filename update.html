@@ -179,7 +179,7 @@
                         </div>
                         <h3>${item.title}</h3>
                         <p>${item.desc}</p>
-                        <a href="${item.link || '#'}" target="_blank" class="read-more-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">Buka Dokumen <i data-lucide="external-link" size="14"></i></a>
+                        <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.title || '').replace(/'/g, "\\'")}')" class="read-more-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">Unduh Dokumen <i data-lucide="download" size="14"></i></a>
                     </article>
                 `;
             }).join('');
