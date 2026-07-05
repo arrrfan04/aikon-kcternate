@@ -494,10 +494,15 @@
             const foundUser = users.find(u => u.npp === npp);
 
             if (foundUser && foundUser.status === 'Aktif') {
-                console.log('Login success for NPP:', npp);
-                // Save session in localStorage
-                localStorage.setItem('aikon_current_user', JSON.stringify(foundUser));
-                window.location.href = "home.html";
+                if (foundUser.password === pass) {
+                    console.log('Login success for NPP:', npp);
+                    // Save session in localStorage
+                    localStorage.setItem('aikon_current_user', JSON.stringify(foundUser));
+                    window.location.href = "home.html";
+                } else {
+                    errorBanner.style.display = 'flex';
+                    document.getElementById('errorText').innerText = "Password salah!";
+                }
             } else {
                 errorBanner.style.display = 'flex';
                 document.getElementById('errorText').innerText = "NPP tidak terdaftar atau akun dinonaktifkan.";

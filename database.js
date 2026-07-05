@@ -6,15 +6,15 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzLHeXIo6sg-Qc
 
 const DEFAULT_DATABASE = {
     sop: [
-        { id: 1, judul: "SOP Pendaftaran Peserta JKN Mandiri Baru", unit: "Kepesertaan & Pelayanan", deskripsi: "Panduan alur administrasi dan syarat administrasi pendaftaran peserta pekerja bukan penerima upah (PBPU).", tanggal: "2026-01-15", link: "https://drive.google.com/drive/folders/mock-sop-1" },
-        { id: 2, judul: "SOP Klaim Rawat Inap Tingkat Lanjut (RITL)", unit: "Manajemen Klaim (Jaminan)", deskripsi: "Tatacara verifikasi berkas klaim RITL rumah sakit provider BPJS Kesehatan.", tanggal: "2026-02-10", link: "https://drive.google.com/drive/folders/mock-sop-2" },
-        { id: 3, judul: "SOP Pelayanan Pengaduan di Front Office Kantor Cabang", unit: "Front Office (FO)", deskripsi: "Standard response time dan penanganan keluhan langsung peserta BPJS.", tanggal: "2026-03-01", link: "https://drive.google.com/drive/folders/mock-sop-3" },
-        { id: 4, judul: "SOP Kredensialing Faskes Tingkat Pertama (FKTP)", unit: "Kepesertaan & Pelayanan", deskripsi: "Prosedur penilaian kelayakan sarana prasarana klinik dan dokter keluarga baru.", tanggal: "2026-04-18", link: "https://drive.google.com/drive/folders/mock-sop-4" }
+        { id: 1, kode: "SOP-KP-01", judul: "SOP Pendaftaran Peserta JKN Mandiri Baru", kategori: "Administrasi Kepesertaan", deskripsi: "Panduan alur administrasi dan syarat administrasi pendaftaran peserta pekerja bukan penerima upah (PBPU).", tanggal: "2026-01-15", link: "https://drive.google.com/drive/folders/mock-sop-1" },
+        { id: 2, kode: "SOP-KL-02", judul: "SOP Klaim Rawat Inap Tingkat Lanjut (RITL)", kategori: "Verifikasi Klaim", deskripsi: "Tatacara verifikasi berkas klaim RITL rumah sakit provider BPJS Kesehatan.", tanggal: "2026-02-10", link: "https://drive.google.com/drive/folders/mock-sop-2" },
+        { id: 3, kode: "SOP-FO-03", judul: "SOP Pelayanan Pengaduan di Front Office Kantor Cabang", kategori: "Pelayanan FKTP", deskripsi: "Standard response time dan penanganan keluhan langsung peserta BPJS.", tanggal: "2026-03-01", link: "https://drive.google.com/drive/folders/mock-sop-3" },
+        { id: 4, kode: "SOP-KP-04", judul: "SOP Kredensialing Faskes Tingkat Pertama (FKTP)", kategori: "Pelayanan FKTP", deskripsi: "Prosedur penilaian kelayakan sarana prasarana klinik dan dokter keluarga baru.", tanggal: "2026-04-18", link: "https://drive.google.com/drive/folders/mock-sop-4" }
     ],
     regulasi: [
-        { id: 1, nomor: "Perpres No. 59 Tahun 2024", tentang: "Perubahan Ketiga atas Perpres No. 82 Tahun 2018 tentang Jaminan Kesehatan", tanggal: "2024-05-08", status: "Aktif", link: "https://drive.google.com/drive/folders/mock-reg-1" },
-        { id: 2, nomor: "Permenkes No. 3 Tahun 2023", tentang: "Standar Tarif Pelayanan Kesehatan dalam Penyelenggaraan Program Jaminan Kesehatan", tanggal: "2023-01-09", status: "Aktif", link: "https://drive.google.com/drive/folders/mock-reg-2" },
-        { id: 3, nomor: "Perdirjohan BPJS No. 2 Tahun 2024", tentang: "Petunjuk Teknis Verifikasi Klaim Berbasis Luaran Klinis", tanggal: "2024-03-12", status: "Aktif", link: "https://drive.google.com/drive/folders/mock-reg-3" }
+        { id: 1, nomor: "Perpres No. 59 Tahun 2024", tentang: "Perubahan Ketiga atas Perpres No. 82 Tahun 2018 tentang Jaminan Kesehatan", jenis: "Undang-Undang / Perpres", tanggal: "2024-05-08", masa_berlaku: "2029-12-31", link: "https://drive.google.com/drive/folders/mock-reg-1", ringkasan: "Mengatur tentang perbaikan sistem jaminan kesehatan nasional di tingkat primer." },
+        { id: 2, nomor: "Permenkes No. 3 Tahun 2023", tentang: "Standar Tarif Pelayanan Kesehatan dalam Penyelenggaraan Program Jaminan Kesehatan", jenis: "Undang-Undang / Perpres", tanggal: "2023-01-09", masa_berlaku: "2028-12-31", link: "https://drive.google.com/drive/folders/mock-reg-2", ringkasan: "Pemberlakuan tarif kapitasi dan non kapitasi terbaru bagi faskes tingkat pertama." },
+        { id: 3, nomor: "Perdir BPJS No. 2 Tahun 2024", tentang: "Petunjuk Teknis Verifikasi Klaim Berbasis Luaran Klinis", jenis: "Peraturan Direksi BPJS", tanggal: "2024-03-12", masa_berlaku: "2027-03-12", link: "https://drive.google.com/drive/folders/mock-reg-3", ringkasan: "Ketentuan verifikasi klaim klinis berdasarkan luaran medis pasien." }
     ],
     panduan: [
         { id: 1, judul: "Panduan Teknis Bridging SIMRS V2 BPJS", modul: "Aplikasi Internal", deskripsi: "Langkah integrasi sistem SIMRS dengan vclaim api versi terbaru.", link: "https://drive.google.com/drive/folders/mock-guide-1" },
@@ -31,9 +31,9 @@ const DEFAULT_DATABASE = {
         { id: 3, pertanyaan: "Apakah bayi baru lahir wajib langsung didaftarkan?", jawaban: "Ya, bayi dari peserta JKN wajib didaftarkan maksimal 28 hari sejak kelahiran untuk menjamin coverage." }
     ],
     users: [
-        { id: 1, npp: "12345", nama: "Budi Santoso", unit: "Bagian Kepesertaan", status: "Aktif" },
-        { id: 2, npp: "98321", nama: "Siti Rahmawati", unit: "Bagian Pelayanan Peserta", status: "Aktif" },
-        { id: 3, npp: "kcternate2503", nama: "Admin KC Ternate", unit: "Bagian SDMUK", status: "Aktif" }
+        { id: 1, nama: "Budi Santoso", npp: "12345", unit: "Bagian Kepesertaan", password: "12345", status: "Aktif" },
+        { id: 2, nama: "Siti Rahmawati", npp: "98321", unit: "Bagian Pelayanan Peserta", password: "98321", status: "Aktif" },
+        { id: 3, nama: "Admin KC Ternate", npp: "kcternate2503", unit: "Bagian SDMUK", password: "adminkcternate123", status: "Aktif" }
     ]
 };
 
@@ -92,12 +92,12 @@ window.AikonDB = {
         const db = this.get();
         const tables = ['sop', 'regulasi', 'panduan', 'dokumen', 'faq', 'users'];
         const schemas = {
-            sop: ['id', 'judul', 'unit', 'deskripsi', 'tanggal', 'link'],
-            regulasi: ['id', 'nomor', 'tentang', 'tanggal', 'status', 'link'],
+            sop: ['id', 'kode', 'judul', 'kategori', 'tanggal', 'link', 'deskripsi'],
+            regulasi: ['id', 'nomor', 'tentang', 'jenis', 'tanggal', 'masa_berlaku', 'link', 'ringkasan'],
             panduan: ['id', 'judul', 'modul', 'deskripsi', 'link'],
             dokumen: ['id', 'nama', 'tipe', 'tanggal', 'link'],
             faq: ['id', 'pertanyaan', 'jawaban'],
-            users: ['id', 'npp', 'nama', 'unit', 'status']
+            users: ['id', 'nama', 'npp', 'unit', 'password', 'status']
         };
 
         tables.forEach(table => {

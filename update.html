@@ -66,7 +66,7 @@
             </a>
         </nav>
         <div class="sidebar-footer">
-            <a href="#" class="nav-item">
+            <a href="bantuan.html" class="nav-item">
                 <i data-lucide="help-circle"></i>
                 <span>Bantuan</span>
             </a>
@@ -122,6 +122,8 @@
         lucide.createIcons();
 
         let activeFilter = 'all';
+        let currentPage = 1;
+        const itemsPerPage = 10;
 
         function renderUpdates() {
             const db = AikonDB.get();
@@ -160,7 +162,13 @@
                 return;
             }
 
-            grid.innerHTML = allUpdates.map(item => {
+            // Paginate
+            const totalPages = Math.ceil(allUpdates.length / itemsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages || 1;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const paginatedItems = allUpdates.slice(startIndex, startIndex + itemsPerPage);
+
+            let html = paginatedItems.map(item => {
                 // Formatting Date to Indonesian style (e.g. 28 Juni 2026)
                 const IndonesianMonths = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
                 let dateStr = item.date;
@@ -184,11 +192,29 @@
                 `;
             }).join('');
 
+            // Append pagination controls
+            if (totalPages > 1) {
+                html += `
+                    <div class="pagination-container" style="display:flex; justify-content:center; align-items:center; gap:16px; margin-top:24px; padding-top:16px;">
+                        <button onclick="changeUpdatePage(-1)" ${currentPage === 1 ? 'disabled' : ''} class="btn-pagination" style="background:var(--primary-blue); color:white; padding:8px 16px; border-radius:6px; font-weight:600; font-size:13px; border:none; opacity: ${currentPage === 1 ? '0.5' : '1'}; cursor: ${currentPage === 1 ? 'not-allowed' : 'pointer'};">Sebelumnya</button>
+                        <span style="font-size:13px; font-weight:600; color:var(--text-main);">Halaman ${currentPage} dari ${totalPages}</span>
+                        <button onclick="changeUpdatePage(1)" ${currentPage === totalPages ? 'disabled' : ''} class="btn-pagination" style="background:var(--primary-blue); color:white; padding:8px 16px; border-radius:6px; font-weight:600; font-size:13px; border:none; opacity: ${currentPage === totalPages ? '0.5' : '1'}; cursor: ${currentPage === totalPages ? 'not-allowed' : 'pointer'};">Selanjutnya</button>
+                    </div>
+                `;
+            }
+
+            grid.innerHTML = html;
             lucide.createIcons();
         }
 
+        window.changeUpdatePage = function(direction) {
+            currentPage += direction;
+            renderUpdates();
+        };
+
         window.switchUpdateFilter = function(filterName, element) {
             activeFilter = filterName;
+            currentPage = 1;
             const buttons = document.querySelectorAll('#updateFilters .filter-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');

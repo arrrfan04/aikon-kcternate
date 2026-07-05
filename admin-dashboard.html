@@ -430,15 +430,15 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Kode SOP</label>
-                            <input type="text" placeholder="Contoh: SOP-FO-01" required>
+                            <input type="text" id="sopKode" placeholder="Contoh: SOP-FO-01" required>
                         </div>
                         <div class="form-group">
                             <label>Nama SOP</label>
-                            <input type="text" placeholder="Contoh: Alur Pengaduan Loket FKTP" required>
+                            <input type="text" id="sopNama" placeholder="Contoh: Alur Pengaduan Loket FKTP" required>
                         </div>
                         <div class="form-group">
                             <label>Kategori</label>
-                            <select required>
+                            <select id="sopKategori" required>
                                 <option>Pelayanan FKTP</option>
                                 <option>Pelayanan FKRTL</option>
                                 <option>Administrasi Kepesertaan</option>
@@ -447,7 +447,7 @@
                         </div>
                         <div class="form-group">
                             <label>Tanggal Rilis</label>
-                            <input type="date" required>
+                            <input type="date" id="sopTanggal" required>
                         </div>
                         <div class="form-group">
                             <label>Link Google Drive</label>
@@ -456,7 +456,7 @@
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Ringkasan Isi SOP</label>
-                        <textarea placeholder="Masukkan ringkasan atau alur utama SOP..." rows="4" required></textarea>
+                        <textarea id="sopDeskripsi" placeholder="Masukkan ringkasan atau alur utama SOP..." rows="4" required></textarea>
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan SOP</button>
@@ -474,6 +474,7 @@
                             <th>Nama SOP</th>
                             <th>Kategori</th>
                             <th>Tanggal Rilis</th>
+                            <th>Ringkasan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -520,15 +521,15 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Nomor Regulasi</label>
-                            <input type="text" placeholder="Contoh: Perpres No. 59 Tahun 2024" required>
+                            <input type="text" id="regulasiNomor" placeholder="Contoh: Perpres No. 59 Tahun 2024" required>
                         </div>
                         <div class="form-group">
                             <label>Tentang (Judul)</label>
-                            <input type="text" placeholder="Contoh: Jaminan Kesehatan Tingkat Primer" required>
+                            <input type="text" id="regulasiTentang" placeholder="Contoh: Jaminan Kesehatan Tingkat Primer" required>
                         </div>
                         <div class="form-group">
                             <label>Jenis Kebijakan</label>
-                            <select required>
+                            <select id="regulasiJenis" required>
                                 <option>Undang-Undang / Perpres</option>
                                 <option>Peraturan Direksi BPJS</option>
                                 <option>Surat Edaran Bersama</option>
@@ -536,7 +537,11 @@
                         </div>
                         <div class="form-group">
                             <label>Tanggal Ditetapkan</label>
-                            <input type="date" required>
+                            <input type="date" id="regulasiTanggal" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Masa Berlaku</label>
+                            <input type="date" id="regulasiMasaBerlaku">
                         </div>
                         <div class="form-group">
                             <label>Link Google Drive</label>
@@ -545,7 +550,7 @@
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Ringkasan Pokok Regulasi</label>
-                        <textarea placeholder="Masukkan intisari regulasi..." rows="4" required></textarea>
+                        <textarea id="regulasiIntisari" placeholder="Masukkan intisari regulasi..." rows="4" required></textarea>
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Regulasi</button>
@@ -561,7 +566,9 @@
                             <th>Nomor</th>
                             <th>Tentang</th>
                             <th>Jenis</th>
-                            <th>Tanggal Rilis</th>
+                            <th>Tanggal Ditetapkan</th>
+                            <th>Masa Berlaku</th>
+                            <th>Ringkasan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -597,11 +604,11 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Judul Panduan</label>
-                            <input type="text" placeholder="Contoh: Petunjuk Penggunaan Aplikasi SIPP" required>
+                            <input type="text" id="panduanJudul" placeholder="Contoh: Petunjuk Penggunaan Aplikasi SIPP" required>
                         </div>
                         <div class="form-group">
                             <label>Modul / Bidang</label>
-                            <select required>
+                            <select id="panduanModul" required>
                                 <option>Aplikasi Internal</option>
                                 <option>Pelayanan Lapangan</option>
                                 <option>Klaim Rumah Sakit</option>
@@ -629,6 +636,7 @@
                         <tr>
                             <th>Judul Panduan</th>
                             <th>Modul / Bidang</th>
+                            <th>Deskripsi Singkat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -662,15 +670,19 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Nama Formulir/Dokumen</label>
-                            <input type="text" placeholder="Contoh: Form Pengajuan Kredensialing FKTP" required>
+                            <input type="text" id="dokumenNama" placeholder="Contoh: Form Pengajuan Kredensialing FKTP" required>
                         </div>
                         <div class="form-group">
                             <label>Tipe Berkas / Format</label>
-                            <select required>
+                            <select id="dokumenTipe" required>
                                 <option>PDF Dokumentasi</option>
                                 <option>Microsoft Word (.docx)</option>
                                 <option>Microsoft Excel (.xlsx)</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Unggah</label>
+                            <input type="date" id="dokumenTanggal" required>
                         </div>
                         <div class="form-group">
                             <label>Link Google Drive</label>
@@ -690,6 +702,7 @@
                         <tr>
                             <th>Nama Formulir/Dokumen</th>
                             <th>Tipe / Format</th>
+                            <th>Tanggal Unggah</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -722,11 +735,11 @@
                 <form onsubmit="handleFormSubmit(event, 'faq')">
                     <div class="form-group" style="margin-bottom: 16px;">
                         <label>Pertanyaan</label>
-                        <input type="text" placeholder="Bagaimana alur pendaftaran bagi Bayi Baru Lahir?" required>
+                        <input type="text" id="faqPertanyaan" placeholder="Bagaimana alur pendaftaran bagi Bayi Baru Lahir?" required>
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Jawaban</label>
-                        <textarea placeholder="Tuliskan jawaban yang ringkas dan jelas..." rows="3" required></textarea>
+                        <textarea id="faqJawaban" placeholder="Tuliskan jawaban yang ringkas dan jelas..." rows="3" required></textarea>
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan FAQ</button>
@@ -893,14 +906,87 @@
             document.getElementById('countUsers').innerText = db.users.length;
             document.getElementById('countFaq').innerText = db.faq.length;
 
+            // Category distribution bars
+            const progressList = document.querySelector('.progress-list');
+            if (progressList) {
+                const totalDocs = db.sop.length + db.regulasi.length + db.panduan.length + db.dokumen.length;
+                const items = progressList.querySelectorAll('.progress-item');
+                
+                const sopPct = totalDocs ? Math.round((db.sop.length / totalDocs) * 100) : 0;
+                const regPct = totalDocs ? Math.round((db.regulasi.length / totalDocs) * 100) : 0;
+                const panPct = totalDocs ? Math.round((db.panduan.length / totalDocs) * 100) : 0;
+                const docPct = totalDocs ? Math.round((db.dokumen.length / totalDocs) * 100) : 0;
+
+                if (items.length >= 4) {
+                    items[0].querySelector('.progress-header span:last-child').innerText = `${db.sop.length} Dokumen (${sopPct}%)`;
+                    items[0].querySelector('.progress-bar-fill').style.width = `${sopPct}%`;
+
+                    items[1].querySelector('.progress-header span:last-child').innerText = `${db.regulasi.length} Dokumen (${regPct}%)`;
+                    items[1].querySelector('.progress-bar-fill').style.width = `${regPct}%`;
+
+                    items[2].querySelector('.progress-header span:last-child').innerText = `${db.panduan.length} Dokumen (${panPct}%)`;
+                    items[2].querySelector('.progress-bar-fill').style.width = `${panPct}%`;
+
+                    items[3].querySelector('.progress-header span:last-child').innerText = `${db.dokumen.length} Dokumen (${docPct}%)`;
+                    items[3].querySelector('.progress-bar-fill').style.width = `${docPct}%`;
+                }
+            }
+
+            // User division bar chart
+            const chartContainer = document.querySelector('.chart-container');
+            if (chartContainer) {
+                const wrappers = chartContainer.querySelectorAll('.chart-bar-wrapper');
+                if (wrappers.length >= 4) {
+                    let countFo = 0;
+                    let countLayanan = 0;
+                    let countKlaim = 0;
+                    let countTi = 0;
+
+                    db.users.forEach(user => {
+                        const u = (user.unit || '').toLowerCase();
+                        if (u.includes('fo') || u.includes('front office')) {
+                            countFo++;
+                        } else if (u.includes('pelayanan') || u.includes('kepesertaan')) {
+                            countLayanan++;
+                        } else if (u.includes('klaim') || u.includes('pkp') || u.includes('faskes')) {
+                            countKlaim++;
+                        } else {
+                            countTi++;
+                        }
+                    });
+
+                    const maxCount = Math.max(countFo, countLayanan, countKlaim, countTi) || 1;
+                    
+                    const maxHeight = 120;
+                    const hFo = Math.max(20, Math.round((countFo / maxCount) * maxHeight));
+                    const hLayanan = Math.max(20, Math.round((countLayanan / maxCount) * maxHeight));
+                    const hKlaim = Math.max(20, Math.round((countKlaim / maxCount) * maxHeight));
+                    const hTi = Math.max(20, Math.round((countTi / maxCount) * maxHeight));
+
+                    wrappers[0].querySelector('.chart-bar').style.height = `${hFo}px`;
+                    wrappers[0].querySelector('.chart-bar-value').innerText = countFo;
+
+                    wrappers[1].querySelector('.chart-bar').style.height = `${hLayanan}px`;
+                    wrappers[1].querySelector('.chart-bar-value').innerText = countLayanan;
+
+                    wrappers[2].querySelector('.chart-bar').style.height = `${hKlaim}px`;
+                    wrappers[2].querySelector('.chart-bar-value').innerText = countKlaim;
+
+                    wrappers[3].querySelector('.chart-bar').style.height = `${hTi}px`;
+                    wrappers[3].querySelector('.chart-bar-value').innerText = countTi;
+                }
+            }
+
             // Render SOP Table
             const sopBody = document.querySelector('#sop .admin-table tbody');
             if (sopBody) {
                 sopBody.innerHTML = db.sop.map((item, idx) => `
                     <tr>
-                        <td style="font-weight:600; color:var(--text-main);">${item.judul}</td>
-                        <td>${item.unit}</td>
-                        <td>${item.tanggal}</td>
+                        <td>${item.kode || '-'}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.judul || ''}</td>
+                        <td>${item.kategori || item.unit || ''}</td>
+                        <td>${item.tanggal || ''}</td>
+                        <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.deskripsi || ''}</td>
                         <td>
                             <button class="btn-action-delete" onclick="deleteDbRow('sop', ${idx})">Hapus</button>
                         </td>
@@ -913,10 +999,12 @@
             if (regulasiBody) {
                 regulasiBody.innerHTML = db.regulasi.map((item, idx) => `
                     <tr>
-                        <td style="font-weight:600; color:var(--text-main);">${item.nomor}</td>
-                        <td style="max-width:300px; overflow:hidden; text-overflow:ellipsis;">${item.tentang}</td>
-                        <td>${item.tanggal}</td>
-                        <td><span class="status-badge active">${item.status}</span></td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.nomor || ''}</td>
+                        <td style="max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.tentang || ''}</td>
+                        <td>${item.jenis || ''}</td>
+                        <td>${item.tanggal || ''}</td>
+                        <td><strong>${item.masa_berlaku || 'Selamanya'}</strong></td>
+                        <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.ringkasan || ''}</td>
                         <td>
                             <button class="btn-action-delete" onclick="deleteDbRow('regulasi', ${idx})">Hapus</button>
                         </td>
@@ -929,8 +1017,9 @@
             if (panduanBody) {
                 panduanBody.innerHTML = db.panduan.map((item, idx) => `
                     <tr>
-                        <td style="font-weight:600; color:var(--text-main);">${item.judul}</td>
-                        <td>${item.modul}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.judul || ''}</td>
+                        <td>${item.modul || ''}</td>
+                        <td>${item.deskripsi || ''}</td>
                         <td>
                             <button class="btn-action-delete" onclick="deleteDbRow('panduan', ${idx})">Hapus</button>
                         </td>
@@ -943,8 +1032,9 @@
             if (dokumenBody) {
                 dokumenBody.innerHTML = db.dokumen.map((item, idx) => `
                     <tr>
-                        <td style="font-weight:600; color:var(--text-main);">${item.nama}</td>
-                        <td>${item.tipe}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.nama || ''}</td>
+                        <td>${item.tipe || ''}</td>
+                        <td>${item.tanggal || ''}</td>
                         <td>
                             <button class="btn-action-delete" onclick="deleteDbRow('dokumen', ${idx})">Hapus</button>
                         </td>
@@ -957,8 +1047,8 @@
             if (faqBody) {
                 faqBody.innerHTML = db.faq.map((item, idx) => `
                     <tr>
-                        <td style="font-weight:600; color:var(--text-main); max-width:250px; white-space:normal;">${item.pertanyaan}</td>
-                        <td style="white-space:normal; max-width:400px;">${item.jawaban}</td>
+                        <td style="font-weight:600; color:var(--text-main); max-width:250px; white-space:normal;">${item.pertanyaan || ''}</td>
+                        <td style="white-space:normal; max-width:400px;">${item.jawaban || ''}</td>
                         <td>
                             <button class="btn-action-delete" onclick="deleteDbRow('faq', ${idx})">Hapus</button>
                         </td>
@@ -971,10 +1061,10 @@
             if (userBody) {
                 userBody.innerHTML = db.users.map((item, idx) => `
                     <tr>
-                        <td>${item.npp}</td>
-                        <td style="font-weight:600; color:var(--text-main);">${item.nama}</td>
-                        <td>${item.unit}</td>
-                        <td><span class="status-badge active">${item.status}</span></td>
+                        <td>${item.npp || ''}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.nama || ''}</td>
+                        <td>${item.unit || ''}</td>
+                        <td><span class="status-badge active">${item.status || 'Aktif'}</span></td>
                         <td>
                             <button class="btn-action-delete" onclick="deleteDbRow('users', ${idx})">Hapus</button>
                         </td>
@@ -1001,50 +1091,55 @@
                 const name = document.getElementById('addName').value;
                 const npp = document.getElementById('addNpp').value;
                 const unit = document.getElementById('addUnit').value;
+                const password = document.getElementById('addPassword').value;
 
-                AikonDB.addRow('users', { npp: npp, nama: name, unit: unit, status: 'Aktif' });
+                AikonDB.addRow('users', { npp: npp, nama: name, unit: unit, password: password, status: 'Aktif' });
                 document.getElementById('formUser').style.display = "none";
                 showToast(`Akun pegawai ${name} berhasil ditambahkan ke spreadsheet!`);
             } else if (type === 'sop') {
-                const judul = form.querySelectorAll('input[type="text"]')[0].value;
-                const unit = form.querySelector('select').value;
-                const desc = form.querySelector('textarea').value;
+                const kode = document.getElementById('sopKode').value;
+                const judul = document.getElementById('sopNama').value;
+                const kategori = document.getElementById('sopKategori').value;
+                const tanggal = document.getElementById('sopTanggal').value;
                 const link = document.getElementById('sopLink').value;
-                const today = new Date().toISOString().split('T')[0];
+                const deskripsi = document.getElementById('sopDeskripsi').value;
 
-                AikonDB.addRow('sop', { judul: judul, unit: unit, deskripsi: desc, tanggal: today, link: link });
+                AikonDB.addRow('sop', { kode: kode, judul: judul, kategori: kategori, tanggal: tanggal, link: link, deskripsi: deskripsi });
                 document.getElementById('formSop').style.display = "none";
                 showToast('SOP kerja baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'regulasi') {
-                const nomor = form.querySelectorAll('input[type="text"]')[0].value;
-                const tentang = form.querySelectorAll('input[type="text"]')[1].value;
+                const nomor = document.getElementById('regulasiNomor').value;
+                const tentang = document.getElementById('regulasiTentang').value;
+                const jenis = document.getElementById('regulasiJenis').value;
+                const tanggal = document.getElementById('regulasiTanggal').value;
+                const masa_berlaku = document.getElementById('regulasiMasaBerlaku').value || 'Selamanya';
                 const link = document.getElementById('regulasiLink').value;
-                const today = new Date().toISOString().split('T')[0];
+                const ringkasan = document.getElementById('regulasiIntisari').value;
 
-                AikonDB.addRow('regulasi', { nomor: nomor, tentang: tentang, tanggal: today, status: 'Aktif', link: link });
+                AikonDB.addRow('regulasi', { nomor: nomor, tentang: tentang, jenis: jenis, tanggal: tanggal, masa_berlaku: masa_berlaku, link: link, ringkasan: ringkasan });
                 document.getElementById('formRegulasi').style.display = "none";
                 showToast('Regulasi baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'panduan') {
-                const judul = form.querySelectorAll('input[type="text"]')[0].value;
-                const modul = form.querySelector('select').value;
-                const desc = document.getElementById('panduanDesc').value;
+                const judul = document.getElementById('panduanJudul').value;
+                const modul = document.getElementById('panduanModul').value;
+                const deskripsi = document.getElementById('panduanDesc').value;
                 const link = document.getElementById('panduanLink').value;
 
-                AikonDB.addRow('panduan', { judul: judul, modul: modul, deskripsi: desc, link: link });
+                AikonDB.addRow('panduan', { judul: judul, modul: modul, deskripsi: deskripsi, link: link });
                 document.getElementById('formPanduan').style.display = "none";
                 showToast('Panduan baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'dokumen') {
-                const nama = form.querySelectorAll('input[type="text"]')[0].value;
-                const tipe = form.querySelector('select').value;
+                const nama = document.getElementById('dokumenNama').value;
+                const tipe = document.getElementById('dokumenTipe').value;
+                const tanggal = document.getElementById('dokumenTanggal').value;
                 const link = document.getElementById('dokumenLink').value;
-                const today = new Date().toISOString().split('T')[0];
 
-                AikonDB.addRow('dokumen', { nama: nama, tipe: tipe, tanggal: today, link: link });
+                AikonDB.addRow('dokumen', { nama: nama, tipe: tipe, tanggal: tanggal, link: link });
                 document.getElementById('formDokumen').style.display = "none";
                 showToast('Dokumen baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'faq') {
-                const q = form.querySelector('input[type="text"]').value;
-                const a = form.querySelector('textarea').value;
+                const q = document.getElementById('faqPertanyaan').value;
+                const a = document.getElementById('faqJawaban').value;
 
                 AikonDB.addRow('faq', { pertanyaan: q, jawaban: a });
                 document.getElementById('formFaq').style.display = "none";

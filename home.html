@@ -348,14 +348,26 @@
                 <a href="update.html">Update</a>
                 <a href="dashboard.html">Dashboard</a>
             </div>
-            <div class="nav-actions">
-                <div class="bell-container">
-                    <i data-lucide="bell" style="color:var(--primary-blue)"></i>
-                    <div class="bell-dot"></div>
-                </div>
-                <div class="nav-divider"></div>
-                <div class="profile-img"></div>
-            </div>
+             <div class="nav-actions">
+                 <div class="bell-container" id="bellContainer" onclick="toggleNotificationDropdown(event)">
+                     <i data-lucide="bell" style="color:var(--primary-blue)"></i>
+                     <div class="bell-dot" id="bellDot"></div>
+                     <div id="notificationDropdown" class="notification-dropdown">
+                         <div class="notification-dropdown-header">
+                             <span>Notifikasi & Update</span>
+                             <span class="mark-all-read-btn" onclick="clearNotificationDot(event)">Tandai dibaca</span>
+                         </div>
+                         <div class="notification-dropdown-list" id="notificationDropdownList" onclick="event.stopPropagation()">
+                             <!-- Populated dynamically -->
+                         </div>
+                         <div class="notification-dropdown-footer">
+                             <a href="update.html">Lihat Semua Update</a>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="nav-divider"></div>
+                 <div class="profile-img"></div>
+             </div>
         </div>
     </nav>
 
@@ -441,7 +453,7 @@
                     <div class="card-icon" style="background:#FEF2F2; color:#EF4444;"><i data-lucide="bell"></i></div>
                     <div class="card-content">
                         <div style="display:flex; align-items:center; gap:8px;">
-                            <span style="background:#EF4444; color:white; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">3</span>
+                            <span id="updateCountBadge" style="background:#EF4444; color:white; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;">3</span>
                             <h3>Update & Notifikasi</h3>
                         </div>
                         <p>Informasi terbaru seputar regulasi, SOP, dan prosedur.</p>
@@ -459,6 +471,26 @@
             </div>
         </div>
     </section>
+
+    <!-- Floating Chat Widget -->
+    <div id="floatingChatWidget" class="floating-chat-widget">
+        <div class="chat-widget-header">
+            <div class="flex items-center gap-2" style="display:flex; align-items:center; gap:8px;">
+                <i data-lucide="bot" style="color:var(--secondary-cyan)"></i>
+                <span style="font-weight:700; color:white; font-size:14px;">Asisten AIKON</span>
+            </div>
+            <button onclick="closeChatWidget(event)" style="background:transparent; color:white; border:none; cursor:pointer;"><i data-lucide="x" size="18"></i></button>
+        </div>
+        <div class="chat-widget-messages" id="chatWidgetMessages">
+            <!-- Messages will be rendered dynamically -->
+        </div>
+        <div class="chat-widget-input-container">
+            <div class="chat-widget-input">
+                <input type="text" id="chatWidgetInput" placeholder="Tanyakan hal lain...">
+                <button class="chat-widget-send" onclick="sendWidgetMessage()"><i data-lucide="send" size="16"></i></button>
+            </div>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
@@ -500,8 +532,8 @@
 
             // Search SOP
             db.sop.forEach(item => {
-                if (item.judul.toLowerCase().includes(query.toLowerCase()) || item.deskripsi.toLowerCase().includes(query.toLowerCase())) {
-                    results.push({ type: 'SOP', title: item.judul, desc: item.deskripsi, link: item.link || 'knowledge-base.html' });
+                if (item.judul.toLowerCase().includes(query.toLowerCase()) || (item.deskripsi && item.deskripsi.toLowerCase().includes(query.toLowerCase()))) {
+                    results.push({ type: 'SOP', title: item.judul, desc: item.deskripsi || '', link: item.link || 'knowledge-base.html' });
                 }
             });
 
@@ -520,10 +552,10 @@
             });
 
             if (results.length === 0) {
-                resultsDropdown.innerHTML = `<div style="padding: 12px; color:#64748B; font-size:14px; text-align:center;">Tidak ada hasil ditemukan untuk "${query}"</div>`;
+                resultsDropdown.innerHTML = `<div style="padding: 12px; color:#64748B; font-size:14px; text-align:center; cursor:pointer;" onclick="handleNoResultSearch('${query.replace(/'/g, "\\'")}')">Jawaban tidak ditemukan. Klik untuk tanyakan asisten.</div>`;
             } else {
                 resultsDropdown.innerHTML = results.map(res => `
-                    <div style="padding: 12px; border-bottom: 1px solid #F1F5F9; cursor: pointer;" onclick="window.open('${res.link}', '${res.link.startsWith('http') ? '_blank' : '_self'}')">
+                    <div style="padding: 12px; border-bottom: 1px solid #F1F5F9; cursor: pointer;" onclick="openWidgetWithResult(${JSON.stringify(res).replace(/"/g, '&quot;')})">
                         <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
                             <span style="font-size:10px; font-weight:700; text-transform:uppercase; padding: 2px 6px; border-radius:4px; background:#EBF5FF; color:#0047BA;">${res.type}</span>
                             <span style="font-weight:700; font-size:13px; color:#0A1931;">${res.title}</span>
@@ -554,6 +586,239 @@
                 performSearch(text);
             });
         });
+
+        // Search submit (Enter / Button click)
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearchSubmit();
+            }
+        });
+
+        searchBtn.addEventListener('click', () => {
+            handleSearchSubmit();
+        });
+
+        function handleSearchSubmit() {
+            const query = searchInput.value.trim();
+            if (!query) return;
+            performSearch(query);
+            
+            const db = AikonDB.get();
+            const results = [];
+            db.sop.forEach(item => {
+                if (item.judul.toLowerCase().includes(query.toLowerCase()) || (item.deskripsi && item.deskripsi.toLowerCase().includes(query.toLowerCase()))) {
+                    results.push({ type: 'SOP', title: item.judul, desc: item.deskripsi || '', link: item.link || 'knowledge-base.html' });
+                }
+            });
+            db.regulasi.forEach(item => {
+                if (item.nomor.toLowerCase().includes(query.toLowerCase()) || item.tentang.toLowerCase().includes(query.toLowerCase())) {
+                    results.push({ type: 'Regulasi', title: item.nomor, desc: item.tentang, link: item.link || 'knowledge-base.html' });
+                }
+            });
+            db.faq.forEach(item => {
+                if (item.pertanyaan.toLowerCase().includes(query.toLowerCase()) || item.jawaban.toLowerCase().includes(query.toLowerCase())) {
+                    results.push({ type: 'FAQ', title: item.pertanyaan, desc: item.jawaban, link: '#' });
+                }
+            });
+
+            openWidgetWithResults(query, results);
+        }
+
+        window.handleNoResultSearch = function(query) {
+            openWidgetWithResults(query, []);
+        };
+
+        window.openWidgetWithResult = function(res) {
+            openWidgetWithResults(res.title, [res]);
+        };
+
+        function openWidgetWithResults(query, results) {
+            resultsDropdown.style.display = 'none';
+            const widget = document.getElementById('floatingChatWidget');
+            widget.style.display = 'flex';
+            
+            const messagesContainer = document.getElementById('chatWidgetMessages');
+            messagesContainer.innerHTML = '';
+            
+            // Add user bubble
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble user';
+            userBubble.textContent = query;
+            messagesContainer.appendChild(userBubble);
+            
+            // Add bot response
+            const botBubble = document.createElement('div');
+            botBubble.className = 'chat-bubble bot';
+            
+            if (results.length === 0) {
+                botBubble.textContent = 'Jawaban tidak ditemukan.';
+            } else {
+                const res = results[0];
+                botBubble.innerHTML = `
+                    <strong>${res.type}: ${res.title}</strong><br><br>
+                    ${res.desc}<br><br>
+                    ${res.link && res.link !== '#' ? `<a href="#" onclick="event.preventDefault(); downloadFile('${res.link}', '${res.title.replace(/'/g, "\\'")}')" style="background:var(--primary-blue); color:white; padding:6px 12px; border-radius:6px; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-weight:600; text-decoration:none;"><i data-lucide="download" size="12"></i> Unduh Dokumen</a>` : ''}
+                `;
+            }
+            messagesContainer.appendChild(botBubble);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            lucide.createIcons();
+        }
+
+        window.closeChatWidget = function(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('floatingChatWidget').style.display = 'none';
+        };
+
+        window.sendWidgetMessage = function() {
+            const input = document.getElementById('chatWidgetInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const messagesContainer = document.getElementById('chatWidgetMessages');
+            
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble user';
+            userBubble.textContent = text;
+            messagesContainer.appendChild(userBubble);
+            
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Search in DB
+            const db = AikonDB.get();
+            const results = [];
+            db.sop.forEach(item => {
+                if (item.judul.toLowerCase().includes(text.toLowerCase()) || (item.deskripsi && item.deskripsi.toLowerCase().includes(text.toLowerCase()))) {
+                    results.push({ type: 'SOP', title: item.judul, desc: item.deskripsi || '', link: item.link || 'knowledge-base.html' });
+                }
+            });
+            db.regulasi.forEach(item => {
+                if (item.nomor.toLowerCase().includes(text.toLowerCase()) || item.tentang.toLowerCase().includes(text.toLowerCase())) {
+                    results.push({ type: 'Regulasi', title: item.nomor, desc: item.tentang, link: item.link || 'knowledge-base.html' });
+                }
+            });
+            db.faq.forEach(item => {
+                if (item.pertanyaan.toLowerCase().includes(text.toLowerCase()) || item.jawaban.toLowerCase().includes(text.toLowerCase())) {
+                    results.push({ type: 'FAQ', title: item.pertanyaan, desc: item.jawaban, link: '#' });
+                }
+            });
+            
+            setTimeout(() => {
+                const botBubble = document.createElement('div');
+                botBubble.className = 'chat-bubble bot';
+                
+                if (results.length === 0) {
+                    botBubble.textContent = 'Jawaban tidak ditemukan.';
+                } else {
+                    const res = results[0];
+                    botBubble.innerHTML = `
+                        <strong>${res.type}: ${res.title}</strong><br><br>
+                        ${res.desc}<br><br>
+                        ${res.link && res.link !== '#' ? `<a href="#" onclick="event.preventDefault(); downloadFile('${res.link}', '${res.title.replace(/'/g, "\\'")}')" style="background:var(--primary-blue); color:white; padding:6px 12px; border-radius:6px; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-weight:600; text-decoration:none;"><i data-lucide="download" size="12"></i> Unduh Dokumen</a>` : ''}
+                    `;
+                }
+                messagesContainer.appendChild(botBubble);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                lucide.createIcons();
+            }, 600);
+        };
+
+        // Listen for enter inside chat input
+        document.getElementById('chatWidgetInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendWidgetMessage();
+            }
+        });
+
+        // Notifications & Updates dynamic logic
+        function initNotifications() {
+            const db = AikonDB.get();
+            
+            const regulasiItems = db.regulasi.map(item => ({
+                date: item.tanggal,
+                type: 'regulasi',
+                badgeText: 'Regulasi',
+                title: item.nomor,
+                desc: item.tentang,
+                link: item.link
+            }));
+
+            const sopItems = db.sop.map(item => ({
+                date: item.tanggal,
+                type: 'sop',
+                badgeText: 'SOP',
+                title: item.judul,
+                desc: item.deskripsi,
+                link: item.link
+            }));
+
+            const allUpdates = [...regulasiItems, ...sopItems].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // 1. Update card badge
+            const badge = document.getElementById('updateCountBadge');
+            if (badge) {
+                badge.innerText = allUpdates.length;
+            }
+            
+            // 2. Set bell dot status
+            const bellDot = document.getElementById('bellDot');
+            if (bellDot) {
+                const isRead = localStorage.getItem('aikon_notifications_read') === 'true';
+                bellDot.style.display = isRead ? 'none' : 'block';
+            }
+            
+            // 3. Populate dropdown list
+            const list = document.getElementById('notificationDropdownList');
+            if (list) {
+                if (allUpdates.length === 0) {
+                    list.innerHTML = `<div style="padding:16px; text-align:center; color:var(--text-muted); font-size:12px;">Tidak ada update terbaru.</div>`;
+                } else {
+                    const recent = allUpdates.slice(0, 3);
+                    list.innerHTML = recent.map(item => {
+                        const IndonesianMonths = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
+                        let dateStr = item.date;
+                        try {
+                            const d = new Date(item.date);
+                            if (!isNaN(d.getTime())) {
+                                dateStr = `${d.getDate()} ${IndonesianMonths[d.getMonth()]} ${d.getFullYear()}`;
+                            }
+                        } catch(e){}
+                        
+                        return `
+                            <div class="notification-item" onclick="window.location.href='update.html'">
+                                <div class="notification-item-title">${item.title}</div>
+                                <div class="notification-item-desc">${item.desc}</div>
+                                <div class="notification-item-time">${dateStr} • <span style="font-weight:600; text-transform:uppercase; color: ${item.type === 'sop' ? 'var(--success-green)' : 'var(--primary-blue)'}">${item.badgeText}</span></div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+
+        window.toggleNotificationDropdown = function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('active');
+        };
+
+        window.clearNotificationDot = function(e) {
+            if (e) e.stopPropagation();
+            localStorage.setItem('aikon_notifications_read', 'true');
+            const bellDot = document.getElementById('bellDot');
+            if (bellDot) bellDot.style.display = 'none';
+        };
+
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('notificationDropdown');
+            const bell = document.getElementById('bellContainer');
+            if (dropdown && bell && !bell.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        initNotifications();
     </script>
 </body>
 </html>

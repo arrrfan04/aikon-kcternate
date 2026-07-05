@@ -81,7 +81,7 @@
             </a>
         </nav>
         <div class="sidebar-footer">
-            <a href="#" class="nav-item">
+            <a href="bantuan.html" class="nav-item">
                 <i data-lucide="help-circle"></i>
                 <span>Bantuan</span>
             </a>
@@ -106,44 +106,86 @@
                         <circle class="progress-circle-fill" cx="80" cy="80" r="70" />
                     </svg>
                     <div class="progress-text">
-                        <h3>65%</h3>
-                        <p>4 dari 6 modul selesai</p>
+                        <h3>0%</h3>
+                        <p>0 dari 6 modul selesai</p>
                     </div>
                 </div>
 
                 <div class="module-list">
-                    <div class="module-item completed">
-                        <i data-lucide="check-circle-2" size="18"></i>
-                        <span>1. Selamat Datang</span>
-                    </div>
-                    <div class="module-item completed">
-                        <i data-lucide="check-circle-2" size="18"></i>
-                        <span>2. Mengenal BPJS Kesehatan</span>
-                    </div>
-                    <div class="module-item completed">
-                        <i data-lucide="check-circle-2" size="18"></i>
-                        <span>3. Sistem & Aplikasi</span>
-                    </div>
-                    <div class="module-item active">
-                        <i data-lucide="circle" size="18"></i>
-                        <span>4. Alur Kerja Utama</span>
-                    </div>
-                    <div class="module-item">
-                        <i data-lucide="circle" size="18" style="opacity:0.3"></i>
-                        <span>5. Pelayanan Peserta</span>
-                    </div>
-                    <div class="module-item">
-                        <i data-lucide="circle" size="18" style="opacity:0.3"></i>
-                        <span>6. Evaluasi</span>
-                    </div>
+                    <!-- Populated dynamically -->
                 </div>
             </aside>
 
             <section class="onboarding-content">
-                <div class="step-section">
-                    <h2>4. Alur Kerja Utama</h2>
-                    <p class="step-description">Memahami alur kerja utama di BPJS Kesehatan Kantor Cabang.</p>
+                <!-- Populated dynamically -->
+            </section>
+        </div>
+    </main>
+    <script>
+        lucide.createIcons();
 
+        const modules = [
+            {
+                id: 1,
+                title: "1. Selamat Datang",
+                content: `
+                    <h2>1. Selamat Datang di AIKON</h2>
+                    <p class="step-description">Selamat bergabung di BPJS Kesehatan Kantor Cabang Ternate! AIKON (Asisten Konten Pengetahuan) dirancang untuk membantu Anda memahami tugas, SOP, regulasi, dan materi pembelajaran lainnya dengan mudah.</p>
+                    <div class="summary-box">
+                        <h3>Orientasi Awal</h3>
+                        <p>Sebagai staf baru, Anda diharapkan dapat menyesuaikan diri dengan cepat. Silakan pelajari setiap modul panduan onboarding ini dan tandai selesai jika Anda telah memahaminya. Progres Anda akan langsung tercatat pada dashboard profil Anda.</p>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "2. Mengenal BPJS Kesehatan",
+                content: `
+                    <h2>2. Mengenal BPJS Kesehatan</h2>
+                    <p class="step-description">Mengenal struktur organisasi, tata nilai, serta visi dan misi BPJS Kesehatan.</p>
+                    <div class="summary-box" style="margin-bottom: 20px;">
+                        <h3>Visi & Misi</h3>
+                        <p><strong>Visi:</strong> Menjadi badan penyelenggara jaminan sosial kesehatan yang berkualitas, berkeadilan, dan berkelanjutan.</p>
+                        <p style="margin-top: 10px;"><strong>Misi:</strong> Memberikan pelayanan prima kepada peserta, memperluas cakupan kepesertaan, serta menjaga kesinambungan keuangan program JKN.</p>
+                    </div>
+                    <div class="summary-box">
+                        <h3>Tata Nilai Organisasi</h3>
+                        <p>BPJS Kesehatan memiliki tata nilai utama yang disingkat <strong>PROFIT</strong>: Profesional, Respek, Orientasi Pelanggan, Integritas, Kepercayaan, dan Kerja Sama Tim.</p>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "3. Sistem & Aplikasi",
+                content: `
+                    <h2>3. Sistem & Aplikasi Utama</h2>
+                    <p class="step-description">Daftar sistem informasi internal yang akan Anda gunakan sehari-hari.</p>
+                    <div class="process-flow" style="display:flex; justify-content:space-around; gap:16px; margin-bottom:32px;">
+                        <div class="flow-step" style="text-align:center;">
+                            <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="smartphone"></i></div>
+                            <span>Mobile JKN</span>
+                        </div>
+                        <div class="flow-step" style="text-align:center;">
+                            <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="database"></i></div>
+                            <span>VClaim & PCare</span>
+                        </div>
+                        <div class="flow-step" style="text-align:center;">
+                            <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="users"></i></div>
+                            <span>Edabu & SIPP</span>
+                        </div>
+                    </div>
+                    <div class="summary-box">
+                        <h3>Keterangan</h3>
+                        <p>Aplikasi VClaim digunakan untuk verifikasi klaim rumah sakit, PCare untuk faskes primer, sedangkan Edabu digunakan oleh badan usaha terdaftar untuk mengelola kepesertaan karyawannya.</p>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "4. Alur Kerja Utama",
+                content: `
+                    <h2>4. Alur Kerja Utama</h2>
+                    <p class="step-description">Memahami alur kerja pemrosesan data dan pelayanan di Kantor Cabang.</p>
                     <div class="process-flow">
                         <div class="flow-step">
                             <div class="flow-icon"><i data-lucide="file-input"></i></div>
@@ -159,24 +201,145 @@
                         </div>
                         <div class="flow-step">
                             <div class="flow-icon"><i data-lucide="info"></i></div>
-                            <span>Tindak Lanjut & Informasi</span>
+                            <span>Tindak Lanjut</span>
                         </div>
                     </div>
-
                     <div class="summary-box">
-                        <h3>Ringkasan</h3>
-                        <p>Alur kerja dimulai dari penerimaan permintaan, verifikasi data, proses di sistem terkait, hingga tindak lanjut dan penyampaian informasi kepada peserta. Seluruh proses harus terdokumentasi dengan baik sesuai dengan SOP yang berlaku.</p>
+                        <h3>Ringkasan Alur</h3>
+                        <p>Alur kerja dimulai dari penerimaan berkas permintaan oleh front office, verifikasi kesesuaian berkas oleh penanggung jawab administrasi, entri data ke sistem aplikasi terkait, hingga penyerahan hasil tindak lanjut informasi kepada peserta.</p>
                     </div>
+                `
+            },
+            {
+                id: 5,
+                title: "5. Pelayanan Peserta",
+                content: `
+                    <h2>5. Pelayanan Peserta & Front Office</h2>
+                    <p class="step-description">Mempelajari standar pelayanan prima saat berhadapan langsung dengan peserta.</p>
+                    <div class="summary-box">
+                        <h3>Service Level Agreement (SLA)</h3>
+                        <p>1. Waktu tunggu pelayanan di loket maksimal 15 menit.<br>
+                        2. Penanganan keluhan peserta langsung selesai di hari yang sama jika berkas lengkap.<br>
+                        3. Mengedepankan 3S (Senyum, Sapa, Salam) serta empati tinggi terhadap kendala peserta.</p>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "6. Evaluasi",
+                content: `
+                    <h2>6. Kuis Evaluasi Onboarding</h2>
+                    <p class="step-description">Kerjakan kuis singkat berikut untuk menguji pemahaman Anda.</p>
+                    <div class="summary-box" id="quizContainer">
+                        <div style="margin-bottom: 20px;">
+                            <p style="font-weight:600; margin-bottom:8px;">1. Manakah tata nilai utama BPJS Kesehatan?</p>
+                            <label style="display:block; margin-bottom:4px; font-size:14px;"><input type="radio" name="q1" value="A"> A. Keuntungan Keuangan Tinggi</label>
+                            <label style="display:block; font-size:14px;"><input type="radio" name="q1" value="B"> B. PROFIT (Profesional, Respek, Integritas...)</label>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <p style="font-weight:600; margin-bottom:8px;">2. Berapa batas waktu maksimal antrean loket berdasarkan SLA?</p>
+                            <label style="display:block; margin-bottom:4px; font-size:14px;"><input type="radio" name="q2" value="A"> A. 30 menit</label>
+                            <label style="display:block; font-size:14px;"><input type="radio" name="q2" value="B"> B. 15 menit</label>
+                        </div>
+                        <button class="btn-primary" onclick="submitQuiz()" style="padding:10px 24px; border-radius:6px; font-size:14px; font-weight:600; cursor:pointer;">Kirim Jawaban</button>
+                        <div id="quizResult" style="margin-top:16px; font-weight:700; font-size:14px; display:none;"></div>
+                    </div>
+                `
+            }
+        ];
 
-                    <div class="action-btns">
-                        <button class="btn-primary">Pelajari Lebih Lanjut</button>
+        const currentUser = JSON.parse(localStorage.getItem('aikon_current_user')) || { npp: '12345', nama: 'Budi Santoso' };
+        const userProgressKey = 'aikon_onboarding_progress_' + currentUser.npp;
+        let progress = JSON.parse(localStorage.getItem(userProgressKey)) || { 1: true, 2: true, 3: true, 4: false, 5: false, 6: false };
+        let currentModuleId = 4;
+
+        function renderOnboarding() {
+            // Render Module List Sidebar
+            const moduleList = document.querySelector('.module-list');
+            moduleList.innerHTML = modules.map(m => {
+                const isCompleted = progress[m.id];
+                const isActive = m.id === currentModuleId;
+                let icon = isCompleted ? 'check-circle-2' : 'circle';
+                let iconOpacity = isCompleted ? '' : (isActive ? '' : 'style="opacity:0.3"');
+                return `
+                    <div class="module-item ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}" onclick="selectModule(${m.id})" style="cursor:pointer; display:flex; align-items:center; gap:10px; padding:10px; border-radius:var(--radius-sm); font-size:13px; font-weight:500; margin-bottom:6px;">
+                        <i data-lucide="${icon}" size="18" ${iconOpacity}></i>
+                        <span>${m.title}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Active Module Content
+            const contentSection = document.querySelector('.onboarding-content');
+            const activeMod = modules.find(m => m.id === currentModuleId);
+            const isCompleted = progress[currentModuleId];
+            
+            contentSection.innerHTML = `
+                <div class="step-section">
+                    ${activeMod.content}
+                    <div class="action-btns" style="margin-top:32px; display:flex; gap:16px;">
+                        <button class="${isCompleted ? 'btn-modal-cancel' : 'btn-primary'}" onclick="toggleModuleCompletion()" style="padding:12px 28px; border-radius:var(--radius-sm); font-weight:600; cursor:pointer;">
+                            ${isCompleted ? 'Batalkan Tandai Selesai' : 'Tandai Selesai ✓'}
+                        </button>
                     </div>
                 </div>
-            </section>
-        </div>
-    </main>
-    <script>
-        lucide.createIcons();
+            `;
+
+            // Update Progress stats
+            const total = modules.length;
+            const completed = Object.values(progress).filter(Boolean).length;
+            const percent = Math.round((completed / total) * 100);
+
+            // Update progress SVG circle
+            const circle = document.querySelector('.progress-circle-fill');
+            if (circle) {
+                const offset = 440 - (440 * percent) / 100;
+                circle.style.strokeDashoffset = offset;
+            }
+
+            // Update progress text
+            document.querySelector('.progress-text h3').innerText = `${percent}%`;
+            document.querySelector('.progress-text p').innerText = `${completed} dari ${total} modul selesai`;
+
+            lucide.createIcons();
+        }
+
+        window.selectModule = function(id) {
+            currentModuleId = id;
+            renderOnboarding();
+        };
+
+        window.toggleModuleCompletion = function() {
+            progress[currentModuleId] = !progress[currentModuleId];
+            localStorage.setItem(userProgressKey, JSON.stringify(progress));
+            
+            // Dispatch a change event to let local DB/dashboards know
+            window.dispatchEvent(new Event('aikon_db_changed'));
+            renderOnboarding();
+        };
+
+        window.submitQuiz = function() {
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            if (!q1 || !q2) {
+                alert('Harap jawab semua pertanyaan!');
+                return;
+            }
+            const isCorrect = q1.value === 'B' && q2.value === 'B';
+            const resultDiv = document.getElementById('quizResult');
+            resultDiv.style.display = 'block';
+            if (isCorrect) {
+                resultDiv.style.color = 'var(--success-green)';
+                resultDiv.innerText = 'Jawaban Anda benar semua! Selamat!';
+                progress[6] = true;
+                localStorage.setItem(userProgressKey, JSON.stringify(progress));
+                window.dispatchEvent(new Event('aikon_db_changed'));
+                setTimeout(renderOnboarding, 1500);
+            } else {
+                resultDiv.style.color = '#DC2626';
+                resultDiv.innerText = 'Ada jawaban yang salah. Silakan coba lagi.';
+            }
+        };
 
         // Mobile Menu Toggle logic
         const menuToggle = document.getElementById('menuToggle');
@@ -195,6 +358,8 @@
                 overlay.classList.remove('active');
             });
         }
+
+        renderOnboarding();
     </script>
 </body>
 </html>

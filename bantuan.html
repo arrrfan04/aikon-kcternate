@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIKON - Bantuan & Hubungi Kami</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .help-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+        @media (max-width: 1024px) {
+            .help-layout { grid-template-columns: 1fr; }
+        }
+
+        .help-card { background: white; border-radius: var(--radius-md); padding: 28px; box-shadow: var(--shadow-sm); border: 1px solid #E2E8F0; margin-bottom: 24px; }
+        .help-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--navy-blue); display: flex; align-items: center; gap: 8px; }
+
+        /* Manual Book Tab Navigation */
+        .manual-tabs { display: flex; gap: 8px; border-bottom: 2px solid #F1F5F9; padding-bottom: 12px; margin-bottom: 20px; overflow-x: auto; }
+        .manual-tab-btn { background: transparent; border: none; font-size: 13px; font-weight: 600; color: var(--text-muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .manual-tab-btn.active, .manual-tab-btn:hover { background: var(--light-blue); color: var(--primary-blue); }
+        
+        .manual-content-item { display: none; }
+        .manual-content-item.active { display: block; animation: fadeIn 0.3s ease; }
+        
+        .manual-step { display: flex; gap: 16px; margin-bottom: 16px; align-items: flex-start; }
+        .manual-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--light-blue); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+        .manual-step-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); }
+        .manual-step-text p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+        /* Collapsible FAQ list */
+        .faq-accordion { display: flex; flex-direction: column; gap: 12px; }
+        .faq-item { border: 1px solid #F1F5F9; border-radius: var(--radius-sm); overflow: hidden; transition: 0.2s; }
+        .faq-item-header { padding: 16px 20px; background: #FAFAFA; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--navy-blue); }
+        .faq-item-header:hover { background: #F1F5F9; }
+        .faq-item-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out, padding 0.2s ease-out; font-size: 13px; color: var(--text-muted); line-height: 1.6; background: white; }
+        .faq-item.active { border-color: var(--primary-blue); }
+        .faq-item.active .faq-item-header { background: var(--light-blue); color: var(--primary-blue); }
+        .faq-item.active .faq-item-content { padding: 16px 20px; max-height: 200px; border-top: 1px solid #E2E8F0; }
+
+        /* Contact Details list */
+        .contact-list { display: flex; flex-direction: column; gap: 16px; }
+        .contact-item { display: flex; gap: 16px; align-items: flex-start; padding: 16px; border-radius: var(--radius-sm); background: #F8FAFC; border: 1px solid #F1F5F9; }
+        .contact-icon { width: 40px; height: 40px; border-radius: 8px; background: var(--light-blue); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .contact-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--navy-blue); }
+        .contact-info p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    </style>
+</head>
+<body class="dashboard-page">
+    <div class="mobile-header">
+        <button class="menu-toggle-btn" id="menuToggle"><i data-lucide="menu"></i></button>
+        <div class="mobile-logo">AI<span>KON</span></div>
+        <div class="profile-img" style="width:30px; height:30px;"></div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar">
+        <div class="logo">
+            <i data-lucide="bot" style="color:var(--secondary-cyan)"></i>
+            <span>AIKON</span>
+        </div>
+        <nav style="flex: 1">
+            <a href="home.html" class="nav-item">
+                <i data-lucide="home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="knowledge-base.html" class="nav-item">
+                <i data-lucide="book"></i>
+                <span>Knowledge Base</span>
+            </a>
+            <a href="onboarding.html" class="nav-item">
+                <i data-lucide="users"></i>
+                <span>Onboarding</span>
+            </a>
+            <a href="update.html" class="nav-item">
+                <i data-lucide="bell"></i>
+                <span>Update</span>
+            </a>
+            <a href="dashboard.html" class="nav-item">
+                <i data-lucide="layout"></i>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="bantuan.html" class="nav-item active">
+                <i data-lucide="help-circle"></i>
+                <span>Bantuan</span>
+            </a>
+            <a href="index.html" class="nav-item">
+                <i data-lucide="log-out"></i>
+                <span>Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content fade-in">
+        <header class="content-header">
+            <h1>Pusat Bantuan & Dukungan</h1>
+            <p>Panduan penggunaan aplikasi AIKON, pertanyaan umum (FAQ), dan kontak humas cabang.</p>
+        </header>
+
+        <div class="help-layout">
+            <div class="help-column">
+                <!-- Card 1: Manual Book -->
+                <div class="help-card">
+                    <h2><i data-lucide="book-open" size="20" style="color:var(--primary-blue)"></i> Manual Book Penggunaan</h2>
+                    
+                    <div class="manual-tabs" id="manualTabs">
+                        <button class="manual-tab-btn active" onclick="switchManualTab('tabLogin', this)">1. Log Masuk</button>
+                        <button class="manual-tab-btn" onclick="switchManualTab('tabSearch', this)">2. Tanya AIKON</button>
+                        <button class="manual-tab-btn" onclick="switchManualTab('tabKb', this)">3. Knowledge Base</button>
+                        <button class="manual-tab-btn" onclick="switchManualTab('tabOnboard', this)">4. Onboarding</button>
+                    </div>
+
+                    <div id="tabLogin" class="manual-content-item active">
+                        <div class="manual-step">
+                            <div class="manual-step-num">1</div>
+                            <div class="manual-step-text">
+                                <h4>Masukkan NPP & Password</h4>
+                                <p>Gunakan Nomor Pokok Pegawai (NPP) Anda yang telah didaftarkan oleh SDMUK beserta password yang sesuai.</p>
+                            </div>
+                        </div>
+                        <div class="manual-step">
+                            <div class="manual-step-num">2</div>
+                            <div class="manual-step-text">
+                                <h4>Penyelamatan Lupa Password</h4>
+                                <p>Jika lupa password, gunakan opsi "Lupa password?" di layar masuk untuk mendapatkan tautan pemulihan via email terdaftar.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tabSearch" class="manual-content-item">
+                        <div class="manual-step">
+                            <div class="manual-step-num">1</div>
+                            <div class="manual-step-text">
+                                <h4>Ketik Pertanyaan di Beranda</h4>
+                                <p>Masukkan kata kunci atau pertanyaan seputar alur kerja, e.g. "SOP klaim bayi". Hasil pencarian akan muncul secara dinamis di dropdown.</p>
+                            </div>
+                        </div>
+                        <div class="manual-step">
+                            <div class="manual-step-num">2</div>
+                            <div class="manual-step-text">
+                                <h4>Klik Hasil untuk Chat Box</h4>
+                                <p>Klik pada baris hasil pencarian untuk membuka asisten interaktif AIKON yang merangkum isi jawaban beserta tautan unduhan dokumen terkait.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tabKb" class="manual-content-item">
+                        <div class="manual-step">
+                            <div class="manual-step-num">1</div>
+                            <div class="manual-step-text">
+                                <h4>Pilih Kategori Dokumen</h4>
+                                <p>Gunakan bilah select kategori atau ikon filter untuk memilah data SOP, Regulasi, Panduan Kerja, Formulir, atau FAQ.</p>
+                            </div>
+                        </div>
+                        <div class="manual-step">
+                            <div class="manual-step-num">2</div>
+                            <div class="manual-step-text">
+                                <h4>Unduh Berkas Resmi</h4>
+                                <p>Tekan tombol "Unduh" untuk langsung mendapatkan file dokumen rujukan resmi yang tersimpan di Google Drive pusat.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tabOnboard" class="manual-content-item">
+                        <div class="manual-step">
+                            <div class="manual-step-num">1</div>
+                            <div class="manual-step-text">
+                                <h4>Pelajari Modul Kerja Staf Baru</h4>
+                                <p>Buka menu Onboarding untuk mengakses modul belajar bertahap yang disesuaikan untuk proses adaptasi Anda di kantor cabang.</p>
+                            </div>
+                        </div>
+                        <div class="manual-step">
+                            <div class="manual-step-num">2</div>
+                            <div class="manual-step-text">
+                                <h4>Tandai Selesai & Pantau Progres</h4>
+                                <p>Klik "Tandai Selesai" pada setiap modul yang telah dipelajari. Progres visual Anda akan langsung terupdate di dashboard analitik pribadi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Kontak Kami -->
+                <div class="help-card">
+                    <h2><i data-lucide="phone-call" size="20" style="color:var(--primary-blue)"></i> Hubungi Kami & Kantor Cabang</h2>
+                    <div class="contact-list">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i data-lucide="phone" size="18"></i></div>
+                            <div class="contact-info">
+                                <h4>Telepon Humas Cabang</h4>
+                                <p>+62 811-4300-222 (Fast Response Pelayanan Internal)</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i data-lucide="mail" size="18"></i></div>
+                            <div class="contact-info">
+                                <h4>E-mail Layanan Staf</h4>
+                                <p>kc-ternate@bpjs-kesehatan.go.id</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i data-lucide="map-pin" size="18"></i></div>
+                            <div class="contact-info">
+                                <h4>Alamat Kantor Cabang Ternate</h4>
+                                <p>Jl. Jenderal Ahmad Yani No. 8, Kelurahan Kota Baru, Kecamatan Kota Ternate Tengah, Kota Ternate, Maluku Utara</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-column">
+                <!-- Card 3: FAQ Aplikasi -->
+                <div class="help-card" style="min-height: 100%;">
+                    <h2><i data-lucide="help-circle" size="20" style="color:var(--primary-blue)"></i> FAQ Sistem & Penggunaan</h2>
+                    <div class="faq-accordion">
+                        <div class="faq-item" onclick="toggleFaq(this)">
+                            <div class="faq-item-header">
+                                <span>Bagaimana cara mendaftarkan akun pegawai baru?</span>
+                                <i data-lucide="chevron-down" size="16"></i>
+                            </div>
+                            <div class="faq-item-content">
+                                Pendaftaran akun pegawai baru hanya dapat dilakukan oleh Administrator SDMUK Kantor Cabang melalui portal Dashboard Admin AIKON dengan menginputkan Nama, NPP, Divisi, dan password awal.
+                            </div>
+                        </div>
+
+                        <div class="faq-item" onclick="toggleFaq(this)">
+                            <div class="faq-item-header">
+                                <span>Mengapa dokumen tidak dapat diunduh?</span>
+                                <i data-lucide="chevron-down" size="16"></i>
+                            </div>
+                            <div class="faq-item-content">
+                                Pastikan koneksi internet Anda stabil dan akun Google Anda memiliki hak akses untuk membuka link Google Drive yang terdaftar di spreadsheet. Hubungi admin jika link dokumen rusak.
+                            </div>
+                        </div>
+
+                        <div class="faq-item" onclick="toggleFaq(this)">
+                            <div class="faq-item-header">
+                                <span>Apakah data di dashboard terupdate real-time?</span>
+                                <i data-lucide="chevron-down" size="16"></i>
+                            </div>
+                            <div class="faq-item-content">
+                                Ya, setiap kali admin mengunggah dokumen SOP/Regulasi baru atau pengguna menyelesaikan modul onboarding, dashboard analitik akan otomatis diperbarui.
+                            </div>
+                        </div>
+
+                        <div class="faq-item" onclick="toggleFaq(this)">
+                            <div class="faq-item-header">
+                                <span>Bagaimana jika ada kesalahan data pada modul Onboarding?</span>
+                                <i data-lucide="chevron-down" size="16"></i>
+                            </div>
+                            <div class="faq-item-content">
+                                Modul onboarding dikelola secara terpusat oleh Bagian SDMUK. Jika menemukan ketidaksesuaian alur kerja pada modul, Anda dapat menyampaikan masukan ke humas cabang melalui nomor kontak tertera.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Switch Manual Book Tabs
+        window.switchManualTab = function(tabId, element) {
+            const contents = document.querySelectorAll('.manual-content-item');
+            contents.forEach(c => c.classList.remove('active'));
+            
+            const target = document.getElementById(tabId);
+            if (target) {
+                target.classList.add('active');
+            }
+
+            const buttons = document.querySelectorAll('#manualTabs .manual-tab-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+        };
+
+        // Collapsible FAQ Action
+        window.toggleFaq = function(element) {
+            const isOpen = element.classList.contains('active');
+            
+            // Close other items
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach(i => i.classList.remove('active'));
+
+            if (!isOpen) {
+                element.classList.add('active');
+            }
+        };
+
+        // Mobile Menu Toggle logic
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            });
+        }
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -6,6 +6,7 @@
     <title>AIKON - Dashboard Analitik</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="database.js"></script>
     <link rel="stylesheet" href="style.css">
     <style>
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 32px; }
@@ -92,7 +93,7 @@
             </a>
         </nav>
         <div class="sidebar-footer">
-            <a href="#" class="nav-item">
+            <a href="bantuan.html" class="nav-item">
                 <i data-lucide="help-circle"></i>
                 <span>Bantuan</span>
             </a>
@@ -260,6 +261,113 @@
     <script>
         lucide.createIcons();
 
+        function refreshUserDashboard() {
+            const db = AikonDB.get();
+            const currentUser = JSON.parse(localStorage.getItem('aikon_current_user')) || { npp: '12345', nama: 'Budi Santoso' };
+            const userProgressKey = 'aikon_onboarding_progress_' + currentUser.npp;
+            const progress = JSON.parse(localStorage.getItem(userProgressKey)) || { 1: true, 2: true, 3: true, 4: false, 5: false, 6: false };
+
+            const totalModules = 6;
+            const completedModules = Object.values(progress).filter(Boolean).length;
+            const percentage = Math.round((completedModules / totalModules) * 100);
+
+            // 1. Update stats
+            const stats = document.querySelectorAll('.stats-grid .stat-card');
+            if (stats.length >= 4) {
+                // Stat 1: Progres Adaptasi
+                stats[0].querySelector('.value').innerText = `${percentage}%`;
+                stats[0].querySelector('.progress-bar-fill').style.width = `${percentage}%`;
+
+                // Stat 2: Modul Selesai
+                stats[1].querySelector('.value').innerText = `${completedModules} / ${totalModules}`;
+
+                // Stat 3: Dokumen Dibaca
+                const totalDocs = db.sop.length + db.regulasi.length + db.panduan.length + db.dokumen.length;
+                stats[2].querySelector('.value').innerText = totalDocs;
+            }
+
+            // 2. Update Kategori progress
+            const progressItems = document.querySelectorAll('.progress-list .progress-item');
+            if (progressItems.length >= 4) {
+                const totalSop = db.sop.length;
+                const totalReg = db.regulasi.length;
+                const totalPanduan = db.panduan.length;
+                
+                // Update Regulasi & Kebijakan
+                const regProgress = Math.min(100, Math.round((totalReg / 6) * 100));
+                progressItems[0].querySelector('.progress-header span:last-child').innerText = `${regProgress}%`;
+                progressItems[0].querySelector('.progress-bar-fill').style.width = `${regProgress}%`;
+
+                // Update SOP Pelayanan
+                const sopProgress = Math.min(100, Math.round((totalSop / 8) * 100));
+                progressItems[1].querySelector('.progress-header span:last-child').innerText = `${sopProgress}%`;
+                progressItems[1].querySelector('.progress-bar-fill').style.width = `${sopProgress}%`;
+
+                // Update Prosedur Klaim
+                const klaimProgress = 45;
+                progressItems[2].querySelector('.progress-header span:last-child').innerText = `${klaimProgress}%`;
+                progressItems[2].querySelector('.progress-bar-fill').style.width = `${klaimProgress}%`;
+
+                // Update Sistem Aplikasi Internal
+                const appProgress = Math.min(100, Math.round((totalPanduan / 4) * 100));
+                progressItems[3].querySelector('.progress-header span:last-child').innerText = `${appProgress}%`;
+                progressItems[3].querySelector('.progress-bar-fill').style.width = `${appProgress}%`;
+            }
+
+            // 3. Update Last Activities
+            const activityList = document.querySelector('.activity-list');
+            if (activityList) {
+                const recentActivities = [];
+                const moduleNames = {
+                    1: "Modul 1: Selamat Datang",
+                    2: "Modul 2: Mengenal BPJS Kesehatan",
+                    3: "Modul 3: Sistem & Aplikasi",
+                    4: "Modul 4: Alur Kerja Utama",
+                    5: "Modul 5: Pelayanan Peserta",
+                    6: "Modul 6: Evaluasi"
+                };
+
+                Object.keys(progress).forEach(key => {
+                    if (progress[key]) {
+                        recentActivities.push({
+                            title: `Menyelesaikan ${moduleNames[key]}`,
+                            time: "Baru saja",
+                            active: true
+                        });
+                    }
+                });
+
+                if (db.sop.length > 0) {
+                    recentActivities.push({
+                        title: `Membaca SOP: ${db.sop[db.sop.length - 1].judul}`,
+                        time: "Hari ini",
+                        active: true
+                    });
+                }
+                if (db.regulasi.length > 0) {
+                    recentActivities.push({
+                        title: `Membaca Regulasi: ${db.regulasi[db.regulasi.length - 1].nomor}`,
+                        time: "Kemarin",
+                        active: false
+                    });
+                }
+
+                if (recentActivities.length === 0) {
+                    activityList.innerHTML = `<div style="padding:16px; color:var(--text-muted); font-size:14px;">Belum ada aktivitas.</div>`;
+                } else {
+                    activityList.innerHTML = recentActivities.slice(0, 4).map(act => `
+                        <div class="activity-item">
+                            <div class="activity-marker ${act.active ? 'active' : ''}"></div>
+                            <div class="activity-details">
+                                <span class="activity-title">${act.title}</span>
+                                <span class="activity-time">${act.time}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
         // Mobile Menu Toggle logic
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.querySelector('.sidebar');
@@ -277,6 +385,9 @@
                 overlay.classList.remove('active');
             });
         }
+
+        refreshUserDashboard();
+        window.addEventListener('aikon_db_changed', refreshUserDashboard);
     </script>
 </body>
 </html>
