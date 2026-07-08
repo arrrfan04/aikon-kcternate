@@ -265,7 +265,7 @@
             const db = AikonDB.get();
             const currentUser = JSON.parse(localStorage.getItem('aikon_current_user')) || { npp: '12345', nama: 'Budi Santoso' };
             const userProgressKey = 'aikon_onboarding_progress_' + currentUser.npp;
-            const progress = JSON.parse(localStorage.getItem(userProgressKey)) || { 1: true, 2: true, 3: true, 4: false, 5: false, 6: false };
+            const progress = JSON.parse(localStorage.getItem(userProgressKey)) || { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
 
             const totalModules = 6;
             const completedModules = Object.values(progress).filter(Boolean).length;
@@ -318,10 +318,12 @@
             const activityList = document.querySelector('.activity-list');
             if (activityList) {
                 const recentActivities = [];
+                
+                // Add onboarding completions
                 const moduleNames = {
                     1: "Modul 1: Selamat Datang",
                     2: "Modul 2: Mengenal BPJS Kesehatan",
-                    3: "Modul 3: Sistem & Aplikasi",
+                    3: "Modul 3: Sistem & Aplikasi Utama",
                     4: "Modul 4: Alur Kerja Utama",
                     5: "Modul 5: Pelayanan Peserta",
                     6: "Modul 6: Evaluasi"
@@ -337,25 +339,20 @@
                     }
                 });
 
-                if (db.sop.length > 0) {
+                // Add admin activities from database
+                const dbActivities = db.activities || [];
+                dbActivities.forEach(act => {
                     recentActivities.push({
-                        title: `Membaca SOP: ${db.sop[db.sop.length - 1].judul}`,
-                        time: "Hari ini",
-                        active: true
-                    });
-                }
-                if (db.regulasi.length > 0) {
-                    recentActivities.push({
-                        title: `Membaca Regulasi: ${db.regulasi[db.regulasi.length - 1].nomor}`,
-                        time: "Kemarin",
+                        title: `${act.action}: ${act.title}`,
+                        time: act.time,
                         active: false
                     });
-                }
+                });
 
                 if (recentActivities.length === 0) {
                     activityList.innerHTML = `<div style="padding:16px; color:var(--text-muted); font-size:14px;">Belum ada aktivitas.</div>`;
                 } else {
-                    activityList.innerHTML = recentActivities.slice(0, 4).map(act => `
+                    activityList.innerHTML = recentActivities.slice(0, 5).map(act => `
                         <div class="activity-item">
                             <div class="activity-marker ${act.active ? 'active' : ''}"></div>
                             <div class="activity-details">

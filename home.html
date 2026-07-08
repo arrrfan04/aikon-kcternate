@@ -274,18 +274,19 @@
         }
         .speech-bubble {
             position: absolute;
-            top: 10px;
-            right: 0;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
             background: white;
             padding: 16px 20px;
             border-radius: 16px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 16px -6px rgba(0, 0, 0, 0.05);
-            max-width: 210px;
+            max-width: 240px;
             font-size: 13px;
             font-weight: 500;
             line-height: 1.5;
             color: #334155;
-            text-align: left;
+            text-align: center;
             z-index: 10;
             border: 1px solid #F1F5F9;
         }
@@ -293,7 +294,8 @@
             content: '';
             position: absolute;
             bottom: -8px;
-            left: 24px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 0;
             height: 0;
             border-left: 8px solid transparent;
@@ -304,7 +306,8 @@
             content: '';
             position: absolute;
             bottom: -9px;
-            left: 23px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 0;
             height: 0;
             border-left: 9px solid transparent;
@@ -366,7 +369,11 @@
                      </div>
                  </div>
                  <div class="nav-divider"></div>
-                 <div class="profile-img"></div>
+                 <div class="profile-img" style="margin-right: 8px;"></div>
+                 <a href="index.html" class="btn-logout" style="display: flex; align-items: center; gap: 6px; color: #EF4444; font-weight: 600; font-size: 14px; text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: background 0.2s; cursor: pointer;" onmouseenter="this.style.backgroundColor='#FEF2F2'" onmouseleave="this.style.backgroundColor='transparent'" onclick="localStorage.removeItem('aikon_current_user')">
+                     <i data-lucide="log-out" size="18" style="stroke-width: 2.5px;"></i>
+                     <span>Keluar</span>
+                 </a>
              </div>
         </div>
     </nav>
@@ -419,7 +426,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mascot-container fade-in" style="animation-delay: 0.2s">
+            <div class="mascot-container fade-in" style="animation-delay: 0.2s; cursor: pointer;" onclick="openChatWidgetWithGreeting()">
                 <div class="mascot-backdrop"></div>
                 <div class="speech-bubble">
                     Saya AIKON, asisten pengetahuan anda. Ada yang bisa saya bantu?
@@ -649,21 +656,26 @@
             // Add bot response
             const botBubble = document.createElement('div');
             botBubble.className = 'chat-bubble bot';
+            botBubble.innerHTML = window.aikonChatRespond(query);
             
-            if (results.length === 0) {
-                botBubble.textContent = 'Jawaban tidak ditemukan.';
-            } else {
-                const res = results[0];
-                botBubble.innerHTML = `
-                    <strong>${res.type}: ${res.title}</strong><br><br>
-                    ${res.desc}<br><br>
-                    ${res.link && res.link !== '#' ? `<a href="#" onclick="event.preventDefault(); downloadFile('${res.link}', '${res.title.replace(/'/g, "\\'")}')" style="background:var(--primary-blue); color:white; padding:6px 12px; border-radius:6px; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-weight:600; text-decoration:none;"><i data-lucide="download" size="12"></i> Unduh Dokumen</a>` : ''}
-                `;
-            }
             messagesContainer.appendChild(botBubble);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             lucide.createIcons();
         }
+
+        window.openChatWidgetWithGreeting = function() {
+            const widget = document.getElementById('floatingChatWidget');
+            widget.style.display = 'flex';
+            
+            const messagesContainer = document.getElementById('chatWidgetMessages');
+            messagesContainer.innerHTML = `
+                <div class="chat-bubble bot">
+                    Halo! Selamat datang di asisten cerdas AIKON. Silakan masukkan pertanyaan Anda di bawah ini mengenai dokumen, regulasi, atau alur kerja internal.
+                </div>
+            `;
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            lucide.createIcons();
+        };
 
         window.closeChatWidget = function(e) {
             if(e) e.stopPropagation();
@@ -685,39 +697,10 @@
             input.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Search in DB
-            const db = AikonDB.get();
-            const results = [];
-            db.sop.forEach(item => {
-                if (item.judul.toLowerCase().includes(text.toLowerCase()) || (item.deskripsi && item.deskripsi.toLowerCase().includes(text.toLowerCase()))) {
-                    results.push({ type: 'SOP', title: item.judul, desc: item.deskripsi || '', link: item.link || 'knowledge-base.html' });
-                }
-            });
-            db.regulasi.forEach(item => {
-                if (item.nomor.toLowerCase().includes(text.toLowerCase()) || item.tentang.toLowerCase().includes(text.toLowerCase())) {
-                    results.push({ type: 'Regulasi', title: item.nomor, desc: item.tentang, link: item.link || 'knowledge-base.html' });
-                }
-            });
-            db.faq.forEach(item => {
-                if (item.pertanyaan.toLowerCase().includes(text.toLowerCase()) || item.jawaban.toLowerCase().includes(text.toLowerCase())) {
-                    results.push({ type: 'FAQ', title: item.pertanyaan, desc: item.jawaban, link: '#' });
-                }
-            });
-            
             setTimeout(() => {
                 const botBubble = document.createElement('div');
                 botBubble.className = 'chat-bubble bot';
-                
-                if (results.length === 0) {
-                    botBubble.textContent = 'Jawaban tidak ditemukan.';
-                } else {
-                    const res = results[0];
-                    botBubble.innerHTML = `
-                        <strong>${res.type}: ${res.title}</strong><br><br>
-                        ${res.desc}<br><br>
-                        ${res.link && res.link !== '#' ? `<a href="#" onclick="event.preventDefault(); downloadFile('${res.link}', '${res.title.replace(/'/g, "\\'")}')" style="background:var(--primary-blue); color:white; padding:6px 12px; border-radius:6px; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-weight:600; text-decoration:none;"><i data-lucide="download" size="12"></i> Unduh Dokumen</a>` : ''}
-                    `;
-                }
+                botBubble.innerHTML = window.aikonChatRespond(text);
                 messagesContainer.appendChild(botBubble);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 lucide.createIcons();

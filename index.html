@@ -424,7 +424,7 @@
 
                 <div class="form-options">
                     <label class="remember-me">
-                        <input type="checkbox">
+                        <input type="checkbox" id="rememberMeCheckbox">
                         Ingat saya di perangkat ini
                     </label>
                     <button type="button" class="forgot-password-link" onclick="openForgotPasswordModal()">Lupa password?</button>
@@ -476,6 +476,19 @@
     <script>
         lucide.createIcons();
 
+        // Auto-fill remembered credentials on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const isRemembered = localStorage.getItem('aikon_remember_me') === 'true';
+            if (isRemembered) {
+                const rememberedNpp = localStorage.getItem('aikon_remembered_npp');
+                const rememberedPass = localStorage.getItem('aikon_remembered_pass');
+                if (rememberedNpp) document.getElementById('username').value = rememberedNpp;
+                if (rememberedPass) document.getElementById('password').value = rememberedPass;
+                const checkbox = document.getElementById('rememberMeCheckbox');
+                if (checkbox) checkbox.checked = true;
+            }
+        });
+
         // Handle Login Submission
         function handleLogin(event) {
             event.preventDefault();
@@ -496,6 +509,18 @@
             if (foundUser && foundUser.status === 'Aktif') {
                 if (foundUser.password === pass) {
                     console.log('Login success for NPP:', npp);
+                    // Save remember me status
+                    const rememberMe = document.getElementById('rememberMeCheckbox').checked;
+                    if (rememberMe) {
+                        localStorage.setItem('aikon_remember_me', 'true');
+                        localStorage.setItem('aikon_remembered_npp', npp);
+                        localStorage.setItem('aikon_remembered_pass', pass);
+                    } else {
+                        localStorage.removeItem('aikon_remember_me');
+                        localStorage.removeItem('aikon_remembered_npp');
+                        localStorage.removeItem('aikon_remembered_pass');
+                    }
+
                     // Save session in localStorage
                     localStorage.setItem('aikon_current_user', JSON.stringify(foundUser));
                     window.location.href = "home.html";
@@ -535,10 +560,24 @@
 
         function handleResetPassword(event) {
             event.preventDefault();
-            const resetNpp = document.getElementById('resetNpp').value;
-            const resetEmail = document.getElementById('resetEmail').value;
+            const resetNpp = document.getElementById('resetNpp').value.trim();
+            const resetEmail = document.getElementById('resetEmail').value.trim();
             
-            console.log(`Reset link requested for NPP: ${resetNpp}, Email: ${resetEmail}`);
+            const users = AikonDB.getTable('users');
+            const foundUser = users.find(u => u.npp === resetNpp);
+            
+            if (!foundUser) {
+                alert("NPP tidak terdaftar dalam sistem!");
+                return;
+            }
+            
+            // Construct mailto link to send the email
+            const subject = encodeURIComponent("Pemulihan Password AIKON BPJS Kesehatan");
+            const body = encodeURIComponent(`Yth. ${foundUser.nama},\n\nBerikut adalah password akun AIKON Anda sesuai permintaan pemulihan:\n\nNPP: ${foundUser.npp}\nPassword: ${foundUser.password}\n\nSilakan gunakan password tersebut untuk masuk ke sistem.\n\nSalam,\nTim IT BPJS Kesehatan`);
+            const mailtoUrl = `mailto:${resetEmail}?subject=${subject}&body=${body}`;
+            
+            // Redirect to mail client
+            window.location.href = mailtoUrl;
             
             closeForgotPasswordModal();
             

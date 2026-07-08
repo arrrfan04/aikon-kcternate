@@ -256,6 +256,10 @@
                 <i data-lucide="users"></i>
                 <span>Manajemen User</span>
             </button>
+            <button class="nav-item" onclick="switchPage('onboarding', this)">
+                <i data-lucide="graduation-cap"></i>
+                <span>Update Onboarding</span>
+            </button>
         </nav>
         <div class="sidebar-footer">
             <a href="admin-login.html" class="nav-item">
@@ -347,22 +351,30 @@
 
                 <div class="dashboard-card">
                     <h2>User Pegawai per Unit Kerja</h2>
-                    <div class="chart-container" style="display:flex; align-items:flex-end; justify-content:space-between; height:150px; border-bottom:1px solid #F1F5F9; padding-bottom:8px;">
+                    <div class="chart-container" style="display:flex; align-items:flex-end; justify-content:space-between; height:150px; border-bottom:1px solid #F1F5F9; padding-bottom:8px; gap: 4px;">
                         <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 100px; width:24px; background:var(--secondary-cyan); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">25</span></div>
-                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">FO</span>
+                            <div class="chart-bar" style="height: 40px; width:20px; background:var(--secondary-cyan); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
+                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">SDMUK</span>
                         </div>
                         <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 120px; width:24px; background:var(--primary-blue); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">30</span></div>
-                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">Layanan</span>
+                            <div class="chart-bar" style="height: 40px; width:20px; background:var(--primary-blue); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
+                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">Kepesertaan</span>
                         </div>
                         <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 80px; width:24px; background:#EA580C; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">20</span></div>
-                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">Klaim</span>
+                            <div class="chart-bar" style="height: 40px; width:20px; background:#EA580C; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
+                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">Pel. Peserta</span>
                         </div>
                         <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 40px; width:24px; background:var(--success-green); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">10</span></div>
-                            <span class="chart-label" style="font-size:11px; color:var(--text-muted);">TI</span>
+                            <div class="chart-bar" style="height: 40px; width:20px; background:var(--success-green); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
+                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">Pel. Faskes</span>
+                        </div>
+                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
+                            <div class="chart-bar" style="height: 40px; width:20px; background:#8B5CF6; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
+                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">PKP</span>
+                        </div>
+                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
+                            <div class="chart-bar" style="height: 40px; width:20px; background:#EC4899; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
+                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">PMU</span>
                         </div>
                     </div>
                 </div>
@@ -824,6 +836,7 @@
                             <th>NPP</th>
                             <th>Nama Pegawai</th>
                             <th>Unit Kerja</th>
+                            <th>Password</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -853,9 +866,164 @@
                 </table>
             </div>
         </div>
+
+        <!-- SECTION 8: ONBOARDING -->
+        <div id="onboarding" class="admin-page-content">
+            <header class="content-header">
+                <h1>Update Onboarding</h1>
+                <p>Kelola dan perbarui konten modul panduan onboarding staf baru.</p>
+            </header>
+
+            <!-- Edit Form for Onboarding -->
+            <div class="form-container" id="formOnboarding" style="display:none; margin-bottom:24px;">
+                <h2 style="font-size:18px; font-weight:700; color:var(--navy-blue); margin-bottom:16px;">Form Edit Modul Onboarding</h2>
+                <form id="submitFormOnboarding" onsubmit="handleFormSubmit(event, 'onboarding')">
+                    <div style="display:flex; flex-direction:column; gap:16px;">
+                        <div class="form-group">
+                            <label>Judul Modul</label>
+                            <input type="text" id="onboardingTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label>HTML Konten Modul</label>
+                            <textarea id="onboardingContent" rows="12" style="font-family:monospace; font-size:13px; line-height:1.6;" placeholder="Masukkan konten modul dengan HTML tag..." required></textarea>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:12px; margin-top:20px;">
+                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Perbarui Modul Onboarding</button>
+                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formOnboarding')">Batal</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px;">No Modul</th>
+                            <th>Judul Modul</th>
+                            <th style="width: 150px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="onboardingList">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <script>
+        // Global variables for edit state
+        let editTable = null;
+        let editIndex = null;
+
+        function resetFormTitles() {
+            if (document.getElementById('formSop')) {
+                document.querySelector('#formSop h2').innerText = 'Form Tambah / Edit SOP';
+                document.querySelector('#formSop button[type="submit"]').innerText = 'Simpan SOP';
+            }
+            if (document.getElementById('formRegulasi')) {
+                document.querySelector('#formRegulasi h2').innerText = 'Form Tambah / Edit Regulasi';
+                document.querySelector('#formRegulasi button[type="submit"]').innerText = 'Simpan Regulasi';
+            }
+            if (document.getElementById('formPanduan')) {
+                document.querySelector('#formPanduan h2').innerText = 'Form Tambah / Edit Panduan';
+                document.querySelector('#formPanduan button[type="submit"]').innerText = 'Simpan Panduan';
+            }
+            if (document.getElementById('formDokumen')) {
+                document.querySelector('#formDokumen h2').innerText = 'Form Tambah / Edit Dokumen';
+                document.querySelector('#formDokumen button[type="submit"]').innerText = 'Simpan Dokumen';
+            }
+            if (document.getElementById('formFaq')) {
+                document.querySelector('#formFaq h2').innerText = 'Form Tambah / Edit FAQ';
+                document.querySelector('#formFaq button[type="submit"]').innerText = 'Simpan FAQ';
+            }
+            if (document.getElementById('formUser')) {
+                document.querySelector('#formUser h2').innerText = 'Form Tambah Pegawai Baru';
+                document.querySelector('#formUser button[type="submit"]').innerText = 'Simpan Akun Pegawai';
+            }
+            if (document.getElementById('formOnboarding')) {
+                document.querySelector('#formOnboarding h2').innerText = 'Form Edit Modul Onboarding';
+                document.querySelector('#formOnboarding button[type="submit"]').innerText = 'Perbarui Modul Onboarding';
+            }
+        }
+
+        window.editDbRow = function(table, index) {
+            const db = AikonDB.get();
+            const data = db[table][index];
+            if (!data) return;
+
+            editTable = table;
+            editIndex = index;
+
+            // Show and populate the appropriate form
+            let formId = '';
+            if (table === 'sop') {
+                formId = 'formSop';
+                document.getElementById('sopKode').value = data.kode || '';
+                document.getElementById('sopNama').value = data.judul || '';
+                document.getElementById('sopKategori').value = data.kategori || '';
+                document.getElementById('sopTanggal').value = data.tanggal || '';
+                document.getElementById('sopLink').value = data.link || '';
+                document.getElementById('sopDeskripsi').value = data.deskripsi || '';
+                document.querySelector(`#${formId} h2`).innerText = 'Form Edit SOP';
+                document.querySelector(`#${formId} button[type="submit"]`).innerText = 'Perbarui SOP';
+            } else if (table === 'regulasi') {
+                formId = 'formRegulasi';
+                document.getElementById('regulasiNomor').value = data.nomor || '';
+                document.getElementById('regulasiTentang').value = data.tentang || '';
+                document.getElementById('regulasiJenis').value = data.jenis || '';
+                document.getElementById('regulasiTanggal').value = data.tanggal || '';
+                document.getElementById('regulasiMasaBerlaku').value = data.masa_berlaku === 'Selamanya' ? '' : data.masa_berlaku || '';
+                document.getElementById('regulasiLink').value = data.link || '';
+                document.getElementById('regulasiIntisari').value = data.ringkasan || '';
+                document.querySelector(`#${formId} h2`).innerText = 'Form Edit Regulasi';
+                document.querySelector(`#${formId} button[type="submit"]`).innerText = 'Perbarui Regulasi';
+            } else if (table === 'panduan') {
+                formId = 'formPanduan';
+                document.getElementById('panduanJudul').value = data.judul || '';
+                document.getElementById('panduanModul').value = data.modul || '';
+                document.getElementById('panduanDesc').value = data.deskripsi || '';
+                document.getElementById('panduanLink').value = data.link || '';
+                document.querySelector(`#${formId} h2`).innerText = 'Form Edit Panduan';
+                document.querySelector(`#${formId} button[type="submit"]`).innerText = 'Perbarui Panduan';
+            } else if (table === 'dokumen') {
+                formId = 'formDokumen';
+                document.getElementById('dokumenNama').value = data.nama || '';
+                document.getElementById('dokumenTipe').value = data.tipe || '';
+                document.getElementById('dokumenTanggal').value = data.tanggal || '';
+                document.getElementById('dokumenLink').value = data.link || '';
+                document.querySelector(`#${formId} h2`).innerText = 'Form Edit Dokumen';
+                document.querySelector(`#${formId} button[type="submit"]`).innerText = 'Perbarui Dokumen';
+            } else if (table === 'faq') {
+                formId = 'formFaq';
+                document.getElementById('faqPertanyaan').value = data.pertanyaan || '';
+                document.getElementById('faqJawaban').value = data.jawaban || '';
+                document.querySelector(`#${formId} h2`).innerText = 'Form Edit FAQ';
+                document.querySelector(`#${formId} button[type="submit"]`).innerText = 'Perbarui FAQ';
+            } else if (table === 'users') {
+                formId = 'formUser';
+                document.getElementById('addName').value = data.nama || '';
+                document.getElementById('addNpp').value = data.npp || '';
+                document.getElementById('addUnit').value = data.unit || '';
+                document.getElementById('addPassword').value = data.password || '';
+                document.querySelector(`#${formId} h2`).innerText = 'Form Edit Pegawai';
+                document.querySelector(`#${formId} button[type="submit"]`).innerText = 'Perbarui Akun Pegawai';
+            } else if (table === 'onboarding') {
+                formId = 'formOnboarding';
+                document.getElementById('onboardingTitle').value = data.title || '';
+                document.getElementById('onboardingContent').value = data.content || '';
+                document.querySelector(`#${formId} h2`).innerText = 'Form Edit Modul Onboarding';
+                document.querySelector(`#${formId} button[type="submit"]`).innerText = 'Perbarui Modul Onboarding';
+            }
+
+            const formElement = document.getElementById(formId);
+            if (formElement) {
+                formElement.style.display = 'block';
+                formElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
         lucide.createIcons();
 
         // Switch admin sub-pages
@@ -888,11 +1056,16 @@
 
         // Toggle Form container visibility
         function toggleForm(formId) {
-            const form = document.getElementById(formId);
-            if (form.style.display === "none") {
-                form.style.display = "block";
+            const container = document.getElementById(formId);
+            if (container.style.display === "none") {
+                container.style.display = "block";
             } else {
-                form.style.display = "none";
+                container.style.display = "none";
+                editTable = null;
+                editIndex = null;
+                resetFormTitles();
+                const f = container.querySelector('form');
+                if (f) f.reset();
             }
         }
 
@@ -932,49 +1105,86 @@
                 }
             }
 
-            // User division bar chart
+            // User division bar chart (6 categories)
             const chartContainer = document.querySelector('.chart-container');
             if (chartContainer) {
                 const wrappers = chartContainer.querySelectorAll('.chart-bar-wrapper');
-                if (wrappers.length >= 4) {
-                    let countFo = 0;
-                    let countLayanan = 0;
-                    let countKlaim = 0;
-                    let countTi = 0;
+                if (wrappers.length >= 6) {
+                    let countSdmuk = 0;
+                    let countKepesertaan = 0;
+                    let countPelPeserta = 0;
+                    let countPelFaskes = 0;
+                    let countPkp = 0;
+                    let countPmu = 0;
 
                     db.users.forEach(user => {
-                        const u = (user.unit || '').toLowerCase();
-                        if (u.includes('fo') || u.includes('front office')) {
-                            countFo++;
-                        } else if (u.includes('pelayanan') || u.includes('kepesertaan')) {
-                            countLayanan++;
-                        } else if (u.includes('klaim') || u.includes('pkp') || u.includes('faskes')) {
-                            countKlaim++;
-                        } else {
-                            countTi++;
+                        const u = user.unit || '';
+                        if (u === 'Bagian SDMUK') countSdmuk++;
+                        else if (u === 'Bagian Kepesertaan') countKepesertaan++;
+                        else if (u === 'Bagian Pelayanan Peserta') countPelPeserta++;
+                        else if (u === 'Bagian Pelayanan Faskes') countPelFaskes++;
+                        else if (u === 'Bagian PKP') countPkp++;
+                        else if (u === 'Bagian PMU') countPmu++;
+                        else {
+                            // Fallback based on partial matching for initial data
+                            const lowerU = u.toLowerCase();
+                            if (lowerU.includes('sdm')) countSdmuk++;
+                            else if (lowerU.includes('kepesertaan')) countKepesertaan++;
+                            else if (lowerU.includes('pelayanan') || lowerU.includes('fo') || lowerU.includes('front')) countPelPeserta++;
+                            else if (lowerU.includes('faskes')) countPelFaskes++;
+                            else if (lowerU.includes('pkp')) countPkp++;
+                            else if (lowerU.includes('pmu')) countPmu++;
                         }
                     });
 
-                    const maxCount = Math.max(countFo, countLayanan, countKlaim, countTi) || 1;
+                    const maxCount = Math.max(countSdmuk, countKepesertaan, countPelPeserta, countPelFaskes, countPkp, countPmu) || 1;
                     
                     const maxHeight = 120;
-                    const hFo = Math.max(20, Math.round((countFo / maxCount) * maxHeight));
-                    const hLayanan = Math.max(20, Math.round((countLayanan / maxCount) * maxHeight));
-                    const hKlaim = Math.max(20, Math.round((countKlaim / maxCount) * maxHeight));
-                    const hTi = Math.max(20, Math.round((countTi / maxCount) * maxHeight));
+                    const hSdmuk = Math.max(10, Math.round((countSdmuk / maxCount) * maxHeight));
+                    const hKepesertaan = Math.max(10, Math.round((countKepesertaan / maxCount) * maxHeight));
+                    const hPelPeserta = Math.max(10, Math.round((countPelPeserta / maxCount) * maxHeight));
+                    const hPelFaskes = Math.max(10, Math.round((countPelFaskes / maxCount) * maxHeight));
+                    const hPkp = Math.max(10, Math.round((countPkp / maxCount) * maxHeight));
+                    const hPmu = Math.max(10, Math.round((countPmu / maxCount) * maxHeight));
 
-                    wrappers[0].querySelector('.chart-bar').style.height = `${hFo}px`;
-                    wrappers[0].querySelector('.chart-bar-value').innerText = countFo;
+                    const counts = [countSdmuk, countKepesertaan, countPelPeserta, countPelFaskes, countPkp, countPmu];
+                    const heights = [hSdmuk, hKepesertaan, hPelPeserta, hPelFaskes, hPkp, hPmu];
 
-                    wrappers[1].querySelector('.chart-bar').style.height = `${hLayanan}px`;
-                    wrappers[1].querySelector('.chart-bar-value').innerText = countLayanan;
-
-                    wrappers[2].querySelector('.chart-bar').style.height = `${hKlaim}px`;
-                    wrappers[2].querySelector('.chart-bar-value').innerText = countKlaim;
-
-                    wrappers[3].querySelector('.chart-bar').style.height = `${hTi}px`;
-                    wrappers[3].querySelector('.chart-bar-value').innerText = countTi;
+                    for (let i = 0; i < 6; i++) {
+                        wrappers[i].querySelector('.chart-bar').style.height = `${heights[i]}px`;
+                        wrappers[i].querySelector('.chart-bar-value').innerText = counts[i];
+                    }
                 }
+            }
+
+            // Render Activity Timeline from Database
+            const activityTimeline = document.querySelector('.activity-timeline');
+            if (activityTimeline) {
+                const activities = db.activities || [];
+                activityTimeline.innerHTML = activities.map(act => {
+                    let icon = 'info';
+                    if (act.type.includes('user')) icon = 'user-plus';
+                    else if (act.type.includes('regulasi')) icon = 'shield-alert';
+                    else if (act.type.includes('sop')) icon = 'file-text';
+                    else if (act.type.includes('panduan')) icon = 'book-open';
+                    else if (act.type.includes('dokumen')) icon = 'files';
+                    else if (act.type.includes('faq')) icon = 'help-circle';
+                    
+                    return `
+                        <div class="activity-timeline-item">
+                            <div class="activity-timeline-icon ${act.type}">
+                                <i data-lucide="${icon}" size="16"></i>
+                            </div>
+                            <div class="activity-timeline-content">
+                                <div class="activity-timeline-header">
+                                    <span class="activity-timeline-title">${act.action}: <strong>${act.title}</strong></span>
+                                    <span class="activity-timeline-time">${act.time}</span>
+                                </div>
+                                <p class="activity-timeline-desc">${act.desc || ''}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
             }
 
             // Render SOP Table
@@ -988,6 +1198,7 @@
                         <td>${item.tanggal || ''}</td>
                         <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.deskripsi || ''}</td>
                         <td>
+                            <button class="btn-action-edit" onclick="editDbRow('sop', ${idx})">Edit</button>
                             <button class="btn-action-delete" onclick="deleteDbRow('sop', ${idx})">Hapus</button>
                         </td>
                     </tr>
@@ -1006,6 +1217,7 @@
                         <td><strong>${item.masa_berlaku || 'Selamanya'}</strong></td>
                         <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.ringkasan || ''}</td>
                         <td>
+                            <button class="btn-action-edit" onclick="editDbRow('regulasi', ${idx})">Edit</button>
                             <button class="btn-action-delete" onclick="deleteDbRow('regulasi', ${idx})">Hapus</button>
                         </td>
                     </tr>
@@ -1021,6 +1233,7 @@
                         <td>${item.modul || ''}</td>
                         <td>${item.deskripsi || ''}</td>
                         <td>
+                            <button class="btn-action-edit" onclick="editDbRow('panduan', ${idx})">Edit</button>
                             <button class="btn-action-delete" onclick="deleteDbRow('panduan', ${idx})">Hapus</button>
                         </td>
                     </tr>
@@ -1036,6 +1249,7 @@
                         <td>${item.tipe || ''}</td>
                         <td>${item.tanggal || ''}</td>
                         <td>
+                            <button class="btn-action-edit" onclick="editDbRow('dokumen', ${idx})">Edit</button>
                             <button class="btn-action-delete" onclick="deleteDbRow('dokumen', ${idx})">Hapus</button>
                         </td>
                     </tr>
@@ -1050,13 +1264,14 @@
                         <td style="font-weight:600; color:var(--text-main); max-width:250px; white-space:normal;">${item.pertanyaan || ''}</td>
                         <td style="white-space:normal; max-width:400px;">${item.jawaban || ''}</td>
                         <td>
+                            <button class="btn-action-edit" onclick="editDbRow('faq', ${idx})">Edit</button>
                             <button class="btn-action-delete" onclick="deleteDbRow('faq', ${idx})">Hapus</button>
                         </td>
                     </tr>
                 `).join('');
             }
 
-            // Render Users Table
+            // Render Users Table with Password column
             const userBody = document.getElementById('userList');
             if (userBody) {
                 userBody.innerHTML = db.users.map((item, idx) => `
@@ -1064,9 +1279,25 @@
                         <td>${item.npp || ''}</td>
                         <td style="font-weight:600; color:var(--text-main);">${item.nama || ''}</td>
                         <td>${item.unit || ''}</td>
+                        <td><code>${item.password || ''}</code></td>
                         <td><span class="status-badge active">${item.status || 'Aktif'}</span></td>
                         <td>
+                            <button class="btn-action-edit" onclick="editDbRow('users', ${idx})">Edit</button>
                             <button class="btn-action-delete" onclick="deleteDbRow('users', ${idx})">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Onboarding Table
+            const onboardingBody = document.getElementById('onboardingList');
+            if (onboardingBody) {
+                onboardingBody.innerHTML = (db.onboarding || []).map((item, idx) => `
+                    <tr>
+                        <td style="font-weight:700; color:var(--navy-blue);">${item.id}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.title || ''}</td>
+                        <td>
+                            <button class="btn-action-edit" onclick="editDbRow('onboarding', ${idx})">Edit Modul</button>
                         </td>
                     </tr>
                 `).join('');
@@ -1076,26 +1307,52 @@
         // Delete row helper
         window.deleteDbRow = function(table, index) {
             if (confirm('Apakah Anda yakin ingin menghapus baris data ini?')) {
+                const db = AikonDB.get();
+                const row = db[table][index];
+                let title = '';
+                if (table === 'sop') title = row.judul;
+                else if (table === 'regulasi') title = row.nomor;
+                else if (table === 'panduan') title = row.judul;
+                else if (table === 'dokumen') title = row.nama;
+                else if (table === 'faq') title = row.pertanyaan;
+                else if (table === 'users') title = row.nama + " (NPP: " + row.npp + ")";
+
                 AikonDB.deleteRow(table, index);
+                
+                // Add activity log
+                let tableLabel = table.toUpperCase();
+                if (table === 'users') tableLabel = 'Pegawai';
+                AikonDB.addActivity("Menghapus " + tableLabel, title, "Data " + tableLabel.toLowerCase() + " telah dihapus dari database oleh Admin.", table + "-delete");
+                
                 refreshAllTables();
-                showToast('Data berhasil dihapus dan disinkronkan ke spreadsheet!');
+                showToast('Data berhasil dihapus!');
             }
         };
 
-        // Handle Add Form Submissions
+        // Handle Add & Edit Form Submissions
         function handleFormSubmit(event, type) {
             event.preventDefault();
             const form = event.target;
+            const table = type === 'user' ? 'users' : type;
+            const isEdit = editTable === table && editIndex !== null;
 
             if (type === 'user') {
                 const name = document.getElementById('addName').value;
                 const npp = document.getElementById('addNpp').value;
                 const unit = document.getElementById('addUnit').value;
                 const password = document.getElementById('addPassword').value;
+                const userData = { npp: npp, nama: name, unit: unit, password: password, status: 'Aktif' };
 
-                AikonDB.addRow('users', { npp: npp, nama: name, unit: unit, password: password, status: 'Aktif' });
+                if (isEdit) {
+                    AikonDB.updateRow('users', editIndex, userData);
+                    AikonDB.addActivity("Memperbarui Pegawai", name + " (NPP: " + npp + ")", "Data akun pegawai di divisi " + unit + " telah diperbarui oleh Admin.", "user-update");
+                    showToast(`Akun pegawai ${name} berhasil diperbarui!`);
+                } else {
+                    AikonDB.addRow('users', userData);
+                    AikonDB.addActivity("Menambahkan Pegawai", name + " (NPP: " + npp + ")", "Akun pegawai baru di divisi " + unit + " telah aktif di sistem.", "user-add");
+                    showToast(`Akun pegawai ${name} berhasil ditambahkan!`);
+                }
                 document.getElementById('formUser').style.display = "none";
-                showToast(`Akun pegawai ${name} berhasil ditambahkan ke spreadsheet!`);
             } else if (type === 'sop') {
                 const kode = document.getElementById('sopKode').value;
                 const judul = document.getElementById('sopNama').value;
@@ -1103,10 +1360,18 @@
                 const tanggal = document.getElementById('sopTanggal').value;
                 const link = document.getElementById('sopLink').value;
                 const deskripsi = document.getElementById('sopDeskripsi').value;
+                const sopData = { kode: kode, judul: judul, kategori: kategori, tanggal: tanggal, link: link, deskripsi: deskripsi };
 
-                AikonDB.addRow('sop', { kode: kode, judul: judul, kategori: kategori, tanggal: tanggal, link: link, deskripsi: deskripsi });
+                if (isEdit) {
+                    AikonDB.updateRow('sop', editIndex, sopData);
+                    AikonDB.addActivity("Memperbarui SOP Kerja", judul, "SOP dengan kode " + kode + " telah diperbarui oleh Admin.", "sop-update");
+                    showToast('SOP kerja berhasil diperbarui!');
+                } else {
+                    AikonDB.addRow('sop', sopData);
+                    AikonDB.addActivity("Menambahkan SOP Kerja", judul, "SOP kerja baru dengan kode " + kode + " telah berhasil diunggah.", "sop-add");
+                    showToast('SOP kerja baru berhasil ditambahkan!');
+                }
                 document.getElementById('formSop').style.display = "none";
-                showToast('SOP kerja baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'regulasi') {
                 const nomor = document.getElementById('regulasiNomor').value;
                 const tentang = document.getElementById('regulasiTentang').value;
@@ -1115,36 +1380,87 @@
                 const masa_berlaku = document.getElementById('regulasiMasaBerlaku').value || 'Selamanya';
                 const link = document.getElementById('regulasiLink').value;
                 const ringkasan = document.getElementById('regulasiIntisari').value;
+                const regulasiData = { nomor: nomor, tentang: tentang, jenis: jenis, tanggal: tanggal, masa_berlaku: masa_berlaku, link: link, ringkasan: ringkasan };
 
-                AikonDB.addRow('regulasi', { nomor: nomor, tentang: tentang, jenis: jenis, tanggal: tanggal, masa_berlaku: masa_berlaku, link: link, ringkasan: ringkasan });
+                if (isEdit) {
+                    AikonDB.updateRow('regulasi', editIndex, regulasiData);
+                    AikonDB.addActivity("Memperbarui Regulasi", nomor, tentang, "regulasi-update");
+                    showToast('Regulasi berhasil diperbarui!');
+                } else {
+                    AikonDB.addRow('regulasi', regulasiData);
+                    AikonDB.addActivity("Menambahkan Regulasi", nomor, tentang, "regulasi-add");
+                    showToast('Regulasi baru berhasil ditambahkan!');
+                }
                 document.getElementById('formRegulasi').style.display = "none";
-                showToast('Regulasi baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'panduan') {
                 const judul = document.getElementById('panduanJudul').value;
                 const modul = document.getElementById('panduanModul').value;
                 const deskripsi = document.getElementById('panduanDesc').value;
                 const link = document.getElementById('panduanLink').value;
+                const panduanData = { judul: judul, modul: modul, deskripsi: deskripsi, link: link };
 
-                AikonDB.addRow('panduan', { judul: judul, modul: modul, deskripsi: deskripsi, link: link });
+                if (isEdit) {
+                    AikonDB.updateRow('panduan', editIndex, panduanData);
+                    AikonDB.addActivity("Memperbarui Panduan Kerja", judul, "Panduan kerja operasional tentang " + modul + " telah diperbarui.", "panduan-update");
+                    showToast('Panduan berhasil diperbarui!');
+                } else {
+                    AikonDB.addRow('panduan', panduanData);
+                    AikonDB.addActivity("Menambahkan Panduan Kerja", judul, "Panduan kerja operasional modul " + modul + " baru telah ditambahkan.", "panduan-add");
+                    showToast('Panduan baru berhasil ditambahkan!');
+                }
                 document.getElementById('formPanduan').style.display = "none";
-                showToast('Panduan baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'dokumen') {
                 const nama = document.getElementById('dokumenNama').value;
                 const tipe = document.getElementById('dokumenTipe').value;
                 const tanggal = document.getElementById('dokumenTanggal').value;
                 const link = document.getElementById('dokumenLink').value;
+                const dokumenData = { nama: nama, tipe: tipe, tanggal: tanggal, link: link };
 
-                AikonDB.addRow('dokumen', { nama: nama, tipe: tipe, tanggal: tanggal, link: link });
+                if (isEdit) {
+                    AikonDB.updateRow('dokumen', editIndex, dokumenData);
+                    AikonDB.addActivity("Memperbarui Dokumen", nama, "Berkas formulir resmi bertipe " + tipe + " telah diperbarui.", "dokumen-update");
+                    showToast('Dokumen berhasil diperbarui!');
+                } else {
+                    AikonDB.addRow('dokumen', dokumenData);
+                    AikonDB.addActivity("Menambahkan Dokumen", nama, "Berkas formulir resmi baru dengan format " + tipe + " telah diunggah.", "dokumen-add");
+                    showToast('Dokumen baru berhasil ditambahkan!');
+                }
                 document.getElementById('formDokumen').style.display = "none";
-                showToast('Dokumen baru berhasil ditambahkan ke spreadsheet!');
             } else if (type === 'faq') {
                 const q = document.getElementById('faqPertanyaan').value;
                 const a = document.getElementById('faqJawaban').value;
+                const faqData = { pertanyaan: q, jawaban: a };
 
-                AikonDB.addRow('faq', { pertanyaan: q, jawaban: a });
+                if (isEdit) {
+                    AikonDB.updateRow('faq', editIndex, faqData);
+                    AikonDB.addActivity("Memperbarui FAQ", q, "Tanya-jawab FAQ operasional telah diperbarui oleh Admin.", "faq-update");
+                    showToast('FAQ berhasil diperbarui!');
+                } else {
+                    AikonDB.addRow('faq', faqData);
+                    AikonDB.addActivity("Menambahkan FAQ", q, "Pertanyaan FAQ baru telah ditambahkan sebagai rujukan asisten.", "faq-add");
+                    showToast('FAQ baru berhasil ditambahkan!');
+                }
                 document.getElementById('formFaq').style.display = "none";
-                showToast('FAQ baru berhasil ditambahkan ke spreadsheet!');
+            } else if (type === 'onboarding') {
+                const title = document.getElementById('onboardingTitle').value;
+                const content = document.getElementById('onboardingContent').value;
+                
+                const localDb = AikonDB.get();
+                const existing = localDb.onboarding[editIndex];
+                const onboardingData = { ...existing, title: title, content: content };
+
+                if (isEdit) {
+                    AikonDB.updateRow('onboarding', editIndex, onboardingData);
+                    AikonDB.addActivity("Memperbarui Onboarding", title, "Konten panduan onboarding Modul " + (editIndex + 1) + " telah diperbarui oleh Admin.", "onboarding-update");
+                    showToast('Konten modul onboarding berhasil diperbarui!');
+                }
+                document.getElementById('formOnboarding').style.display = "none";
             }
+
+            // Reset editing state
+            editTable = null;
+            editIndex = null;
+            resetFormTitles();
 
             form.reset();
             refreshAllTables();

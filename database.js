@@ -34,11 +34,139 @@ const DEFAULT_DATABASE = {
         { id: 1, nama: "Budi Santoso", npp: "12345", unit: "Bagian Kepesertaan", password: "12345", status: "Aktif" },
         { id: 2, nama: "Siti Rahmawati", npp: "98321", unit: "Bagian Pelayanan Peserta", password: "98321", status: "Aktif" },
         { id: 3, nama: "Admin KC Ternate", npp: "kcternate2503", unit: "Bagian SDMUK", password: "adminkcternate123", status: "Aktif" }
+    ],
+    activities: [
+        { id: 1, action: "Menambahkan SOP Kerja", title: "Validasi Pendaftaran Bayi Baru Lahir", desc: "Mengunggah alur verifikasi data BBL untuk peserta segmen Penerima Bantuan Iuran (PBI).", time: "Kemarin", type: "sop-add" },
+        { id: 2, action: "Memperbarui Regulasi", title: "BPJS No. 4 Tahun 2026 Kapitasi FKTP", desc: "Melakukan update intisari peraturan penyesuaian tarif kapitasi dan non-kapitasi.", time: "Kemarin", type: "regulasi-update" }
+    ],
+    onboarding: [
+        {
+            id: 1,
+            title: "1. Selamat Datang",
+            content: `<h2>1. Selamat Datang di AIKON</h2>
+<p class="step-description">Selamat bergabung di BPJS Kesehatan Kantor Cabang Ternate! AIKON (Asisten Konten Pengetahuan) dirancang untuk membantu Anda memahami tugas, SOP, regulasi, dan materi pembelajaran lainnya dengan mudah.</p>
+<div class="summary-box">
+    <h3>Orientasi Awal</h3>
+    <p>Sebagai staf baru, Anda diharapkan dapat menyesuaikan diri dengan cepat. Silakan pelajari setiap modul panduan onboarding ini dan tandai selesai jika Anda telah memahaminya. Progres Anda akan langsung tercatat pada dashboard profil Anda.</p>
+</div>`
+        },
+        {
+            id: 2,
+            title: "2. Mengenal BPJS Kesehatan",
+            content: `<h2>2. Mengenal BPJS Kesehatan</h2>
+<p class="step-description">Mengenal struktur organisasi, tata nilai, serta visi dan misi BPJS Kesehatan.</p>
+<div class="summary-box" style="margin-bottom: 20px;">
+    <h3>Visi & Misi</h3>
+    <p><strong>Visi:</strong> Menjadi badan penyelenggara jaminan sosial kesehatan yang berkualitas, berkeadilan, dan berkelanjutan.</p>
+    <p style="margin-top: 10px;"><strong>Misi:</strong> Memberikan pelayanan prima kepada peserta, memperluas cakupan kepesertaan, serta menjaga kesinambungan keuangan program JKN.</p>
+</div>
+<div class="summary-box">
+    <h3>Tata Nilai Organisasi</h3>
+    <p>BPJS Kesehatan memiliki tata nilai utama yang disingkat <strong>PROFIT</strong>: Profesional, Respek, Orientasi Pelanggan, Integritas, Kepercayaan, dan Kerja Sama Tim.</p>
+</div>`
+        },
+        {
+            id: 3,
+            title: "3. Sistem & Aplikasi",
+            content: `<h2>3. Sistem & Aplikasi Utama</h2>
+<p class="step-description">Daftar sistem informasi internal yang akan Anda gunakan sehari-hari.</p>
+<div class="process-flow" style="display:flex; justify-content:space-around; gap:16px; margin-bottom:32px;">
+    <div class="flow-step" style="text-align:center;">
+        <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="smartphone"></i></div>
+        <span>Mobile JKN</span>
+    </div>
+    <div class="flow-step" style="text-align:center;">
+        <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="database"></i></div>
+        <span>VClaim & PCare</span>
+    </div>
+    <div class="flow-step" style="text-align:center;">
+        <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="users"></i></div>
+        <span>Edabu & SIPP</span>
+    </div>
+</div>
+<div class="summary-box">
+    <h3>Keterangan</h3>
+    <p>Aplikasi VClaim digunakan untuk verifikasi klaim rumah sakit, PCare untuk faskes primer, sedangkan Edabu digunakan oleh badan usaha terdaftar untuk mengelola kepesertaan karyawannya.</p>
+</div>`
+        },
+        {
+            id: 4,
+            title: "4. Alur Kerja Utama",
+            content: `<h2>4. Alur Kerja Utama</h2>
+<p class="step-description">Memahami alur kerja pemrosesan data dan pelayanan di Kantor Cabang.</p>
+<div class="process-flow">
+    <div class="flow-step">
+        <div class="flow-icon"><i data-lucide="file-input"></i></div>
+        <span>Input Permintaan</span>
+    </div>
+    <div class="flow-step">
+        <div class="flow-icon"><i data-lucide="user-check"></i></div>
+        <span>Verifikasi Data</span>
+    </div>
+    <div class="flow-step">
+        <div class="flow-icon"><i data-lucide="laptop"></i></div>
+        <span>Proses di Sistem</span>
+    </div>
+    <div class="flow-step">
+        <div class="flow-icon"><i data-lucide="info"></i></div>
+        <span>Tindak Lanjut</span>
+    </div>
+</div>
+<div class="summary-box">
+    <h3>Ringkasan Alur</h3>
+    <p>Alur kerja dimulai dari penerimaan berkas permintaan oleh front office, verifikasi kesesuaian berkas oleh penanggung jawab administrasi, entri data ke sistem aplikasi terkait, hingga penyerahan hasil tindak lanjut informasi kepada peserta.</p>
+</div>`
+        },
+        {
+            id: 5,
+            title: "5. Pelayanan Peserta",
+            content: `<h2>5. Pelayanan Peserta & Front Office</h2>
+<p class="step-description">Mempelajari standar pelayanan prima saat berhadapan langsung dengan peserta.</p>
+<div class="summary-box">
+    <h3>Service Level Agreement (SLA)</h3>
+    <p>1. Waktu tunggu pelayanan di loket maksimal 15 menit.<br>
+    2. Penanganan keluhan peserta langsung selesai di hari yang sama jika berkas lengkap.<br>
+    3. Mengedepankan 3S (Senyum, Sapa, Salam) serta empati tinggi terhadap kendala peserta.</p>
+</div>`
+        },
+        {
+            id: 6,
+            title: "6. Rangkuman Onboarding",
+            content: `<h2>6. Rangkuman Onboarding</h2>
+<p class="step-description">Selamat! Anda telah mempelajari seluruh materi dasar dan operasional di BPJS Kesehatan Kantor Cabang Ternate.</p>
+<div class="summary-box">
+    <h3>Ringkasan Pembelajaran</h3>
+    <p>1. <strong>Budaya Kerja BPJS</strong>: Menjunjung tinggi tata nilai PROFIT (Profesional, Respek, Orientasi Pelanggan, Integritas, Kepercayaan, Kerja Sama Tim).<br>
+    2. <strong>Aplikasi Utama</strong>: PCare, VClaim, Mobile JKN, Edabu, dan SIPP merupakan pondasi pelayanan digital kita.<br>
+    3. <strong>Pelayanan Prima</strong>: Standard SLA tunggu loket maksimal 15 menit, penanganan tuntas di hari yang sama, serta senyum, sapa, salam.</p>
+</div>
+<div class="summary-box" style="background:var(--light-blue); border: 1px dashed var(--primary-blue); margin-bottom: 0;">
+    <h3>Pernyataan Komitmen</h3>
+    <p>Sebagai staf BPJS Kesehatan, saya berkomitmen untuk bekerja dengan penuh integritas, mematuhi SOP kerja yang berlaku, dan terus memberikan kontribusi terbaik bagi pelayanan peserta Jaminan Kesehatan Nasional.</p>
+</div>`
+        }
     ]
 };
 
-// Initialize Local DB if empty
-if (!localStorage.getItem('aikon_database')) {
+// Initialize Local DB if empty or outdated (missing link properties or onboarding)
+let shouldResetDb = false;
+try {
+    const existingDb = localStorage.getItem('aikon_database');
+    if (!existingDb) {
+        shouldResetDb = true;
+    } else {
+        const parsed = JSON.parse(existingDb);
+        // Self-heal if the database exists but uses old schema without link properties or onboarding table
+        if (!parsed.sop || parsed.sop.length === 0 || !parsed.sop[0].hasOwnProperty('link') || !parsed.onboarding || !parsed.activities) {
+            shouldResetDb = true;
+        }
+    }
+} catch (e) {
+    shouldResetDb = true;
+}
+
+if (shouldResetDb) {
+    console.log('Outdated database schema detected, resetting to DEFAULT_DATABASE...');
     localStorage.setItem('aikon_database', JSON.stringify(DEFAULT_DATABASE));
 }
 
@@ -87,17 +215,37 @@ window.AikonDB = {
         return false;
     },
 
+    addActivity: function (action, title, desc, type) {
+        const db = this.get();
+        if (!db.activities) db.activities = [];
+        const id = db.activities.length > 0 ? Math.max(...db.activities.map(item => item.id || 0)) + 1 : 1;
+        const newActivity = {
+            id: id,
+            action: action,
+            title: title,
+            desc: desc,
+            time: "Baru saja",
+            type: type
+        };
+        db.activities.unshift(newActivity);
+        if (db.activities.length > 15) {
+            db.activities.pop();
+        }
+        this.save(db);
+    },
+
     // Sync Local Database to Google Sheet Web App
     syncToCloud: function () {
         const db = this.get();
-        const tables = ['sop', 'regulasi', 'panduan', 'dokumen', 'faq', 'users'];
+        const tables = ['sop', 'regulasi', 'panduan', 'dokumen', 'faq', 'users', 'activities'];
         const schemas = {
             sop: ['id', 'kode', 'judul', 'kategori', 'tanggal', 'link', 'deskripsi'],
             regulasi: ['id', 'nomor', 'tentang', 'jenis', 'tanggal', 'masa_berlaku', 'link', 'ringkasan'],
             panduan: ['id', 'judul', 'modul', 'deskripsi', 'link'],
             dokumen: ['id', 'nama', 'tipe', 'tanggal', 'link'],
             faq: ['id', 'pertanyaan', 'jawaban'],
-            users: ['id', 'nama', 'npp', 'unit', 'password', 'status']
+            users: ['id', 'nama', 'npp', 'unit', 'password', 'status'],
+            activities: ['id', 'action', 'title', 'desc', 'time', 'type']
         };
 
         tables.forEach(table => {
@@ -223,5 +371,214 @@ window.downloadFile = function (url, filename) {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+    }
+};
+
+// Global smart chatbot answering function for AIKON
+window.aikonChatRespond = function(query) {
+    const q = query.toLowerCase().trim();
+    
+    // 1. Smart Greetings Handling
+    if (q.match(/^(halo|hai|hello|selamat pagi|selamat siang|selamat sore|selamat malam|assalamualaikum)/)) {
+        return `Halo! Saya adalah <strong>AIKON Smart Assistant</strong> 🤖. Saya siap membantu Anda mencari dokumen rujukan, SOP, regulasi, dan informasi penting secara cepat.<br><br>
+        Anda dapat menanyakan hal-hal seperti:<br>
+        • <em>"SOP bayi baru lahir"</em><br>
+        • <em>"Regulasi tarif kapitasi"</em><br>
+        • <em>"Panduan aplikasi VClaim"</em><br>
+        • <em>"Update terbaru bulan ini"</em><br><br>
+        Ada yang bisa saya bantu hari ini?`;
+    }
+
+    // 2. Smart Contacts/Help Desk Handling
+    if (q.includes('kontak') || q.includes('telepon') || q.includes('alamat') || q.includes('kantor') || q.includes('bantuan') || q.includes('hubung') || q.includes('call center')) {
+        return `Berikut adalah informasi <strong>Pusat Bantuan & Kantor Cabang Ternate</strong>:<br><br>
+        📞 <strong>Telepon Kantor Cabang:</strong> 021165 (Fast Response)<br>
+        📍 <strong>Alamat Kantor:</strong> Jl. Cempaka, Maliaro, Kec. Ternate Tengah, Kota Ternate, Maluku Utara<br><br>
+        Anda juga dapat membaca buku panduan penggunaan aplikasi secara detail di halaman <a href="bantuan.html" style="color:var(--primary-blue); font-weight:600;">Bantuan</a>.`;
+    }
+
+    // 3. Smart Onboarding Status Checker
+    if (q.includes('onboarding') || q.includes('modul') || q.includes('kuis') || q.includes('selesai') || q.includes('tahap') || q.includes('progres belajar')) {
+        const currentUser = JSON.parse(localStorage.getItem('aikon_current_user')) || { npp: '12345', nama: 'Pegawai' };
+        const userProgressKey = 'aikon_onboarding_progress_' + currentUser.npp;
+        const progress = JSON.parse(localStorage.getItem(userProgressKey)) || { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+        const completed = Object.values(progress).filter(Boolean).length;
+        const percent = Math.round((completed / 6) * 100);
+        
+        return `Status program <strong>Onboarding</strong> Anda saat ini, Yth. <strong>${currentUser.nama}</strong>:<br><br>
+        📊 <strong>Progres Penyelesaian:</strong> ${percent}% (${completed} dari 6 modul selesai)<br><br>
+        Silakan pelajari seluruh modul panduan dan kuis evaluasi secara berurutan di menu <a href="onboarding.html" style="color:var(--primary-blue); font-weight:600;">Onboarding</a> untuk meningkatkan progres adaptasi Anda.`;
+    }
+
+    let category = '';
+    let categoryName = '';
+    
+    if (q.includes('sop') || q.includes('prosedur') || q.includes('alur') || q.includes('langkah')) {
+        category = 'sop';
+        categoryName = 'SOP & Prosedur';
+    } else if (q.includes('regulasi') || q.includes('peraturan') || q.includes('perpres') || q.includes('kebijakan') || q.includes('undang')) {
+        category = 'regulasi';
+        categoryName = 'Regulasi';
+    } else if (q.includes('panduan') || q.includes('juknis') || q.includes('petunjuk') || q.includes('modul')) {
+        category = 'panduan';
+        categoryName = 'Panduan Kerja';
+    } else if (q.includes('dokumen') || q.includes('form') || q.includes('formulir') || q.includes('berkas') || q.includes('template')) {
+        category = 'dokumen';
+        categoryName = 'Form & Dokumen';
+    } else if (q.includes('faq') || q.includes('tanya') || q.includes('bagaimana') || q.includes('apakah') || q.includes('mengapa') || q.includes('kenapa') || q.includes('berapa')) {
+        category = 'faq';
+        categoryName = 'FAQ';
+    } else if (q.includes('update') || q.includes('terbaru') || q.includes('notifikasi') || q.includes('kabar') || q.includes('info baru')) {
+        category = 'update';
+        categoryName = 'Update & Notifikasi';
+    }
+
+    const db = window.AikonDB.get();
+
+    // Specific category handling for update/latest updates
+    if (category === 'update') {
+        const regulasiItems = db.regulasi.map(item => ({
+            type: 'Regulasi',
+            title: item.nomor,
+            desc: item.tentang,
+            date: item.tanggal,
+            link: item.link || '#'
+        }));
+        const sopItems = db.sop.map(item => ({
+            type: 'SOP',
+            title: item.judul,
+            desc: item.deskripsi,
+            date: item.tanggal,
+            link: item.link || '#'
+        }));
+        const allUpdates = [...regulasiItems, ...sopItems].sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        if (allUpdates.length === 0) {
+            return `Belum ada update atau notifikasi terbaru saat ini di halaman Update.`;
+        }
+        
+        let responseHtml = `Berikut adalah <strong>Update & Notifikasi Terbaru</strong> dari sistem:<br><br>`;
+        allUpdates.slice(0, 3).forEach((item, index) => {
+            responseHtml += `${index + 1}. <strong>[${item.type}] ${item.title}</strong><br>`;
+            responseHtml += `<em>${item.desc}</em> (${item.date})<br>`;
+            if (item.link && item.link !== '#') {
+                responseHtml += `<a href="${item.link}" target="_blank" style="color:var(--primary-blue); font-size:12px; text-decoration:none; display:inline-flex; align-items:center; gap:4px; margin-top:4px; margin-bottom:8px; font-weight:600;"><i data-lucide="external-link" style="width:14px; height:14px; vertical-align:middle;"></i> Lihat Dokumen</a> `;
+                responseHtml += `<a href="#" onclick="event.preventDefault(); downloadFile('${item.link}', '${item.title.replace(/'/g, "\\'")}')" style="color:var(--success-green); font-size:12px; text-decoration:none; display:inline-flex; align-items:center; gap:4px; margin-top:4px; margin-bottom:8px; font-weight:600;"><i data-lucide="download" style="width:14px; height:14px; vertical-align:middle;"></i> Unduh Dokumen</a><br>`;
+            } else {
+                responseHtml += `<br>`;
+            }
+        });
+        responseHtml += `Pantau seluruh pembaruan resmi di halaman <a href="update.html" style="color:var(--primary-blue); font-weight:600;">Update</a>.`;
+        return responseHtml;
+    }
+
+    // 4. Tokenization & Scoring Matching Algorithm
+    const stopwords = new Set([
+        'dan', 'di', 'ke', 'dari', 'yang', 'untuk', 'pada', 'adalah', 'dengan', 
+        'saya', 'tanya', 'bagaimana', 'apakah', 'menurut', 'dokumen', 'surat', 
+        'file', 'tentang', 'apa', 'siapa', 'mengapa', 'kenapa', 'bagaimanakah', 
+        'ini', 'itu', 'atau', 'ada', 'bisa', 'dapat', 'ingin', 'mau', 'tolong', 
+        'carikan', 'tampilkan', 'info', 'informasi', 'sistem', 'aplikasi'
+    ]);
+    
+    const tokens = q.split(/\s+/).map(w => w.replace(/[^a-zA-Z0-9]/g, '')).filter(w => w.length > 1 && !stopwords.has(w));
+    const scoredResults = [];
+
+    const scoreItem = (title, desc, type, extra = '', link = '#') => {
+        let score = 0;
+        const lowerTitle = (title || '').toLowerCase();
+        const lowerDesc = (desc || '').toLowerCase();
+        const lowerExtra = (extra || '').toLowerCase();
+
+        // Exact match boosts
+        if (lowerTitle.includes(q)) score += 50;
+        if (lowerDesc.includes(q)) score += 20;
+
+        // Token match scoring
+        tokens.forEach(token => {
+            if (lowerTitle.includes(token)) score += 15;
+            if (lowerDesc.includes(token)) score += 5;
+            if (lowerExtra.includes(token)) score += 5;
+        });
+
+        // Category matching weight
+        if (category && type.toLowerCase().includes(category)) {
+            score += 10;
+        }
+
+        if (score > 0) {
+            scoredResults.push({ score, type, title, desc, link });
+        }
+    };
+
+    // Calculate scores for all entries
+    db.sop.forEach(item => {
+        scoreItem(item.judul, item.deskripsi || '', 'SOP', item.kode + ' ' + (item.kategori || item.unit), item.link);
+    });
+    db.regulasi.forEach(item => {
+        scoreItem(item.nomor, item.tentang + '. ' + (item.ringkasan || ''), 'Regulasi', item.jenis, item.link);
+    });
+    db.panduan.forEach(item => {
+        scoreItem(item.judul, item.deskripsi || '', 'Panduan', item.modul, item.link);
+    });
+    db.dokumen.forEach(item => {
+        scoreItem(item.nama, 'Tipe berkas: ' + item.tipe, 'Dokumen', '', item.link);
+    });
+    db.faq.forEach(item => {
+        scoreItem(item.pertanyaan, item.jawaban, 'FAQ', '', '#');
+    });
+
+    // Sort results by relevance score descending
+    scoredResults.sort((a, b) => b.score - a.score);
+
+    if (scoredResults.length > 0) {
+        const topResult = scoredResults[0];
+        let responseHtml = '';
+
+        if (topResult.score >= 50) {
+            responseHtml += `Saya menemukan hasil yang sangat relevan dengan pertanyaan Anda:<br><br>`;
+            if (topResult.type === 'FAQ') {
+                responseHtml += `<strong>Pertanyaan:</strong> ${topResult.title}<br><strong>Jawaban:</strong> ${topResult.desc}`;
+            } else {
+                responseHtml += `<strong>[${topResult.type}] ${topResult.title}</strong><br>${topResult.desc}<br><br>`;
+                if (topResult.link && topResult.link !== '#') {
+                    responseHtml += `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">`;
+                    responseHtml += `<a href="${topResult.link}" target="_blank" style="background:var(--primary-blue); color:white; padding:6px 12px; border-radius:6px; font-size:12px; display:inline-flex; align-items:center; gap:6px; font-weight:600; text-decoration:none;"><i data-lucide="external-link" style="width:14px; height:14px; vertical-align:middle;"></i> Lihat Dokumen</a>`;
+                    responseHtml += `<a href="#" onclick="event.preventDefault(); downloadFile('${topResult.link}', '${topResult.title.replace(/'/g, "\\'")}')" style="background:var(--success-green); color:white; padding:6px 12px; border-radius:6px; font-size:12px; display:inline-flex; align-items:center; gap:6px; font-weight:600; text-decoration:none;"><i data-lucide="download" style="width:14px; height:14px; vertical-align:middle;"></i> Unduh Dokumen</a>`;
+                    responseHtml += `</div>`;
+                }
+            }
+
+            if (scoredResults.length > 1) {
+                responseHtml += `<br><br><hr style="border:none; border-top:1px solid #E2E8F0; margin:16px 0;"><span style="font-size:12px; color:var(--text-muted); font-weight:600;">Dokumen/Informasi terkait lainnya:</span><br><br>`;
+                scoredResults.slice(1, 3).forEach((res, index) => {
+                    responseHtml += `${index + 1}. <strong>[${res.type}] ${res.title}</strong> `;
+                    if (res.link && res.link !== '#') {
+                        responseHtml += `<a href="${res.link}" target="_blank" style="color:var(--primary-blue); font-size:11px; text-decoration:none; font-weight:600;">[Lihat <i data-lucide="external-link" style="width:11px; height:11px; vertical-align:middle; display:inline-block;"></i>]</a> `;
+                        responseHtml += `<a href="#" onclick="event.preventDefault(); downloadFile('${res.link}', '${res.title.replace(/'/g, "\\'")}')" style="color:var(--success-green); font-size:11px; text-decoration:none; font-weight:600;">[Unduh <i data-lucide="download" style="width:11px; height:11px; vertical-align:middle; display:inline-block;"></i>]</a>`;
+                    }
+                    responseHtml += `<br><span style="font-size:11px; color:var(--text-muted);">${res.desc.slice(0, 80)}...</span><br><br>`;
+                });
+            }
+        } else {
+            responseHtml += `Berikut beberapa rujukan informasi yang relevan dengan pencarian Anda:<br><br>`;
+            scoredResults.slice(0, 3).forEach((res, index) => {
+                responseHtml += `${index + 1}. <strong>[${res.type}] ${res.title}</strong><br>`;
+                responseHtml += `<span style="font-size:12px; color:var(--text-muted);">${res.desc}</span><br>`;
+                if (res.link && res.link !== '#') {
+                    responseHtml += `<a href="${res.link}" target="_blank" style="color:var(--primary-blue); font-size:11px; text-decoration:none; display:inline-flex; align-items:center; gap:2px; font-weight:600; margin-top:4px; margin-bottom:8px;"><i data-lucide="external-link" style="width:12px; height:12px; vertical-align:middle;"></i> Lihat Dokumen</a> `;
+                    responseHtml += `<a href="#" onclick="event.preventDefault(); downloadFile('${res.link}', '${res.title.replace(/'/g, "\\'")}')" style="color:var(--success-green); font-size:11px; text-decoration:none; display:inline-flex; align-items:center; gap:2px; font-weight:600; margin-top:4px; margin-bottom:8px;"><i data-lucide="download" style="width:12px; height:12px; vertical-align:middle;"></i> Unduh Dokumen</a><br>`;
+                } else {
+                    responseHtml += `<br>`;
+                }
+            });
+        }
+        return responseHtml;
+    } else {
+        return `Maaf, saya tidak menemukan dokumen atau jawaban yang cocok untuk pencarian: "${query}".<br><br>
+        💡 <strong>Tips Pencarian AIKON:</strong><br>
+        • Gunakan kata kunci inti yang lebih spesifik (contoh: "tarif", "klaim bayi", "onboarding", "alamat").<br>
+        • Buka menu <a href="knowledge-base.html" style="color:var(--primary-blue); font-weight:600;">Knowledge Base</a> untuk melihat daftar lengkap dokumen.<br>
+        • Kunjungi halaman <a href="bantuan.html" style="color:var(--primary-blue); font-weight:600;">Bantuan</a> jika memerlukan kontak person.`;
     }
 };

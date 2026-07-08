@@ -38,14 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 chatMessages.appendChild(userBubble);
                 chatInput.value = '';
                 
-                // Bot response simulation
+                // Bot response using smart category-based responder
                 setTimeout(() => {
                     const botBubble = document.createElement('div');
                     botBubble.className = 'chat-bubble bot';
-                    botBubble.innerHTML = 'Saya sedang memproses pertanyaan Anda mengenai "' + text + '". Mohon tunggu sebentar...';
+                    botBubble.innerHTML = window.aikonChatRespond(text);
                     chatMessages.appendChild(botBubble);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 1000);
+                    if (window.lucide) window.lucide.createIcons();
+                }, 800);
                 
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }

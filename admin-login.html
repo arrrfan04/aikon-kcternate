@@ -439,7 +439,7 @@
 
                 <div class="form-options">
                     <label class="remember-me">
-                        <input type="checkbox">
+                        <input type="checkbox" id="rememberMeCheckbox">
                         Ingat sesi saya
                     </label>
                     <button type="button" class="forgot-password-link" onclick="openForgotPasswordModal()">Lupa password?</button>
@@ -483,6 +483,19 @@
     <script>
         lucide.createIcons();
 
+        // Auto-fill remembered admin credentials on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const isRemembered = localStorage.getItem('aikon_admin_remember_me') === 'true';
+            if (isRemembered) {
+                const rememberedUser = localStorage.getItem('aikon_admin_remembered_user');
+                const rememberedPass = localStorage.getItem('aikon_admin_remembered_pass');
+                if (rememberedUser) document.getElementById('username').value = rememberedUser;
+                if (rememberedPass) document.getElementById('password').value = rememberedPass;
+                const checkbox = document.getElementById('rememberMeCheckbox');
+                if (checkbox) checkbox.checked = true;
+            }
+        });
+
         // Handle Login Submission
         function handleLogin(event) {
             event.preventDefault();
@@ -495,6 +508,17 @@
                 document.getElementById('errorText').innerText = "Mohon isi semua field.";
             } else if (user === "kcternate2503" && pass === "adminkcternate123") {
                 console.log('Admin login success for:', user);
+                // Save remember me status
+                const rememberMe = document.getElementById('rememberMeCheckbox').checked;
+                if (rememberMe) {
+                    localStorage.setItem('aikon_admin_remember_me', 'true');
+                    localStorage.setItem('aikon_admin_remembered_user', user);
+                    localStorage.setItem('aikon_admin_remembered_pass', pass);
+                } else {
+                    localStorage.removeItem('aikon_admin_remember_me');
+                    localStorage.removeItem('aikon_admin_remembered_user');
+                    localStorage.removeItem('aikon_admin_remembered_pass');
+                }
                 window.location.href = "admin-dashboard.html";
             } else {
                 errorBanner.style.display = 'flex';
@@ -528,7 +552,19 @@
 
         function handleResetPassword(event) {
             event.preventDefault();
-            const resetEmail = document.getElementById('resetEmail').value;
+            const resetEmail = document.getElementById('resetEmail').value.trim();
+            
+            if (resetEmail !== "admin@bpjs-kesehatan.go.id") {
+                alert("Email tidak terdaftar sebagai email Administrator!");
+                return;
+            }
+            
+            // Construct mailto link
+            const subject = encodeURIComponent("Pemulihan Password Admin AIKON BPJS Kesehatan");
+            const body = encodeURIComponent(`Yth. Administrator,\n\nBerikut adalah password akun Administrator AIKON Anda:\n\nUsername: kcternate2503\nPassword: adminkcternate123\n\nSilakan gunakan password tersebut untuk masuk ke panel admin.\n\nSalam,\nTim IT BPJS Kesehatan`);
+            const mailtoUrl = `mailto:${resetEmail}?subject=${subject}&body=${body}`;
+            
+            window.location.href = mailtoUrl;
             
             closeForgotPasswordModal();
             
