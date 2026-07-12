@@ -125,28 +125,43 @@
     <script>
         lucide.createIcons();
 
+        const defaultOnboardingModules = [
+            { id: 1, title: "1. Pengenalan BPJS Kesehatan", content: "<h2>1. Pengenalan BPJS Kesehatan</h2><p class='step-description'>Selamat bergabung di Badan Penyelenggara Jaminan Sosial (BPJS) Kesehatan! Modul ini akan mengenalkan Anda pada sejarah, visi, misi, dan budaya kerja yang menjadi fondasi kita dalam memberikan pelayanan kesehatan terbaik bagi seluruh rakyat Indonesia.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, var(--primary-blue), var(--secondary-cyan)); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='building-2' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='history' size='18'></i> Sejarah Singkat</h3><p>BPJS Kesehatan resmi beroperasi pada <strong>1 Januari 2014</strong>, bertransformasi dari PT Askes (Persero). Transformasi ini merupakan amanat Undang-Undang Nomor 24 Tahun 2011, dengan tujuan mulia menyelenggarakan program Jaminan Kesehatan Nasional - Kartu Indonesia Sehat (JKN-KIS) bagi seluruh rakyat Indonesia.</p></div><div class='summary-box' style='background-color:#EBF5FF; border-left: 4px solid var(--primary-blue);'><h3 style='display:flex; align-items:center; gap:8px; color:var(--primary-blue);'><i data-lucide='target' size='18'></i> Visi dan Misi</h3><p><strong>Visi:</strong> \"Terwujudnya Jaminan Kesehatan yang Berkualitas tanpa Diskriminasi.\"</p><p><strong>Misi:</strong><ul style='margin-top:8px; padding-left:20px; line-height:1.6; color:var(--text-muted);'><li>Memberikan jaminan kesehatan kepada peserta secara komprehensif.</li><li>Meningkatkan kualitas pelayanan melalui inovasi teknologi.</li><li>Menjaga kesinambungan finansial program JKN-KIS dengan gotong royong.</li></ul></p></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='heart-handshake' size='18'></i> Budaya Kerja Organisasi</h3><p>Sebagai Duta BPJS Kesehatan, Anda diharapkan mengimplementasikan budaya kerja berikut:</p><div style='display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;'><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Integritas</h4><p style='font-size:12px; margin:0;'>Jujur, transparan, dan tidak menyalahgunakan wewenang.</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Pelayanan Prima</h4><p style='font-size:12px; margin:0;'>Memberikan layanan yang ramah, cepat, dan empati kepada peserta.</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Gotong Royong</h4><p style='font-size:12px; margin:0;'>Berkolaborasi dalam tim dan mengedepankan asas kebersamaan.</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Inovatif</h4><p style='font-size:12px; margin:0;'>Selalu mencari cara baru yang lebih efektif dan efisien.</p></div></div></div>" },
+            { id: 2, title: "2. Struktur Organisasi", content: "<h2>2. Struktur Organisasi</h2><p class='step-description'>Memahami struktur hierarki, tugas pokok, dan koordinasi antar unit kerja di lingkungan BPJS Kesehatan, mulai dari tingkat Pusat hingga Kabupaten/Kota.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, var(--secondary-cyan), var(--primary-blue)); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='network' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='git-merge' size='18'></i> Tata Kerja & SOTK</h3><p>Organisasi BPJS Kesehatan disusun dengan prinsip pembagian tugas yang jelas untuk memastikan pelayanan publik berjalan optimal. Anda akan sering berkoordinasi secara lintas departemen.</p></div><div class='summary-box' style='background-color:#EBF5FF; border-left: 4px solid var(--primary-blue);'><h3 style='display:flex; align-items:center; gap:8px; color:var(--primary-blue);'><i data-lucide='layers' size='18'></i> Hierarki Operasional</h3><p><ul style='margin-top:8px; padding-left:20px; line-height:1.6; color:var(--text-muted);'><li><strong>Kantor Pusat (KP):</strong> Menyusun kebijakan strategis berskala nasional.</li><li><strong>Kedeputian Wilayah (Kedepwil):</strong> Melakukan fungsi supervisi dan evaluasi atas kinerja cabang di wilayahnya.</li><li><strong>Kantor Cabang (KC):</strong> Pelaksana utama fungsi operasional kepesertaan, penagihan, dan penjaminan manfaat di level kota/kabupaten besar.</li><li><strong>Kantor Kabupaten/Kota (Kab/Kot):</strong> Perpanjangan tangan KC untuk mempermudah akses layanan bagi peserta di pelosok daerah.</li></ul></p></div>" },
+            { id: 3, title: "3. Pelayanan Kepesertaan", content: "<h2>3. Pelayanan Kepesertaan</h2><p class='step-description'>Mengupas tuntas alur layanan pendaftaran, perubahan data, dan layanan administrasi peserta JKN-KIS melalui berbagai kanal yang kita sediakan.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, #10B981, #047857); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='users' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='laptop' size='18'></i> Kanal Layanan Tanpa Tatap Muka</h3><p>Di era digitalisasi, BPJS Kesehatan mendorong peserta untuk menggunakan layanan berbasis teknologi yang cepat dan mudah tanpa harus datang ke kantor cabang. Antara lain:</p><div style='display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;'><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Aplikasi Mobile JKN</h4><p style='font-size:12px; margin:0;'>Solusi lengkap dalam satu genggaman (kartu digital, antrean online, pindah faskes).</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>PANDAWA (WhatsApp)</h4><p style='font-size:12px; margin:0;'>Layanan Administrasi Melalui WhatsApp (08118165165) yang ramah dan interaktif.</p></div></div></div><div class='summary-box' style='background-color:#ECFDF5; border-left: 4px solid #10B981;'><h3 style='display:flex; align-items:center; gap:8px; color:#10B981;'><i data-lucide='shield-check' size='18'></i> Validasi Data (Single Identity Number)</h3><p>Pastikan Anda selalu menggunakan <strong>NIK (Nomor Induk Kependudukan)</strong> sebagai kunci utama (<i>primary key</i>) dalam proses pencarian data maupun pendaftaran peserta. NIK dan KIS kini merupakan identitas tunggal peserta yang sah untuk mengakses layanan kesehatan.</p></div>" },
+            { id: 4, title: "4. Penjaminan & Klaim", content: "<h2>4. Penjaminan & Klaim Manfaat</h2><p class='step-description'>Bagaimana program JKN-KIS memberikan jaminan pelayanan kesehatan kepada peserta serta mekanisme pembayaran klaim kepada Fasilitas Kesehatan (Faskes).</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, #F59E0B, #D97706); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='file-spreadsheet' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='stethoscope' size='18'></i> Sistem Rujukan Berjenjang</h3><p>Pelayanan kesehatan diselenggarakan secara berjenjang dimulai dari Fasilitas Kesehatan Tingkat Pertama (FKTP) seperti Puskesmas/Klinik. Jika indikasi medis mengharuskan, peserta akan dirujuk ke Fasilitas Kesehatan Rujukan Tingkat Lanjutan (FKRTL) yaitu Rumah Sakit, terkecuali dalam kondisi Gawat Darurat (UGD).</p></div><div class='summary-box' style='background-color:#FFFBEB; border-left: 4px solid #F59E0B;'><h3 style='display:flex; align-items:center; gap:8px; color:#D97706;'><i data-lucide='wallet' size='18'></i> Metode Pembayaran Klaim Faskes</h3><p><ul style='margin-top:8px; padding-left:20px; line-height:1.6; color:var(--text-muted);'><li><strong>Kapitasi (FKTP):</strong> Pembayaran tetap setiap bulan berdasarkan jumlah peserta terdaftar di faskes tersebut, tanpa memperhitungkan jenis/jumlah layanan medis yang diberikan.</li><li><strong>INA-CBG's (FKRTL):</strong> Pembayaran klaim rumah sakit berbasis diagnosis penyakit (paket tarif) yang diproses melalui verifikasi ketat melalui aplikasi V-Klaim.</li></ul></p></div>" },
+            { id: 5, title: "5. Kepatuhan Internal", content: "<h2>5. Kepatuhan Internal</h2><p class='step-description'>Membangun lingkungan kerja yang bersih, disiplin, berintegritas tinggi, dan patuh terhadap segala ketentuan serta peraturan perundang-undangan.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, #EF4444, #B91C1C); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='shield-alert' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='alert-triangle' size='18'></i> Anti-Fraud (Pencegahan Kecurangan)</h3><p>Sebagai lembaga pengelola dana amanat masyarakat, BPJS Kesehatan menerapkan sistem Anti-Fraud yang sangat ketat baik untuk internal (pegawai) maupun eksternal (faskes dan peserta). Segala bentuk <i>phantom billing</i>, mark-up, atau manipulasi data akan dikenai sanksi tegas.</p></div><div class='summary-box' style='background-color:#FEF2F2; border-left: 4px solid #EF4444;'><h3 style='display:flex; align-items:center; gap:8px; color:#B91C1C;'><i data-lucide='lock' size='18'></i> Kerahasiaan Data (Data Privacy)</h3><p>Duta BPJS Kesehatan diwajibkan menjunjung tinggi keamanan data, terutama <strong>Rekam Medis dan Data Demografi</strong> peserta. Dilarang keras menyebarkan, membocorkan, atau menggunakan data peserta JKN untuk kepentingan pribadi atau komersial di luar dinas resmi.</p></div>" },
+            { id: 6, title: "6. Rangkuman Onboarding", content: "<h2>6. Rangkuman Onboarding</h2><p class='step-description'>Selamat! Anda telah menyelesaikan seluruh rangkaian orientasi dasar Duta BPJS Kesehatan. Mari kita ulas kembali hal-hal krusial yang sudah dipelajari.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, var(--navy-blue), #1E293B); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='award' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='check-circle' size='18'></i> Pesan Penutup</h3><p>Program JKN-KIS adalah program strategis nasional yang dititipkan di atas pundak kita. Kesuksesan program ini amat bergantung pada etos kerja, pelayanan sepenuh hati, serta kepatuhan Anda terhadap Standar Operasional Prosedur (SOP).</p><div style='margin-top:16px; padding:16px; background:#F8FAFC; border-radius:8px; text-align:center;'><p style='font-style:italic; font-weight:600; color:var(--text-main); margin:0;'>\"Dengan semangat kebersamaan dan gotong royong, mari kita wujudkan Jaminan Kesehatan yang Berkualitas tanpa Diskriminasi!\"</p></div></div>" }
+        ];
+
         const dbData = window.AikonDB.get();
-        const modules = dbData.onboarding || [];
+        const modules = (dbData.onboarding && dbData.onboarding.length > 0) ? dbData.onboarding : defaultOnboardingModules;
 
         const currentUser = JSON.parse(localStorage.getItem('aikon_current_user')) || { npp: '12345', nama: 'Budi Santoso' };
         const userProgressKey = 'aikon_onboarding_progress_' + currentUser.npp;
-        let progress = JSON.parse(localStorage.getItem(userProgressKey)) || { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+        let progress = JSON.parse(localStorage.getItem(userProgressKey)) || {};
+        modules.forEach(m => {
+            if (progress[m.id] === undefined) progress[m.id] = false;
+        });
 
         function isModuleUnlocked(id) {
-            if (id === 1) return true;
-            return progress[id - 1] === true;
+            const index = modules.findIndex(m => m.id === id);
+            if (index <= 0) return true;
+            const prevId = modules[index - 1].id;
+            return progress[prevId] === true;
         }
 
         // Determine initial active module
-        let currentModuleId = 1;
-        for (let i = 1; i <= 6; i++) {
-            if (!progress[i]) {
-                currentModuleId = i;
+        let currentModuleId = modules.length > 0 ? modules[0].id : 1;
+        for (let i = 0; i < modules.length; i++) {
+            if (!progress[modules[i].id]) {
+                currentModuleId = modules[i].id;
                 break;
             }
         }
-        if (progress[1] && progress[2] && progress[3] && progress[4] && progress[5] && progress[6]) {
-            currentModuleId = 6;
+        const allCompleted = modules.every(m => progress[m.id]);
+        if (allCompleted && modules.length > 0) {
+            currentModuleId = modules[modules.length - 1].id;
         }
 
         function renderOnboarding() {
@@ -179,13 +194,17 @@
             const isCompleted = progress[currentModuleId];
             
             // Build action buttons: Back, Next, Complete
-            const backBtn = currentModuleId > 1 
-                ? `<button onclick="changeModule(${currentModuleId - 1})" style="background: #F1F5F9; color: var(--text-main); border: 1px solid #E2E8F0; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;"><i data-lucide="arrow-left" style="width:16px; height:16px;"></i> Kembali</button>` 
+            const currentIdx = modules.findIndex(m => m.id === currentModuleId);
+            const prevModuleId = currentIdx > 0 ? modules[currentIdx - 1].id : null;
+            const nextModuleId = currentIdx < modules.length - 1 ? modules[currentIdx + 1].id : null;
+
+            const backBtn = prevModuleId !== null 
+                ? `<button onclick="changeModule(${prevModuleId})" style="background: #F1F5F9; color: var(--text-main); border: 1px solid #E2E8F0; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;"><i data-lucide="arrow-left" style="width:16px; height:16px;"></i> Kembali</button>` 
                 : '';
                 
-            const nextUnlocked = isModuleUnlocked(currentModuleId + 1);
-            const nextBtn = currentModuleId < 6 
-                ? `<button onclick="changeModule(${currentModuleId + 1})" style="padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; cursor: ${nextUnlocked ? 'pointer' : 'not-allowed'}; background: ${nextUnlocked ? 'var(--primary-blue)' : '#E2E8F0'}; color: ${nextUnlocked ? 'white' : '#94A3B8'}; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;"><i data-lucide="arrow-right" style="width:16px; height:16px;"></i> Selanjutnya</button>` 
+            const nextUnlocked = nextModuleId !== null ? isModuleUnlocked(nextModuleId) : false;
+            const nextBtn = nextModuleId !== null 
+                ? `<button onclick="changeModule(${nextModuleId})" style="padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; cursor: ${nextUnlocked ? 'pointer' : 'not-allowed'}; background: ${nextUnlocked ? 'var(--primary-blue)' : '#E2E8F0'}; color: ${nextUnlocked ? 'white' : '#94A3B8'}; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;"><i data-lucide="arrow-right" style="width:16px; height:16px;"></i> Selanjutnya</button>` 
                 : '';
 
             const completeBtn = `<button onclick="toggleModuleCompletion()" style="background: ${isCompleted ? '#EF4444' : 'var(--success-green)'}; color: white; padding: 12px 28px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; transition: 0.2s;">${isCompleted ? 'Batalkan Tandai Selesai' : 'Tandai Selesai ✓'}</button>`;
@@ -247,8 +266,11 @@
             
             if (!newStatus) {
                 // Lock all subsequent modules and mark them as uncompleted
-                for (let i = currentModuleId; i <= 6; i++) {
-                    progress[i] = false;
+                const startIdx = modules.findIndex(m => m.id === currentModuleId);
+                if (startIdx !== -1) {
+                    for (let i = startIdx; i < modules.length; i++) {
+                        progress[modules[i].id] = false;
+                    }
                 }
             } else {
                 progress[currentModuleId] = true;

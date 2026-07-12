@@ -2,150 +2,18 @@
 
 // Paste your Google Apps Script Web App Deployment URL here to connect to Google Sheets
 // Example: const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzLHeXIo6sg-QcLp6U9bxfdZ7aQTGSz-Y5TE0b8Ve2FzQ2M33XQFkfEj00wCzW-aktI/exec";
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyT92rCmLFZ28skXle4wYv_MULIpkgAcMA-1qtGd70AAaCpP7b3visWVsC1FE8384DW/exec";
+
 
 const DEFAULT_DATABASE = {
-    sop: [
-        { id: 1, kode: "SOP-KP-01", judul: "SOP Pendaftaran Peserta JKN Mandiri Baru", kategori: "Administrasi Kepesertaan", deskripsi: "Panduan alur administrasi dan syarat administrasi pendaftaran peserta pekerja bukan penerima upah (PBPU).", tanggal: "2026-01-15", link: "https://drive.google.com/drive/folders/mock-sop-1" },
-        { id: 2, kode: "SOP-KL-02", judul: "SOP Klaim Rawat Inap Tingkat Lanjut (RITL)", kategori: "Verifikasi Klaim", deskripsi: "Tatacara verifikasi berkas klaim RITL rumah sakit provider BPJS Kesehatan.", tanggal: "2026-02-10", link: "https://drive.google.com/drive/folders/mock-sop-2" },
-        { id: 3, kode: "SOP-FO-03", judul: "SOP Pelayanan Pengaduan di Front Office Kantor Cabang", kategori: "Pelayanan FKTP", deskripsi: "Standard response time dan penanganan keluhan langsung peserta BPJS.", tanggal: "2026-03-01", link: "https://drive.google.com/drive/folders/mock-sop-3" },
-        { id: 4, kode: "SOP-KP-04", judul: "SOP Kredensialing Faskes Tingkat Pertama (FKTP)", kategori: "Pelayanan FKTP", deskripsi: "Prosedur penilaian kelayakan sarana prasarana klinik dan dokter keluarga baru.", tanggal: "2026-04-18", link: "https://drive.google.com/drive/folders/mock-sop-4" }
-    ],
-    regulasi: [
-        { id: 1, nomor: "Perpres No. 59 Tahun 2024", tentang: "Perubahan Ketiga atas Perpres No. 82 Tahun 2018 tentang Jaminan Kesehatan", jenis: "Undang-Undang / Perpres", tanggal: "2024-05-08", masa_berlaku: "2029-12-31", link: "https://drive.google.com/drive/folders/mock-reg-1", ringkasan: "Mengatur tentang perbaikan sistem jaminan kesehatan nasional di tingkat primer." },
-        { id: 2, nomor: "Permenkes No. 3 Tahun 2023", tentang: "Standar Tarif Pelayanan Kesehatan dalam Penyelenggaraan Program Jaminan Kesehatan", jenis: "Undang-Undang / Perpres", tanggal: "2023-01-09", masa_berlaku: "2028-12-31", link: "https://drive.google.com/drive/folders/mock-reg-2", ringkasan: "Pemberlakuan tarif kapitasi dan non kapitasi terbaru bagi faskes tingkat pertama." },
-        { id: 3, nomor: "Perdir BPJS No. 2 Tahun 2024", tentang: "Petunjuk Teknis Verifikasi Klaim Berbasis Luaran Klinis", jenis: "Peraturan Direksi BPJS", tanggal: "2024-03-12", masa_berlaku: "2027-03-12", link: "https://drive.google.com/drive/folders/mock-reg-3", ringkasan: "Ketentuan verifikasi klaim klinis berdasarkan luaran medis pasien." }
-    ],
-    panduan: [
-        { id: 1, judul: "Panduan Teknis Bridging SIMRS V2 BPJS", modul: "Aplikasi Internal", deskripsi: "Langkah integrasi sistem SIMRS dengan vclaim api versi terbaru.", link: "https://drive.google.com/drive/folders/mock-guide-1" },
-        { id: 2, judul: "Buku Saku Penanganan Fraud Program JKN", modul: "Kepatuhan Internal", deskripsi: "Panduan deteksi dini fraud klaim oleh faskes maupun oknum internal.", link: "https://drive.google.com/drive/folders/mock-guide-2" }
-    ],
-    dokumen: [
-        { id: 1, nama: "Formulir Rekonsiliasi Iuran Badan Usaha JKN", tipe: "Microsoft Excel (.xlsx)", tanggal: "2026-05-20", link: "https://drive.google.com/drive/folders/mock-doc-1" },
-        { id: 2, nama: "Form Pengajuan Kredensialing FKTP Baru", tipe: "PDF Dokumentasi", tanggal: "2026-05-18", link: "https://drive.google.com/drive/folders/mock-doc-2" },
-        { id: 3, nama: "Template Surat Kuasa Pembuatan Kartu PBI", tipe: "Microsoft Word (.docx)", tanggal: "2026-05-22", link: "https://drive.google.com/drive/folders/mock-doc-3" }
-    ],
-    faq: [
-        { id: 1, pertanyaan: "Bagaimana jika kartu JKN KIS hilang?", jawaban: "Peserta dapat mencetak kartu digital KIS melalui aplikasi Mobile JKN tanpa biaya administrasi." },
-        { id: 2, pertanyaan: "Berapa lama batas waktu pengajuan klaim rumah sakit?", jawaban: "Batas pengajuan klaim rumah sakit adalah tanggal 10 bulan berikutnya setelah bulan pelayanan." },
-        { id: 3, pertanyaan: "Apakah bayi baru lahir wajib langsung didaftarkan?", jawaban: "Ya, bayi dari peserta JKN wajib didaftarkan maksimal 28 hari sejak kelahiran untuk menjamin coverage." }
-    ],
-    users: [
-        { id: 1, nama: "Budi Santoso", npp: "12345", unit: "Bagian Kepesertaan", password: "12345", status: "Aktif" },
-        { id: 2, nama: "Siti Rahmawati", npp: "98321", unit: "Bagian Pelayanan Peserta", password: "98321", status: "Aktif" },
-        { id: 3, nama: "Admin KC Ternate", npp: "kcternate2503", unit: "Bagian SDMUK", password: "adminkcternate123", status: "Aktif" }
-    ],
-    activities: [
-        { id: 1, action: "Menambahkan SOP Kerja", title: "Validasi Pendaftaran Bayi Baru Lahir", desc: "Mengunggah alur verifikasi data BBL untuk peserta segmen Penerima Bantuan Iuran (PBI).", time: "Kemarin", type: "sop-add" },
-        { id: 2, action: "Memperbarui Regulasi", title: "BPJS No. 4 Tahun 2026 Kapitasi FKTP", desc: "Melakukan update intisari peraturan penyesuaian tarif kapitasi dan non-kapitasi.", time: "Kemarin", type: "regulasi-update" }
-    ],
-    onboarding: [
-        {
-            id: 1,
-            title: "1. Selamat Datang",
-            content: `<h2>1. Selamat Datang di AIKON</h2>
-<p class="step-description">Selamat bergabung di BPJS Kesehatan Kantor Cabang Ternate! AIKON (Asisten Konten Pengetahuan) dirancang untuk membantu Anda memahami tugas, SOP, regulasi, dan materi pembelajaran lainnya dengan mudah.</p>
-<div class="summary-box">
-    <h3>Orientasi Awal</h3>
-    <p>Sebagai staf baru, Anda diharapkan dapat menyesuaikan diri dengan cepat. Silakan pelajari setiap modul panduan onboarding ini dan tandai selesai jika Anda telah memahaminya. Progres Anda akan langsung tercatat pada dashboard profil Anda.</p>
-</div>`
-        },
-        {
-            id: 2,
-            title: "2. Mengenal BPJS Kesehatan",
-            content: `<h2>2. Mengenal BPJS Kesehatan</h2>
-<p class="step-description">Mengenal struktur organisasi, tata nilai, serta visi dan misi BPJS Kesehatan.</p>
-<div class="summary-box" style="margin-bottom: 20px;">
-    <h3>Visi & Misi</h3>
-    <p><strong>Visi:</strong> Menjadi badan penyelenggara jaminan sosial kesehatan yang berkualitas, berkeadilan, dan berkelanjutan.</p>
-    <p style="margin-top: 10px;"><strong>Misi:</strong> Memberikan pelayanan prima kepada peserta, memperluas cakupan kepesertaan, serta menjaga kesinambungan keuangan program JKN.</p>
-</div>
-<div class="summary-box">
-    <h3>Tata Nilai Organisasi</h3>
-    <p>BPJS Kesehatan memiliki tata nilai utama yang disingkat <strong>PROFIT</strong>: Profesional, Respek, Orientasi Pelanggan, Integritas, Kepercayaan, dan Kerja Sama Tim.</p>
-</div>`
-        },
-        {
-            id: 3,
-            title: "3. Sistem & Aplikasi",
-            content: `<h2>3. Sistem & Aplikasi Utama</h2>
-<p class="step-description">Daftar sistem informasi internal yang akan Anda gunakan sehari-hari.</p>
-<div class="process-flow" style="display:flex; justify-content:space-around; gap:16px; margin-bottom:32px;">
-    <div class="flow-step" style="text-align:center;">
-        <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="smartphone"></i></div>
-        <span>Mobile JKN</span>
-    </div>
-    <div class="flow-step" style="text-align:center;">
-        <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="database"></i></div>
-        <span>VClaim & PCare</span>
-    </div>
-    <div class="flow-step" style="text-align:center;">
-        <div class="flow-icon" style="width:60px; height:60px; border-radius:50%; background:white; border:2px solid var(--primary-blue); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; color:var(--primary-blue);"><i data-lucide="users"></i></div>
-        <span>Edabu & SIPP</span>
-    </div>
-</div>
-<div class="summary-box">
-    <h3>Keterangan</h3>
-    <p>Aplikasi VClaim digunakan untuk verifikasi klaim rumah sakit, PCare untuk faskes primer, sedangkan Edabu digunakan oleh badan usaha terdaftar untuk mengelola kepesertaan karyawannya.</p>
-</div>`
-        },
-        {
-            id: 4,
-            title: "4. Alur Kerja Utama",
-            content: `<h2>4. Alur Kerja Utama</h2>
-<p class="step-description">Memahami alur kerja pemrosesan data dan pelayanan di Kantor Cabang.</p>
-<div class="process-flow">
-    <div class="flow-step">
-        <div class="flow-icon"><i data-lucide="file-input"></i></div>
-        <span>Input Permintaan</span>
-    </div>
-    <div class="flow-step">
-        <div class="flow-icon"><i data-lucide="user-check"></i></div>
-        <span>Verifikasi Data</span>
-    </div>
-    <div class="flow-step">
-        <div class="flow-icon"><i data-lucide="laptop"></i></div>
-        <span>Proses di Sistem</span>
-    </div>
-    <div class="flow-step">
-        <div class="flow-icon"><i data-lucide="info"></i></div>
-        <span>Tindak Lanjut</span>
-    </div>
-</div>
-<div class="summary-box">
-    <h3>Ringkasan Alur</h3>
-    <p>Alur kerja dimulai dari penerimaan berkas permintaan oleh front office, verifikasi kesesuaian berkas oleh penanggung jawab administrasi, entri data ke sistem aplikasi terkait, hingga penyerahan hasil tindak lanjut informasi kepada peserta.</p>
-</div>`
-        },
-        {
-            id: 5,
-            title: "5. Pelayanan Peserta",
-            content: `<h2>5. Pelayanan Peserta & Front Office</h2>
-<p class="step-description">Mempelajari standar pelayanan prima saat berhadapan langsung dengan peserta.</p>
-<div class="summary-box">
-    <h3>Service Level Agreement (SLA)</h3>
-    <p>1. Waktu tunggu pelayanan di loket maksimal 15 menit.<br>
-    2. Penanganan keluhan peserta langsung selesai di hari yang sama jika berkas lengkap.<br>
-    3. Mengedepankan 3S (Senyum, Sapa, Salam) serta empati tinggi terhadap kendala peserta.</p>
-</div>`
-        },
-        {
-            id: 6,
-            title: "6. Rangkuman Onboarding",
-            content: `<h2>6. Rangkuman Onboarding</h2>
-<p class="step-description">Selamat! Anda telah mempelajari seluruh materi dasar dan operasional di BPJS Kesehatan Kantor Cabang Ternate.</p>
-<div class="summary-box">
-    <h3>Ringkasan Pembelajaran</h3>
-    <p>1. <strong>Budaya Kerja BPJS</strong>: Menjunjung tinggi tata nilai PROFIT (Profesional, Respek, Orientasi Pelanggan, Integritas, Kepercayaan, Kerja Sama Tim).<br>
-    2. <strong>Aplikasi Utama</strong>: PCare, VClaim, Mobile JKN, Edabu, dan SIPP merupakan pondasi pelayanan digital kita.<br>
-    3. <strong>Pelayanan Prima</strong>: Standard SLA tunggu loket maksimal 15 menit, penanganan tuntas di hari yang sama, serta senyum, sapa, salam.</p>
-</div>
-<div class="summary-box" style="background:var(--light-blue); border: 1px dashed var(--primary-blue); margin-bottom: 0;">
-    <h3>Pernyataan Komitmen</h3>
-    <p>Sebagai staf BPJS Kesehatan, saya berkomitmen untuk bekerja dengan penuh integritas, mematuhi SOP kerja yang berlaku, dan terus memberikan kontribusi terbaik bagi pelayanan peserta Jaminan Kesehatan Nasional.</p>
-</div>`
-        }
-    ]
+    sop: [],
+    regulasi: [],
+    panduan: [],
+    dokumen: [],
+    faq: [],
+    users: [],
+    activities: [],
+    onboarding: []
 };
 
 // Initialize Local DB if empty or outdated (missing link properties or onboarding)
@@ -156,8 +24,7 @@ try {
         shouldResetDb = true;
     } else {
         const parsed = JSON.parse(existingDb);
-        // Self-heal if the database exists but uses old schema without link properties or onboarding table
-        if (!parsed.sop || parsed.sop.length === 0 || !parsed.sop[0].hasOwnProperty('link') || !parsed.onboarding || !parsed.activities) {
+        if (!parsed.sop || !parsed.onboarding || !parsed.activities) {
             shouldResetDb = true;
         }
     }
@@ -219,16 +86,22 @@ window.AikonDB = {
         const db = this.get();
         if (!db.activities) db.activities = [];
         const id = db.activities.length > 0 ? Math.max(...db.activities.map(item => item.id || 0)) + 1 : 1;
+        
+        const now = new Date();
+        const timeString = now.toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        
         const newActivity = {
             id: id,
             action: action,
             title: title,
             desc: desc,
-            time: "Baru saja",
+            time: timeString,
             type: type
         };
         db.activities.unshift(newActivity);
-        if (db.activities.length > 15) {
+        
+        // Membatasi maksimal 10 log aktivitas
+        while (db.activities.length > 10) {
             db.activities.pop();
         }
         this.save(db);
@@ -236,34 +109,40 @@ window.AikonDB = {
 
     // Sync Local Database to Google Sheet Web App
     syncToCloud: function () {
-        const db = this.get();
-        const tables = ['sop', 'regulasi', 'panduan', 'dokumen', 'faq', 'users', 'activities'];
-        const schemas = {
-            sop: ['id', 'kode', 'judul', 'kategori', 'tanggal', 'link', 'deskripsi'],
-            regulasi: ['id', 'nomor', 'tentang', 'jenis', 'tanggal', 'masa_berlaku', 'link', 'ringkasan'],
-            panduan: ['id', 'judul', 'modul', 'deskripsi', 'link'],
-            dokumen: ['id', 'nama', 'tipe', 'tanggal', 'link'],
-            faq: ['id', 'pertanyaan', 'jawaban'],
-            users: ['id', 'nama', 'npp', 'unit', 'password', 'status'],
-            activities: ['id', 'action', 'title', 'desc', 'time', 'type']
-        };
+        if (this._syncTimeout) clearTimeout(this._syncTimeout);
+        
+        this._syncTimeout = setTimeout(() => {
+            const db = this.get();
+            const tables = ['sop', 'regulasi', 'panduan', 'dokumen', 'faq', 'users', 'activities', 'onboarding'];
+            const schemas = {
+                sop: ['id', 'kode', 'judul', 'kategori', 'tanggal', 'link', 'deskripsi'],
+                regulasi: ['id', 'nomor', 'tentang', 'jenis', 'tanggal', 'masa_berlaku', 'link', 'ringkasan'],
+                panduan: ['id', 'judul', 'modul', 'deskripsi', 'link'],
+                dokumen: ['id', 'nama', 'tipe', 'tanggal', 'link'],
+                faq: ['id', 'pertanyaan', 'jawaban'],
+                users: ['id', 'nama', 'npp', 'unit', 'password', 'status'],
+                activities: ['id', 'action', 'title', 'desc', 'time', 'type'],
+                onboarding: ['id', 'title', 'content']
+            };
 
-        tables.forEach(table => {
-            fetch(GOOGLE_SHEET_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain'
-                },
-                body: JSON.stringify({
-                    action: 'sync',
-                    table: table,
-                    headers: schemas[table],
-                    rows: db[table]
+            tables.forEach(table => {
+                fetch(GOOGLE_SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    },
+                    body: JSON.stringify({
+                        action: 'sync',
+                        table: table,
+                        headers: schemas[table],
+                        rows: db[table] || []
+                    })
                 })
-            })
-                .then(() => console.log(`Synced table ${table} to Google Sheets.`))
-                .catch(err => console.error('Failed to sync to Google Sheets:', err));
-        });
+                    .then(() => console.log(`Synced table ${table} to Google Sheets.`))
+                    .catch(err => console.error('Failed to sync to Google Sheets:', err));
+            });
+        }, 1000);
     },
 
     // Fetch and sync local storage from Google Sheets on page load

@@ -427,7 +427,7 @@
                         <input type="checkbox" id="rememberMeCheckbox">
                         Ingat saya di perangkat ini
                     </label>
-                    <button type="button" class="forgot-password-link" onclick="openForgotPasswordModal()">Lupa password?</button>
+                    <button type="button" class="forgot-password-link" onclick="alert('Silahkan hubungi administrator')">Lupa password?</button>
                 </div>
 
                 <button type="submit" class="btn-submit">Masuk Pegawai</button>
@@ -440,38 +440,7 @@
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
-    <div class="modal" id="forgotPasswordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Lupa Password</h2>
-                <p>Masukkan NPP dan email terdaftar Anda untuk mengirim tautan pemulihan.</p>
-            </div>
 
-            <form id="resetForm" onsubmit="handleResetPassword(event)">
-                <div class="input-group">
-                    <label for="resetNpp">NPP Pegawai</label>
-                    <div class="input-wrapper">
-                        <i data-lucide="user" class="input-icon" size="18"></i>
-                        <input type="text" id="resetNpp" placeholder="Contoh: 12345" required>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="resetEmail">Email Terdaftar</label>
-                    <div class="input-wrapper">
-                        <i data-lucide="mail" class="input-icon" size="18"></i>
-                        <input type="email" id="resetEmail" placeholder="nama@bpjs-kesehatan.go.id" required>
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-modal-cancel" onclick="closeForgotPasswordModal()">Batal</button>
-                    <button type="submit" class="btn-modal-submit">Kirim Tautan</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <script>
         lucide.createIcons();
@@ -504,9 +473,9 @@
 
             // Find user in database
             const users = AikonDB.getTable('users');
-            const foundUser = users.find(u => u.npp === npp);
+            const foundUser = users.find(u => String(u.npp) === String(npp));
 
-            if (foundUser && foundUser.status === 'Aktif') {
+            if (foundUser && String(foundUser.status).toLowerCase() === 'aktif') {
                 if (foundUser.password === pass) {
                     console.log('Login success for NPP:', npp);
                     // Save remember me status
@@ -549,47 +518,7 @@
             lucide.createIcons(); // refresh lucide icons
         }
 
-        // Forgot Password Modal Controls
-        function openForgotPasswordModal() {
-            document.getElementById('forgotPasswordModal').classList.add('open');
-        }
 
-        function closeForgotPasswordModal() {
-            document.getElementById('forgotPasswordModal').classList.remove('open');
-        }
-
-        function handleResetPassword(event) {
-            event.preventDefault();
-            const resetNpp = document.getElementById('resetNpp').value.trim();
-            const resetEmail = document.getElementById('resetEmail').value.trim();
-            
-            const users = AikonDB.getTable('users');
-            const foundUser = users.find(u => u.npp === resetNpp);
-            
-            if (!foundUser) {
-                alert("NPP tidak terdaftar dalam sistem!");
-                return;
-            }
-            
-            // Construct mailto link to send the email
-            const subject = encodeURIComponent("Pemulihan Password AIKON BPJS Kesehatan");
-            const body = encodeURIComponent(`Yth. ${foundUser.nama},\n\nBerikut adalah password akun AIKON Anda sesuai permintaan pemulihan:\n\nNPP: ${foundUser.npp}\nPassword: ${foundUser.password}\n\nSilakan gunakan password tersebut untuk masuk ke sistem.\n\nSalam,\nTim IT BPJS Kesehatan`);
-            const mailtoUrl = `mailto:${resetEmail}?subject=${subject}&body=${body}`;
-            
-            // Redirect to mail client
-            window.location.href = mailtoUrl;
-            
-            closeForgotPasswordModal();
-            
-            // Show Success Banner
-            const successBanner = document.getElementById('successBanner');
-            successBanner.style.display = 'flex';
-            
-            // Auto hide success banner after 8 seconds
-            setTimeout(() => {
-                successBanner.style.display = 'none';
-            }, 8000);
-        }
     </script>
 </body>
 </html>

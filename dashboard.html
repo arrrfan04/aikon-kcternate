@@ -267,9 +267,9 @@
             const userProgressKey = 'aikon_onboarding_progress_' + currentUser.npp;
             const progress = JSON.parse(localStorage.getItem(userProgressKey)) || { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
 
-            const totalModules = 6;
-            const completedModules = Object.values(progress).filter(Boolean).length;
-            const percentage = Math.round((completedModules / totalModules) * 100);
+            const totalModules = db.onboarding && db.onboarding.length > 0 ? db.onboarding.length : 6;
+            const completedModules = Object.keys(progress).filter(key => progress[key]).length;
+            const percentage = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
 
             // 1. Update stats
             const stats = document.querySelectorAll('.stats-grid .stat-card');
@@ -289,29 +289,32 @@
             // 2. Update Kategori progress
             const progressItems = document.querySelectorAll('.progress-list .progress-item');
             if (progressItems.length >= 4) {
-                const totalSop = db.sop.length;
-                const totalReg = db.regulasi.length;
-                const totalPanduan = db.panduan.length;
+                const totalDocs = db.sop.length + db.regulasi.length + db.panduan.length + db.dokumen.length;
                 
-                // Update Regulasi & Kebijakan
-                const regProgress = Math.min(100, Math.round((totalReg / 6) * 100));
-                progressItems[0].querySelector('.progress-header span:last-child').innerText = `${regProgress}%`;
-                progressItems[0].querySelector('.progress-bar-fill').style.width = `${regProgress}%`;
+                const sopPct = totalDocs ? Math.round((db.sop.length / totalDocs) * 100) : 0;
+                const regPct = totalDocs ? Math.round((db.regulasi.length / totalDocs) * 100) : 0;
+                const panPct = totalDocs ? Math.round((db.panduan.length / totalDocs) * 100) : 0;
+                const docPct = totalDocs ? Math.round((db.dokumen.length / totalDocs) * 100) : 0;
 
-                // Update SOP Pelayanan
-                const sopProgress = Math.min(100, Math.round((totalSop / 8) * 100));
-                progressItems[1].querySelector('.progress-header span:last-child').innerText = `${sopProgress}%`;
-                progressItems[1].querySelector('.progress-bar-fill').style.width = `${sopProgress}%`;
+                // Update SOP Pelayanan (formerly Regulasi & Kebijakan)
+                progressItems[0].querySelector('.progress-header span:first-child').innerText = 'SOP Kerja';
+                progressItems[0].querySelector('.progress-header span:last-child').innerText = `${db.sop.length} Dokumen (${sopPct}%)`;
+                progressItems[0].querySelector('.progress-bar-fill').style.width = `${sopPct}%`;
 
-                // Update Prosedur Klaim
-                const klaimProgress = 45;
-                progressItems[2].querySelector('.progress-header span:last-child').innerText = `${klaimProgress}%`;
-                progressItems[2].querySelector('.progress-bar-fill').style.width = `${klaimProgress}%`;
+                // Update Regulasi
+                progressItems[1].querySelector('.progress-header span:first-child').innerText = 'Regulasi / Aturan';
+                progressItems[1].querySelector('.progress-header span:last-child').innerText = `${db.regulasi.length} Dokumen (${regPct}%)`;
+                progressItems[1].querySelector('.progress-bar-fill').style.width = `${regPct}%`;
 
-                // Update Sistem Aplikasi Internal
-                const appProgress = Math.min(100, Math.round((totalPanduan / 4) * 100));
-                progressItems[3].querySelector('.progress-header span:last-child').innerText = `${appProgress}%`;
-                progressItems[3].querySelector('.progress-bar-fill').style.width = `${appProgress}%`;
+                // Update Panduan Teknis (formerly Prosedur Klaim)
+                progressItems[2].querySelector('.progress-header span:first-child').innerText = 'Panduan Teknis';
+                progressItems[2].querySelector('.progress-header span:last-child').innerText = `${db.panduan.length} Dokumen (${panPct}%)`;
+                progressItems[2].querySelector('.progress-bar-fill').style.width = `${panPct}%`;
+
+                // Update Dokumen Form (formerly Sistem Aplikasi Internal)
+                progressItems[3].querySelector('.progress-header span:first-child').innerText = 'Dokumen / Form';
+                progressItems[3].querySelector('.progress-header span:last-child').innerText = `${db.dokumen.length} Dokumen (${docPct}%)`;
+                progressItems[3].querySelector('.progress-bar-fill').style.width = `${docPct}%`;
             }
 
             // 3. Update Last Activities
@@ -320,14 +323,19 @@
                 const recentActivities = [];
                 
                 // Add onboarding completions
-                const moduleNames = {
-                    1: "Modul 1: Selamat Datang",
-                    2: "Modul 2: Mengenal BPJS Kesehatan",
-                    3: "Modul 3: Sistem & Aplikasi Utama",
-                    4: "Modul 4: Alur Kerja Utama",
-                    5: "Modul 5: Pelayanan Peserta",
-                    6: "Modul 6: Evaluasi"
-                };
+                const moduleNames = {};
+                const defaultModules = [
+                    { id: 1, title: "1. Pengenalan BPJS Kesehatan" },
+                    { id: 2, title: "2. Struktur Organisasi" },
+                    { id: 3, title: "3. Pelayanan Kepesertaan" },
+                    { id: 4, title: "4. Penjaminan & Klaim" },
+                    { id: 5, title: "5. Kepatuhan Internal" },
+                    { id: 6, title: "6. Rangkuman Onboarding" }
+                ];
+                const activeModules = (db.onboarding && db.onboarding.length > 0) ? db.onboarding : defaultModules;
+                activeModules.forEach(m => {
+                    moduleNames[m.id] = m.title;
+                });
 
                 Object.keys(progress).forEach(key => {
                     if (progress[key]) {

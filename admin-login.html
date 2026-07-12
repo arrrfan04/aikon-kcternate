@@ -441,8 +441,6 @@
                     <label class="remember-me">
                         <input type="checkbox" id="rememberMeCheckbox">
                         Ingat sesi saya
-                    </label>
-                    <button type="button" class="forgot-password-link" onclick="openForgotPasswordModal()">Lupa password?</button>
                 </div>
 
                 <button type="submit" class="btn-submit">Masuk Admin</button>
@@ -455,30 +453,7 @@
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
-    <div class="modal" id="forgotPasswordModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Lupa Password Admin</h2>
-                <p>Masukkan email terdaftar admin untuk mengirim tautan pemulihan.</p>
-            </div>
 
-            <form id="resetForm" onsubmit="handleResetPassword(event)">
-                <div class="input-group">
-                    <label for="resetEmail">Email Terdaftar</label>
-                    <div class="input-wrapper">
-                        <i data-lucide="mail" class="input-icon" size="18"></i>
-                        <input type="email" id="resetEmail" placeholder="admin@bpjs-kesehatan.go.id" required>
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-modal-cancel" onclick="closeForgotPasswordModal()">Batal</button>
-                    <button type="submit" class="btn-modal-submit">Kirim Tautan</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <script>
         lucide.createIcons();
@@ -541,40 +516,7 @@
             lucide.createIcons();
         }
 
-        // Forgot Password Modal Controls
-        function openForgotPasswordModal() {
-            document.getElementById('forgotPasswordModal').classList.add('open');
-        }
 
-        function closeForgotPasswordModal() {
-            document.getElementById('forgotPasswordModal').classList.remove('open');
-        }
-
-        function handleResetPassword(event) {
-            event.preventDefault();
-            const resetEmail = document.getElementById('resetEmail').value.trim();
-            
-            if (resetEmail !== "admin@bpjs-kesehatan.go.id") {
-                alert("Email tidak terdaftar sebagai email Administrator!");
-                return;
-            }
-            
-            // Construct mailto link
-            const subject = encodeURIComponent("Pemulihan Password Admin AIKON BPJS Kesehatan");
-            const body = encodeURIComponent(`Yth. Administrator,\n\nBerikut adalah password akun Administrator AIKON Anda:\n\nUsername: kcternate2503\nPassword: adminkcternate123\n\nSilakan gunakan password tersebut untuk masuk ke panel admin.\n\nSalam,\nTim IT BPJS Kesehatan`);
-            const mailtoUrl = `mailto:${resetEmail}?subject=${subject}&body=${body}`;
-            
-            window.location.href = mailtoUrl;
-            
-            closeForgotPasswordModal();
-            
-            const successBanner = document.getElementById('successBanner');
-            successBanner.style.display = 'flex';
-            
-            setTimeout(() => {
-                successBanner.style.display = 'none';
-            }, 8000);
-        }
     </script>
 </body>
 </html>

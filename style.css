@@ -858,3 +858,15 @@ body.dashboard-page {
 .notification-dropdown-footer a {
     color: var(--primary-blue);
 }
+
+/* Responsive Floating Chat */
+@media (max-width: 576px) {
+    .floating-chat-widget {
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: calc(100vh - 70px);
+        border-radius: 16px 16px 0 0;
+        z-index: 999;
+    }
+}

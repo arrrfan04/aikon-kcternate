@@ -160,6 +160,26 @@
             transform: translateY(-2px);
         }
 
+        .btn-modal-cancel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F1F5F9;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+            border: none;
+            white-space: nowrap;
+        }
+        
+        .btn-modal-cancel:hover {
+            background: #E2E8F0;
+            color: var(--text-main);
+        }
+
         .toast-notification {
             position: fixed;
             bottom: 24px;
@@ -351,30 +371,48 @@
 
                 <div class="dashboard-card">
                     <h2>User Pegawai per Unit Kerja</h2>
-                    <div class="chart-container" style="display:flex; align-items:flex-end; justify-content:space-between; height:150px; border-bottom:1px solid #F1F5F9; padding-bottom:8px; gap: 4px;">
-                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 40px; width:20px; background:var(--secondary-cyan); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
-                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">SDMUK</span>
+                    <div class="chart-container" style="display:flex; flex-direction:column; gap: 14px; padding: 12px 0;">
+                        <div class="chart-bar-wrapper" style="display:flex; align-items:center; gap:12px;">
+                            <span class="chart-label" style="width: 100px; font-size:13px; color:var(--text-muted); font-weight:500;">SDMUK</span>
+                            <div style="flex:1; background:#F1F5F9; height:12px; border-radius:6px; overflow:hidden; display:flex;">
+                                <div class="chart-bar" style="height:100%; width: 0%; background:var(--secondary-cyan); border-radius:6px; transition: width 0.5s ease;"></div>
+                            </div>
+                            <span class="chart-bar-value" style="font-size:13px; font-weight:600; color:var(--text-dark); width:20px; text-align:right;">0</span>
                         </div>
-                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 40px; width:20px; background:var(--primary-blue); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
-                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">Kepesertaan</span>
+                        <div class="chart-bar-wrapper" style="display:flex; align-items:center; gap:12px;">
+                            <span class="chart-label" style="width: 100px; font-size:13px; color:var(--text-muted); font-weight:500;">Kepesertaan</span>
+                            <div style="flex:1; background:#F1F5F9; height:12px; border-radius:6px; overflow:hidden; display:flex;">
+                                <div class="chart-bar" style="height:100%; width: 0%; background:var(--primary-blue); border-radius:6px; transition: width 0.5s ease;"></div>
+                            </div>
+                            <span class="chart-bar-value" style="font-size:13px; font-weight:600; color:var(--text-dark); width:20px; text-align:right;">0</span>
                         </div>
-                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 40px; width:20px; background:#EA580C; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
-                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">Pel. Peserta</span>
+                        <div class="chart-bar-wrapper" style="display:flex; align-items:center; gap:12px;">
+                            <span class="chart-label" style="width: 100px; font-size:13px; color:var(--text-muted); font-weight:500;">Pel. Peserta</span>
+                            <div style="flex:1; background:#F1F5F9; height:12px; border-radius:6px; overflow:hidden; display:flex;">
+                                <div class="chart-bar" style="height:100%; width: 0%; background:#EA580C; border-radius:6px; transition: width 0.5s ease;"></div>
+                            </div>
+                            <span class="chart-bar-value" style="font-size:13px; font-weight:600; color:var(--text-dark); width:20px; text-align:right;">0</span>
                         </div>
-                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 40px; width:20px; background:var(--success-green); border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
-                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">Pel. Faskes</span>
+                        <div class="chart-bar-wrapper" style="display:flex; align-items:center; gap:12px;">
+                            <span class="chart-label" style="width: 100px; font-size:13px; color:var(--text-muted); font-weight:500;">Pel. Faskes</span>
+                            <div style="flex:1; background:#F1F5F9; height:12px; border-radius:6px; overflow:hidden; display:flex;">
+                                <div class="chart-bar" style="height:100%; width: 0%; background:var(--success-green); border-radius:6px; transition: width 0.5s ease;"></div>
+                            </div>
+                            <span class="chart-bar-value" style="font-size:13px; font-weight:600; color:var(--text-dark); width:20px; text-align:right;">0</span>
                         </div>
-                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 40px; width:20px; background:#8B5CF6; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
-                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">PKP</span>
+                        <div class="chart-bar-wrapper" style="display:flex; align-items:center; gap:12px;">
+                            <span class="chart-label" style="width: 100px; font-size:13px; color:var(--text-muted); font-weight:500;">PKP</span>
+                            <div style="flex:1; background:#F1F5F9; height:12px; border-radius:6px; overflow:hidden; display:flex;">
+                                <div class="chart-bar" style="height:100%; width: 0%; background:#8B5CF6; border-radius:6px; transition: width 0.5s ease;"></div>
+                            </div>
+                            <span class="chart-bar-value" style="font-size:13px; font-weight:600; color:var(--text-dark); width:20px; text-align:right;">0</span>
                         </div>
-                        <div class="chart-bar-wrapper" style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1;">
-                            <div class="chart-bar" style="height: 40px; width:20px; background:#EC4899; border-radius:4px;"><span class="chart-bar-value" style="font-size:10px; top:-18px;">0</span></div>
-                            <span class="chart-label" style="font-size:10px; color:var(--text-muted); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:50px;">PMU</span>
+                        <div class="chart-bar-wrapper" style="display:flex; align-items:center; gap:12px;">
+                            <span class="chart-label" style="width: 100px; font-size:13px; color:var(--text-muted); font-weight:500;">PMU</span>
+                            <div style="flex:1; background:#F1F5F9; height:12px; border-radius:6px; overflow:hidden; display:flex;">
+                                <div class="chart-bar" style="height:100%; width: 0%; background:#EC4899; border-radius:6px; transition: width 0.5s ease;"></div>
+                            </div>
+                            <span class="chart-bar-value" style="font-size:13px; font-weight:600; color:var(--text-dark); width:20px; text-align:right;">0</span>
                         </div>
                     </div>
                 </div>
@@ -472,7 +510,7 @@
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan SOP</button>
-                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formSop')">Batal</button>
+                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formSop')">Batal</button>
                     </div>
                 </form>
             </div>
@@ -566,7 +604,7 @@
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Regulasi</button>
-                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formRegulasi')">Batal</button>
+                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formRegulasi')">Batal</button>
                     </div>
                 </form>
             </div>
@@ -637,7 +675,7 @@
                     </div>
                     <div style="display:flex; gap:12px; margin-top:20px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Panduan</button>
-                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formPanduan')">Batal</button>
+                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formPanduan')">Batal</button>
                     </div>
                 </form>
             </div>
@@ -703,7 +741,7 @@
                     </div>
                     <div style="display:flex; gap:12px; margin-top:20px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Dokumen</button>
-                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formDokumen')">Batal</button>
+                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formDokumen')">Batal</button>
                     </div>
                 </form>
             </div>
@@ -755,7 +793,7 @@
                     </div>
                     <div style="display:flex; gap:12px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan FAQ</button>
-                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formFaq')">Batal</button>
+                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formFaq')">Batal</button>
                     </div>
                 </form>
             </div>
@@ -815,6 +853,9 @@
                                 <option>Bagian Pelayanan Faskes</option>
                                 <option>Bagian PKP</option>
                                 <option>Bagian PMU</option>
+                                <option>Kepala Cabang</option>
+                                <option>Kepala Kabupaten/Kota</option>
+                                <option>Staff KPI</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -824,7 +865,7 @@
                     </div>
                     <div style="display:flex; gap:12px; margin-top:20px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Akun Pegawai</button>
-                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formUser')">Batal</button>
+                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formUser')">Batal</button>
                     </div>
                 </form>
             </div>
@@ -874,6 +915,10 @@
                 <p>Kelola dan perbarui konten modul panduan onboarding staf baru.</p>
             </header>
 
+            <div class="action-bar" style="margin-bottom: 24px;">
+                <button class="btn-add" onclick="toggleForm('formOnboarding')"><i data-lucide="plus"></i> Tambah Modul Onboarding</button>
+            </div>
+
             <!-- Edit Form for Onboarding -->
             <div class="form-container" id="formOnboarding" style="display:none; margin-bottom:24px;">
                 <h2 style="font-size:18px; font-weight:700; color:var(--navy-blue); margin-bottom:16px;">Form Edit Modul Onboarding</h2>
@@ -890,7 +935,7 @@
                     </div>
                     <div style="display:flex; gap:12px; margin-top:20px;">
                         <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Perbarui Modul Onboarding</button>
-                        <button type="button" class="btn-modal-cancel" style="max-width:100px;" onclick="toggleForm('formOnboarding')">Batal</button>
+                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formOnboarding')">Batal</button>
                     </div>
                 </form>
             </div>
@@ -1139,19 +1184,18 @@
 
                     const maxCount = Math.max(countSdmuk, countKepesertaan, countPelPeserta, countPelFaskes, countPkp, countPmu) || 1;
                     
-                    const maxHeight = 120;
-                    const hSdmuk = Math.max(10, Math.round((countSdmuk / maxCount) * maxHeight));
-                    const hKepesertaan = Math.max(10, Math.round((countKepesertaan / maxCount) * maxHeight));
-                    const hPelPeserta = Math.max(10, Math.round((countPelPeserta / maxCount) * maxHeight));
-                    const hPelFaskes = Math.max(10, Math.round((countPelFaskes / maxCount) * maxHeight));
-                    const hPkp = Math.max(10, Math.round((countPkp / maxCount) * maxHeight));
-                    const hPmu = Math.max(10, Math.round((countPmu / maxCount) * maxHeight));
+                    const wSdmuk = Math.round((countSdmuk / maxCount) * 100);
+                    const wKepesertaan = Math.round((countKepesertaan / maxCount) * 100);
+                    const wPelPeserta = Math.round((countPelPeserta / maxCount) * 100);
+                    const wPelFaskes = Math.round((countPelFaskes / maxCount) * 100);
+                    const wPkp = Math.round((countPkp / maxCount) * 100);
+                    const wPmu = Math.round((countPmu / maxCount) * 100);
 
                     const counts = [countSdmuk, countKepesertaan, countPelPeserta, countPelFaskes, countPkp, countPmu];
-                    const heights = [hSdmuk, hKepesertaan, hPelPeserta, hPelFaskes, hPkp, hPmu];
+                    const widths = [wSdmuk, wKepesertaan, wPelPeserta, wPelFaskes, wPkp, wPmu];
 
                     for (let i = 0; i < 6; i++) {
-                        wrappers[i].querySelector('.chart-bar').style.height = `${heights[i]}px`;
+                        wrappers[i].querySelector('.chart-bar').style.width = `${widths[i]}%`;
                         wrappers[i].querySelector('.chart-bar-value').innerText = counts[i];
                     }
                 }
@@ -1292,7 +1336,20 @@
             // Render Onboarding Table
             const onboardingBody = document.getElementById('onboardingList');
             if (onboardingBody) {
-                onboardingBody.innerHTML = (db.onboarding || []).map((item, idx) => `
+                if (!db.onboarding || db.onboarding.length < 6) {
+                    const defaultModules = [
+                        { id: 1, title: "1. Pengenalan BPJS Kesehatan", content: "<h2>1. Pengenalan BPJS Kesehatan</h2><p class='step-description'>Selamat bergabung di Badan Penyelenggara Jaminan Sosial (BPJS) Kesehatan! Modul ini akan mengenalkan Anda pada sejarah, visi, misi, dan budaya kerja yang menjadi fondasi kita dalam memberikan pelayanan kesehatan terbaik bagi seluruh rakyat Indonesia.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, var(--primary-blue), var(--secondary-cyan)); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='building-2' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='history' size='18'></i> Sejarah Singkat</h3><p>BPJS Kesehatan resmi beroperasi pada <strong>1 Januari 2014</strong>, bertransformasi dari PT Askes (Persero). Transformasi ini merupakan amanat Undang-Undang Nomor 24 Tahun 2011, dengan tujuan mulia menyelenggarakan program Jaminan Kesehatan Nasional - Kartu Indonesia Sehat (JKN-KIS) bagi seluruh rakyat Indonesia.</p></div><div class='summary-box' style='background-color:#EBF5FF; border-left: 4px solid var(--primary-blue);'><h3 style='display:flex; align-items:center; gap:8px; color:var(--primary-blue);'><i data-lucide='target' size='18'></i> Visi dan Misi</h3><p><strong>Visi:</strong> \"Terwujudnya Jaminan Kesehatan yang Berkualitas tanpa Diskriminasi.\"</p><p><strong>Misi:</strong><ul style='margin-top:8px; padding-left:20px; line-height:1.6; color:var(--text-muted);'><li>Memberikan jaminan kesehatan kepada peserta secara komprehensif.</li><li>Meningkatkan kualitas pelayanan melalui inovasi teknologi.</li><li>Menjaga kesinambungan finansial program JKN-KIS dengan gotong royong.</li></ul></p></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='heart-handshake' size='18'></i> Budaya Kerja Organisasi</h3><p>Sebagai Duta BPJS Kesehatan, Anda diharapkan mengimplementasikan budaya kerja berikut:</p><div style='display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;'><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Integritas</h4><p style='font-size:12px; margin:0;'>Jujur, transparan, dan tidak menyalahgunakan wewenang.</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Pelayanan Prima</h4><p style='font-size:12px; margin:0;'>Memberikan layanan yang ramah, cepat, dan empati kepada peserta.</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Gotong Royong</h4><p style='font-size:12px; margin:0;'>Berkolaborasi dalam tim dan mengedepankan asas kebersamaan.</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Inovatif</h4><p style='font-size:12px; margin:0;'>Selalu mencari cara baru yang lebih efektif dan efisien.</p></div></div></div>" },
+                        { id: 2, title: "2. Struktur Organisasi", content: "<h2>2. Struktur Organisasi</h2><p class='step-description'>Memahami struktur hierarki, tugas pokok, dan koordinasi antar unit kerja di lingkungan BPJS Kesehatan, mulai dari tingkat Pusat hingga Kabupaten/Kota.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, var(--secondary-cyan), var(--primary-blue)); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='network' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='git-merge' size='18'></i> Tata Kerja & SOTK</h3><p>Organisasi BPJS Kesehatan disusun dengan prinsip pembagian tugas yang jelas untuk memastikan pelayanan publik berjalan optimal. Anda akan sering berkoordinasi secara lintas departemen.</p></div><div class='summary-box' style='background-color:#EBF5FF; border-left: 4px solid var(--primary-blue);'><h3 style='display:flex; align-items:center; gap:8px; color:var(--primary-blue);'><i data-lucide='layers' size='18'></i> Hierarki Operasional</h3><p><ul style='margin-top:8px; padding-left:20px; line-height:1.6; color:var(--text-muted);'><li><strong>Kantor Pusat (KP):</strong> Menyusun kebijakan strategis berskala nasional.</li><li><strong>Kedeputian Wilayah (Kedepwil):</strong> Melakukan fungsi supervisi dan evaluasi atas kinerja cabang di wilayahnya.</li><li><strong>Kantor Cabang (KC):</strong> Pelaksana utama fungsi operasional kepesertaan, penagihan, dan penjaminan manfaat di level kota/kabupaten besar.</li><li><strong>Kantor Kabupaten/Kota (Kab/Kot):</strong> Perpanjangan tangan KC untuk mempermudah akses layanan bagi peserta di pelosok daerah.</li></ul></p></div>" },
+                        { id: 3, title: "3. Pelayanan Kepesertaan", content: "<h2>3. Pelayanan Kepesertaan</h2><p class='step-description'>Mengupas tuntas alur layanan pendaftaran, perubahan data, dan layanan administrasi peserta JKN-KIS melalui berbagai kanal yang kita sediakan.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, #10B981, #047857); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='users' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='laptop' size='18'></i> Kanal Layanan Tanpa Tatap Muka</h3><p>Di era digitalisasi, BPJS Kesehatan mendorong peserta untuk menggunakan layanan berbasis teknologi yang cepat dan mudah tanpa harus datang ke kantor cabang. Antara lain:</p><div style='display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px;'><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>Aplikasi Mobile JKN</h4><p style='font-size:12px; margin:0;'>Solusi lengkap dalam satu genggaman (kartu digital, antrean online, pindah faskes).</p></div><div style='background:white; padding:12px; border-radius:8px; border:1px solid #E2E8F0;'><h4 style='font-size:14px; margin-bottom:4px; color:var(--navy-blue);'>PANDAWA (WhatsApp)</h4><p style='font-size:12px; margin:0;'>Layanan Administrasi Melalui WhatsApp (08118165165) yang ramah dan interaktif.</p></div></div></div><div class='summary-box' style='background-color:#ECFDF5; border-left: 4px solid #10B981;'><h3 style='display:flex; align-items:center; gap:8px; color:#10B981;'><i data-lucide='shield-check' size='18'></i> Validasi Data (Single Identity Number)</h3><p>Pastikan Anda selalu menggunakan <strong>NIK (Nomor Induk Kependudukan)</strong> sebagai kunci utama (<i>primary key</i>) dalam proses pencarian data maupun pendaftaran peserta. NIK dan KIS kini merupakan identitas tunggal peserta yang sah untuk mengakses layanan kesehatan.</p></div>" },
+                        { id: 4, title: "4. Penjaminan & Klaim", content: "<h2>4. Penjaminan & Klaim Manfaat</h2><p class='step-description'>Bagaimana program JKN-KIS memberikan jaminan pelayanan kesehatan kepada peserta serta mekanisme pembayaran klaim kepada Fasilitas Kesehatan (Faskes).</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, #F59E0B, #D97706); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='file-spreadsheet' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='stethoscope' size='18'></i> Sistem Rujukan Berjenjang</h3><p>Pelayanan kesehatan diselenggarakan secara berjenjang dimulai dari Fasilitas Kesehatan Tingkat Pertama (FKTP) seperti Puskesmas/Klinik. Jika indikasi medis mengharuskan, peserta akan dirujuk ke Fasilitas Kesehatan Rujukan Tingkat Lanjutan (FKRTL) yaitu Rumah Sakit, terkecuali dalam kondisi Gawat Darurat (UGD).</p></div><div class='summary-box' style='background-color:#FFFBEB; border-left: 4px solid #F59E0B;'><h3 style='display:flex; align-items:center; gap:8px; color:#D97706;'><i data-lucide='wallet' size='18'></i> Metode Pembayaran Klaim Faskes</h3><p><ul style='margin-top:8px; padding-left:20px; line-height:1.6; color:var(--text-muted);'><li><strong>Kapitasi (FKTP):</strong> Pembayaran tetap setiap bulan berdasarkan jumlah peserta terdaftar di faskes tersebut, tanpa memperhitungkan jenis/jumlah layanan medis yang diberikan.</li><li><strong>INA-CBG's (FKRTL):</strong> Pembayaran klaim rumah sakit berbasis diagnosis penyakit (paket tarif) yang diproses melalui verifikasi ketat melalui aplikasi V-Klaim.</li></ul></p></div>" },
+                        { id: 5, title: "5. Kepatuhan Internal", content: "<h2>5. Kepatuhan Internal</h2><p class='step-description'>Membangun lingkungan kerja yang bersih, disiplin, berintegritas tinggi, dan patuh terhadap segala ketentuan serta peraturan perundang-undangan.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, #EF4444, #B91C1C); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='shield-alert' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='alert-triangle' size='18'></i> Anti-Fraud (Pencegahan Kecurangan)</h3><p>Sebagai lembaga pengelola dana amanat masyarakat, BPJS Kesehatan menerapkan sistem Anti-Fraud yang sangat ketat baik untuk internal (pegawai) maupun eksternal (faskes dan peserta). Segala bentuk <i>phantom billing</i>, mark-up, atau manipulasi data akan dikenai sanksi tegas.</p></div><div class='summary-box' style='background-color:#FEF2F2; border-left: 4px solid #EF4444;'><h3 style='display:flex; align-items:center; gap:8px; color:#B91C1C;'><i data-lucide='lock' size='18'></i> Kerahasiaan Data (Data Privacy)</h3><p>Duta BPJS Kesehatan diwajibkan menjunjung tinggi keamanan data, terutama <strong>Rekam Medis dan Data Demografi</strong> peserta. Dilarang keras menyebarkan, membocorkan, atau menggunakan data peserta JKN untuk kepentingan pribadi atau komersial di luar dinas resmi.</p></div>" },
+                        { id: 6, title: "6. Rangkuman Onboarding", content: "<h2>6. Rangkuman Onboarding</h2><p class='step-description'>Selamat! Anda telah menyelesaikan seluruh rangkaian orientasi dasar Duta BPJS Kesehatan. Mari kita ulas kembali hal-hal krusial yang sudah dipelajari.</p><div style='width:100%; height:200px; border-radius:12px; background: linear-gradient(135deg, var(--navy-blue), #1E293B); display:flex; align-items:center; justify-content:center; margin-bottom:24px; color:white;'><i data-lucide='award' style='width:80px; height:80px; opacity:0.8'></i></div><div class='summary-box'><h3 style='display:flex; align-items:center; gap:8px;'><i data-lucide='check-circle' size='18'></i> Pesan Penutup</h3><p>Program JKN-KIS adalah program strategis nasional yang dititipkan di atas pundak kita. Kesuksesan program ini amat bergantung pada etos kerja, pelayanan sepenuh hati, serta kepatuhan Anda terhadap Standar Operasional Prosedur (SOP).</p><div style='margin-top:16px; padding:16px; background:#F8FAFC; border-radius:8px; text-align:center;'><p style='font-style:italic; font-weight:600; color:var(--text-main); margin:0;'>\"Dengan semangat kebersamaan dan gotong royong, mari kita wujudkan Jaminan Kesehatan yang Berkualitas tanpa Diskriminasi!\"</p></div></div>" }
+                    ];
+                    db.onboarding = defaultModules;
+                    AikonDB.save(db);
+                }
+
+                onboardingBody.innerHTML = db.onboarding.map((item, idx) => `
                     <tr>
                         <td style="font-weight:700; color:var(--navy-blue);">${item.id}</td>
                         <td style="font-weight:600; color:var(--text-main);">${item.title || ''}</td>
@@ -1445,14 +1502,20 @@
                 const title = document.getElementById('onboardingTitle').value;
                 const content = document.getElementById('onboardingContent').value;
                 
-                const localDb = AikonDB.get();
-                const existing = localDb.onboarding[editIndex];
-                const onboardingData = { ...existing, title: title, content: content };
-
                 if (isEdit) {
+                    const localDb = AikonDB.get();
+                    const existing = localDb.onboarding[editIndex] || {};
+                    const onboardingData = { ...existing, title: title, content: content };
                     AikonDB.updateRow('onboarding', editIndex, onboardingData);
                     AikonDB.addActivity("Memperbarui Onboarding", title, "Konten panduan onboarding Modul " + (editIndex + 1) + " telah diperbarui oleh Admin.", "onboarding-update");
                     showToast('Konten modul onboarding berhasil diperbarui!');
+                } else {
+                    const localDb = AikonDB.get();
+                    const nextId = localDb.onboarding && localDb.onboarding.length > 0 ? Math.max(...localDb.onboarding.map(o => o.id || 0)) + 1 : 1;
+                    const onboardingData = { id: nextId, title: title, content: content };
+                    AikonDB.addRow('onboarding', onboardingData);
+                    AikonDB.addActivity("Menambahkan Onboarding", title, "Modul panduan onboarding baru telah ditambahkan oleh Admin.", "onboarding-add");
+                    showToast('Konten modul onboarding berhasil ditambahkan!');
                 }
                 document.getElementById('formOnboarding').style.display = "none";
             }
