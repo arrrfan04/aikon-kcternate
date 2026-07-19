@@ -96,30 +96,20 @@
             </div>
             <select class="category-select" id="kbCategorySelect" onchange="handleCategoryChange()" style="border: 1px solid #E2E8F0; border-radius: var(--radius-sm); padding: 12px 16px; outline: none; font-size: 14px; color: var(--text-main); background: white; cursor: pointer;">
                 <option value="all">Semua Kategori</option>
-                <option value="sop">SOP & Prosedur</option>
                 <option value="regulasi">Regulasi</option>
-                <option value="panduan">Panduan Kerja</option>
-                <option value="dokumen">Form & Dokumen</option>
+                <option value="panduan">DJP/Panduan Kerja</option>
                 <option value="faq">FAQ</option>
             </select>
         </div>
 
         <div class="filter-icons" id="kbTabs">
-            <div class="filter-item active" onclick="switchKbTab('sop', this)">
-                <div class="filter-icon-box"><i data-lucide="file-check"></i></div>
-                <span>SOP & Prosedur</span>
-            </div>
-            <div class="filter-item" onclick="switchKbTab('regulasi', this)">
+            <div class="filter-item active" onclick="switchKbTab('regulasi', this)">
                 <div class="filter-icon-box"><i data-lucide="scroll-text"></i></div>
                 <span>Regulasi</span>
             </div>
             <div class="filter-item" onclick="switchKbTab('panduan', this)">
                 <div class="filter-icon-box"><i data-lucide="briefcase"></i></div>
-                <span>Panduan Kerja</span>
-            </div>
-            <div class="filter-item" onclick="switchKbTab('dokumen', this)">
-                <div class="filter-icon-box"><i data-lucide="form-input"></i></div>
-                <span>Form & Dokumen</span>
+                <span>DJP/Panduan Kerja</span>
             </div>
             <div class="filter-item" onclick="switchKbTab('faq', this)">
                 <div class="filter-icon-box"><i data-lucide="help-circle"></i></div>
@@ -129,7 +119,7 @@
 
         <div class="doc-section">
             <div class="doc-header">
-                <h2 id="sectionTitle">SOP & Prosedur</h2>
+                <h2 id="sectionTitle">Semua Kategori</h2>
             </div>
             <div class="doc-list" id="kbDocList">
                 <!-- Dynamically Rendered -->
@@ -167,10 +157,8 @@
 
         const tabTitleMap = {
             all: 'Semua Kategori',
-            sop: 'SOP & Prosedur',
             regulasi: 'Peraturan & Regulasi',
-            panduan: 'Panduan Kerja Operasional',
-            dokumen: 'Formulir & Dokumen',
+            panduan: 'DJP/Panduan Kerja Operasional',
             faq: 'FAQ JKN KIS'
         };
 
@@ -185,10 +173,8 @@
             let data = [];
             if (activeTab === 'all') {
                 data = [
-                    ...db.sop.map(x => ({ ...x, category: 'sop' })),
                     ...db.regulasi.map(x => ({ ...x, category: 'regulasi' })),
                     ...db.panduan.map(x => ({ ...x, category: 'panduan' })),
-                    ...db.dokumen.map(x => ({ ...x, category: 'dokumen' })),
                     ...db.faq.map(x => ({ ...x, category: 'faq' }))
                 ];
             } else {
@@ -199,12 +185,10 @@
             const filtered = data.filter(item => {
                 if (!searchVal) return true;
                 const cat = item.category;
-                if (cat === 'sop' || cat === 'panduan') {
+                if (cat === 'panduan') {
                     return (item.judul && item.judul.toLowerCase().includes(searchVal)) || (item.deskripsi && item.deskripsi.toLowerCase().includes(searchVal));
                 } else if (cat === 'regulasi') {
                     return (item.nomor && item.nomor.toLowerCase().includes(searchVal)) || (item.tentang && item.tentang.toLowerCase().includes(searchVal));
-                } else if (cat === 'dokumen') {
-                    return (item.nama && item.nama.toLowerCase().includes(searchVal)) || (item.tipe && item.tipe.toLowerCase().includes(searchVal));
                 } else if (cat === 'faq') {
                     return (item.pertanyaan && item.pertanyaan.toLowerCase().includes(searchVal)) || (item.jawaban && item.jawaban.toLowerCase().includes(searchVal));
                 }
@@ -225,23 +209,7 @@
             // 4. Render matching html
             let html = paginatedItems.map(item => {
                 const cat = item.category;
-                if (cat === 'sop') {
-                    return `
-                        <div class="doc-item">
-                            <div class="doc-file-icon"><i data-lucide="file-text"></i></div>
-                            <div class="doc-info" style="flex: 1;">
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <span style="font-size:10px; font-weight:700; text-transform:uppercase; padding: 2px 6px; border-radius:4px; background:#ECFDF5; color:#10B981; margin-bottom:4px;">SOP</span>
-                                    <span style="font-size:11px; color:var(--text-muted); font-weight:500;">Kode: ${item.kode || '-'}</span>
-                                </div>
-                                <h3 style="margin-top:4px;">${item.judul}</h3>
-                                <p>${item.kategori || item.unit} • ${item.tanggal}</p>
-                                <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:4px;">${item.deskripsi}</span>
-                            </div>
-                            <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.judul || '').replace(/'/g, "\\'")}')" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0; text-decoration:none;"><i data-lucide="download" size="14"></i> Unduh</a>
-                        </div>
-                    `;
-                } else if (cat === 'regulasi') {
+                if (cat === 'regulasi') {
                     return `
                         <div class="doc-item">
                             <div class="doc-file-icon" style="background:#FEF3C7; color:#D97706;"><i data-lucide="scroll-text"></i></div>
@@ -262,24 +230,12 @@
                         <div class="doc-item">
                             <div class="doc-file-icon" style="background:#E1F5FE; color:#0288D1;"><i data-lucide="book-open"></i></div>
                             <div class="doc-info" style="flex: 1;">
-                                <span style="font-size:10px; font-weight:700; text-transform:uppercase; padding: 2px 6px; border-radius:4px; background:#E1F5FE; color:#0288D1; display:inline-block; margin-bottom:4px;">PANDUAN</span>
+                                <span style="font-size:10px; font-weight:700; text-transform:uppercase; padding: 2px 6px; border-radius:4px; background:#E1F5FE; color:#0288D1; display:inline-block; margin-bottom:4px;">DJP/PANDUAN</span>
                                 <h3>${item.judul}</h3>
                                 <p>${item.modul}</p>
                                 <span style="font-size:12px; color:var(--text-muted); display:block; margin-top:4px;">${item.deskripsi}</span>
                             </div>
                             <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.judul || '').replace(/'/g, "\\'")}')" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0; text-decoration:none;"><i data-lucide="download" size="14"></i> Unduh</a>
-                        </div>
-                    `;
-                } else if (cat === 'dokumen') {
-                    return `
-                        <div class="doc-item">
-                            <div class="doc-file-icon" style="background:#E8F5E9; color:#2E7D32;"><i data-lucide="file-text"></i></div>
-                            <div class="doc-info" style="flex: 1;">
-                                <span style="font-size:10px; font-weight:700; text-transform:uppercase; padding: 2px 6px; border-radius:4px; background:#E8F5E9; color:#2E7D32; display:inline-block; margin-bottom:4px;">DOKUMEN</span>
-                                <h3>${item.nama}</h3>
-                                <p>${item.tipe} • Diunggah: ${item.tanggal}</p>
-                            </div>
-                            <a href="#" onclick="event.preventDefault(); downloadFile('${item.link || '#'}', '${(item.nama || '').replace(/'/g, "\\'")}')" style="background:var(--light-blue); color:var(--primary-blue); border:none; padding:8px 12px; border-radius:6px; font-weight:600; font-size:12px; display:inline-flex; align-items:center; gap:6px; margin-left: 12px; flex-shrink: 0; text-decoration:none;"><i data-lucide="download" size="14"></i> Unduh</a>
                         </div>
                     `;
                 } else if (cat === 'faq') {

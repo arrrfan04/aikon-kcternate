@@ -6,10 +6,8 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyT92rCmLFZ28s
 
 
 const DEFAULT_DATABASE = {
-    sop: [],
     regulasi: [],
     panduan: [],
-    dokumen: [],
     faq: [],
     users: [],
     activities: [],
@@ -24,7 +22,7 @@ try {
         shouldResetDb = true;
     } else {
         const parsed = JSON.parse(existingDb);
-        if (!parsed.sop || !parsed.onboarding || !parsed.activities) {
+        if (!parsed.onboarding || !parsed.activities) {
             shouldResetDb = true;
         }
     }
@@ -113,12 +111,10 @@ window.AikonDB = {
         
         this._syncTimeout = setTimeout(() => {
             const db = this.get();
-            const tables = ['sop', 'regulasi', 'panduan', 'dokumen', 'faq', 'users', 'activities', 'onboarding'];
+            const tables = ['regulasi', 'panduan', 'faq', 'users', 'activities', 'onboarding'];
             const schemas = {
-                sop: ['id', 'kode', 'judul', 'kategori', 'tanggal', 'link', 'deskripsi'],
                 regulasi: ['id', 'nomor', 'tentang', 'jenis', 'tanggal', 'masa_berlaku', 'link', 'ringkasan'],
                 panduan: ['id', 'judul', 'modul', 'deskripsi', 'link'],
-                dokumen: ['id', 'nama', 'tipe', 'tanggal', 'link'],
                 faq: ['id', 'pertanyaan', 'jawaban'],
                 users: ['id', 'nama', 'npp', 'unit', 'password', 'status'],
                 activities: ['id', 'action', 'title', 'desc', 'time', 'type'],
@@ -292,18 +288,12 @@ window.aikonChatRespond = function(query) {
     let category = '';
     let categoryName = '';
     
-    if (q.includes('sop') || q.includes('prosedur') || q.includes('alur') || q.includes('langkah')) {
-        category = 'sop';
-        categoryName = 'SOP & Prosedur';
-    } else if (q.includes('regulasi') || q.includes('peraturan') || q.includes('perpres') || q.includes('kebijakan') || q.includes('undang')) {
+    if (q.includes('regulasi') || q.includes('peraturan') || q.includes('perpres') || q.includes('kebijakan') || q.includes('undang')) {
         category = 'regulasi';
         categoryName = 'Regulasi';
     } else if (q.includes('panduan') || q.includes('juknis') || q.includes('petunjuk') || q.includes('modul')) {
         category = 'panduan';
-        categoryName = 'Panduan Kerja';
-    } else if (q.includes('dokumen') || q.includes('form') || q.includes('formulir') || q.includes('berkas') || q.includes('template')) {
-        category = 'dokumen';
-        categoryName = 'Form & Dokumen';
+        categoryName = 'DJP/Panduan Kerja';
     } else if (q.includes('faq') || q.includes('tanya') || q.includes('bagaimana') || q.includes('apakah') || q.includes('mengapa') || q.includes('kenapa') || q.includes('berapa')) {
         category = 'faq';
         categoryName = 'FAQ';

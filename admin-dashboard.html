@@ -252,21 +252,13 @@
                 <i data-lucide="home"></i>
                 <span>Beranda</span>
             </button>
-            <button class="nav-item" onclick="switchPage('sop', this)">
-                <i data-lucide="file-text"></i>
-                <span>SOP Kerja</span>
-            </button>
             <button class="nav-item" onclick="switchPage('regulasi', this)">
                 <i data-lucide="shield-alert"></i>
                 <span>Regulasi</span>
             </button>
             <button class="nav-item" onclick="switchPage('panduan', this)">
                 <i data-lucide="book-open"></i>
-                <span>Panduan Kerja</span>
-            </button>
-            <button class="nav-item" onclick="switchPage('dokumen', this)">
-                <i data-lucide="files"></i>
-                <span>Form & Dokumen</span>
+                <span>DJP/Panduan Kerja</span>
             </button>
             <button class="nav-item" onclick="switchPage('faq', this)">
                 <i data-lucide="help-circle"></i>
@@ -304,11 +296,7 @@
             </header>
 
             <div class="stats-grid">
-                <div class="stat-card blue">
-                    <div class="stat-icon"><i data-lucide="file-text" size="20"></i></div>
-                    <h3>Total SOP Kerja</h3>
-                    <span class="value" id="countSop">18</span>
-                </div>
+
                 <div class="stat-card green">
                     <div class="stat-icon"><i data-lucide="shield-alert" size="20"></i></div>
                     <h3>Total Regulasi</h3>
@@ -330,15 +318,7 @@
                 <div class="dashboard-card">
                     <h2>Distribusi Dokumen per Kategori</h2>
                     <div class="progress-list" style="display:flex; flex-direction:column; gap:16px;">
-                        <div class="progress-item">
-                            <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
-                                <span>SOP Pelayanan & Administrasi</span>
-                                <span style="font-weight:600;">18 Dokumen (40%)</span>
-                            </div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar-fill" style="width: 40%"></div>
-                            </div>
-                        </div>
+
                         <div class="progress-item">
                             <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
                                 <span>Regulasi & Kebijakan Pusat</span>
@@ -350,22 +330,14 @@
                         </div>
                         <div class="progress-item">
                             <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
-                                <span>Panduan Kerja Operasional</span>
+                                <span>DJP/Panduan Kerja Operasional</span>
                                 <span style="font-weight:600;">10 Dokumen (20%)</span>
                             </div>
                             <div class="progress-bar-container">
                                 <div class="progress-bar-fill" style="width: 20%; background: #EA580C;"></div>
                             </div>
                         </div>
-                        <div class="progress-item">
-                            <div class="progress-header" style="display:flex; justify-content:space-between; font-size:13px;">
-                                <span>Formulir & FAQ Berkas</span>
-                                <span style="font-weight:600;">15 Dokumen (15%)</span>
-                            </div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar-fill" style="width: 15%; background: var(--secondary-cyan);"></div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
@@ -463,96 +435,7 @@
             </div>
         </div>
 
-        <!-- SECTION 2: SOP KERJA -->
-        <div id="sop" class="admin-page-content">
-            <div class="admin-section-header">
-                <div>
-                    <h1>Penambahan & Update SOP Kerja</h1>
-                    <p>Kelola Standard Operating Procedure (SOP) pelayanan dan administrasi.</p>
-                </div>
-                <button class="btn-add" onclick="toggleForm('formSop')"><i data-lucide="plus"></i> Tambah SOP</button>
-            </div>
 
-            <!-- Add Form -->
-            <div class="form-container" id="formSop" style="display:none">
-                <h2>Form Tambah / Edit SOP</h2>
-                <form onsubmit="handleFormSubmit(event, 'sop')">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Kode SOP</label>
-                            <input type="text" id="sopKode" placeholder="Contoh: SOP-FO-01" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nama SOP</label>
-                            <input type="text" id="sopNama" placeholder="Contoh: Alur Pengaduan Loket FKTP" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Kategori</label>
-                            <select id="sopKategori" required>
-                                <option>Pelayanan FKTP</option>
-                                <option>Pelayanan FKRTL</option>
-                                <option>Administrasi Kepesertaan</option>
-                                <option>Verifikasi Klaim</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Tanggal Rilis</label>
-                            <input type="date" id="sopTanggal" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Link Google Drive</label>
-                            <input type="url" id="sopLink" placeholder="Contoh: https://drive.google.com/..." required>
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label>Ringkasan Isi SOP</label>
-                        <textarea id="sopDeskripsi" placeholder="Masukkan ringkasan atau alur utama SOP..." rows="4" required></textarea>
-                    </div>
-                    <div style="display:flex; gap:12px;">
-                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan SOP</button>
-                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formSop')">Batal</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- List Table -->
-            <div class="table-responsive">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Kode</th>
-                            <th>Nama SOP</th>
-                            <th>Kategori</th>
-                            <th>Tanggal Rilis</th>
-                            <th>Ringkasan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sopList">
-                        <tr>
-                            <td>SOP-FO-01</td>
-                            <td>Validasi & Verifikasi Pendaftaran Bayi Baru Lahir</td>
-                            <td>Administrasi Kepesertaan</td>
-                            <td>24 Juni 2026</td>
-                            <td>
-                                <button class="btn-action-edit">Edit</button>
-                                <button class="btn-action-delete">Hapus</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>SOP-KL-04</td>
-                            <td>Verifikasi Kelayakan Klaim Non-Kapitasi Primer</td>
-                            <td>Verifikasi Klaim</td>
-                            <td>10 Juni 2026</td>
-                            <td>
-                                <button class="btn-action-edit">Edit</button>
-                                <button class="btn-action-delete">Hapus</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
         <!-- SECTION 3: REGULASI -->
         <div id="regulasi" class="admin-page-content">
@@ -642,7 +525,7 @@
         <div id="panduan" class="admin-page-content">
             <div class="admin-section-header">
                 <div>
-                    <h1>Penambahan & Update Panduan Kerja</h1>
+                    <h1>Penambahan & Update DJP/Panduan Kerja</h1>
                     <p>Kelola petunjuk teknis operasional (Juknis) langkah-demi-langkah bagi staf lapangan.</p>
                 </div>
                 <button class="btn-add" onclick="toggleForm('formPanduan')"><i data-lucide="plus"></i> Tambah Panduan</button>
@@ -659,9 +542,13 @@
                         <div class="form-group">
                             <label>Modul / Bidang</label>
                             <select id="panduanModul" required>
-                                <option>Aplikasi Internal</option>
-                                <option>Pelayanan Lapangan</option>
-                                <option>Klaim Rumah Sakit</option>
+                                <option>Bagian SDMUK</option>
+                                <option>Bagian Kepesertaan</option>
+                                <option>Bagian Pelayanan Peserta</option>
+                                <option>Bagian Pelayanan Fasilitas Kesehatan</option>
+                                <option>Bagian PKP</option>
+                                <option>Bagian PMU</option>
+                                <option>Bagian Kabupaten/Kota</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -704,71 +591,7 @@
             </div>
         </div>
 
-        <!-- SECTION 5: FORM & DOKUMEN -->
-        <div id="dokumen" class="admin-page-content">
-            <div class="admin-section-header">
-                <div>
-                    <h1>Penambahan & Update Form & Dokumen</h1>
-                    <p>Unggah dan kelola formulir resmi, template surat, dan lampiran berkas klaim.</p>
-                </div>
-                <button class="btn-add" onclick="toggleForm('formDokumen')"><i data-lucide="plus"></i> Tambah Dokumen</button>
-            </div>
 
-            <div class="form-container" id="formDokumen" style="display:none">
-                <h2>Form Tambah / Edit Dokumen</h2>
-                <form onsubmit="handleFormSubmit(event, 'dokumen')">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Nama Formulir/Dokumen</label>
-                            <input type="text" id="dokumenNama" placeholder="Contoh: Form Pengajuan Kredensialing FKTP" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tipe Berkas / Format</label>
-                            <select id="dokumenTipe" required>
-                                <option>PDF Dokumentasi</option>
-                                <option>Microsoft Word (.docx)</option>
-                                <option>Microsoft Excel (.xlsx)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Tanggal Unggah</label>
-                            <input type="date" id="dokumenTanggal" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Link Google Drive</label>
-                            <input type="url" id="dokumenLink" placeholder="Contoh: https://drive.google.com/..." required>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:12px; margin-top:20px;">
-                        <button type="submit" class="btn-add" style="border-radius:6px; box-shadow:none;">Simpan Dokumen</button>
-                        <button type="button" class="btn-modal-cancel" onclick="toggleForm('formDokumen')">Batal</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="table-responsive">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Nama Formulir/Dokumen</th>
-                            <th>Tipe / Format</th>
-                            <th>Tanggal Unggah</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Formulir Rekonsiliasi Iuran Badan Usaha JKN</td>
-                            <td>Microsoft Excel (.xlsx)</td>
-                            <td>
-                                <button class="btn-action-edit">Edit</button>
-                                <button class="btn-action-delete">Hapus</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
         <!-- SECTION 6: FAQ -->
         <div id="faq" class="admin-page-content">
@@ -1119,7 +942,6 @@
             const db = AikonDB.get();
 
             // Update stats
-            document.getElementById('countSop').innerText = db.sop.length;
             document.getElementById('countRegulasi').innerText = db.regulasi.length;
             document.getElementById('countUsers').innerText = db.users.length;
             document.getElementById('countFaq').innerText = db.faq.length;
@@ -1127,26 +949,18 @@
             // Category distribution bars
             const progressList = document.querySelector('.progress-list');
             if (progressList) {
-                const totalDocs = db.sop.length + db.regulasi.length + db.panduan.length + db.dokumen.length;
+                const totalDocs = db.regulasi.length + db.panduan.length;
                 const items = progressList.querySelectorAll('.progress-item');
                 
-                const sopPct = totalDocs ? Math.round((db.sop.length / totalDocs) * 100) : 0;
                 const regPct = totalDocs ? Math.round((db.regulasi.length / totalDocs) * 100) : 0;
                 const panPct = totalDocs ? Math.round((db.panduan.length / totalDocs) * 100) : 0;
-                const docPct = totalDocs ? Math.round((db.dokumen.length / totalDocs) * 100) : 0;
 
-                if (items.length >= 4) {
-                    items[0].querySelector('.progress-header span:last-child').innerText = `${db.sop.length} Dokumen (${sopPct}%)`;
-                    items[0].querySelector('.progress-bar-fill').style.width = `${sopPct}%`;
+                if (items.length >= 2) {
+                    items[0].querySelector('.progress-header span:last-child').innerText = `${db.regulasi.length} Dokumen (${regPct}%)`;
+                    items[0].querySelector('.progress-bar-fill').style.width = `${regPct}%`;
 
-                    items[1].querySelector('.progress-header span:last-child').innerText = `${db.regulasi.length} Dokumen (${regPct}%)`;
-                    items[1].querySelector('.progress-bar-fill').style.width = `${regPct}%`;
-
-                    items[2].querySelector('.progress-header span:last-child').innerText = `${db.panduan.length} Dokumen (${panPct}%)`;
-                    items[2].querySelector('.progress-bar-fill').style.width = `${panPct}%`;
-
-                    items[3].querySelector('.progress-header span:last-child').innerText = `${db.dokumen.length} Dokumen (${docPct}%)`;
-                    items[3].querySelector('.progress-bar-fill').style.width = `${docPct}%`;
+                    items[1].querySelector('.progress-header span:last-child').innerText = `${db.panduan.length} Dokumen (${panPct}%)`;
+                    items[1].querySelector('.progress-bar-fill').style.width = `${panPct}%`;
                 }
             }
 
@@ -1209,9 +1023,7 @@
                     let icon = 'info';
                     if (act.type.includes('user')) icon = 'user-plus';
                     else if (act.type.includes('regulasi')) icon = 'shield-alert';
-                    else if (act.type.includes('sop')) icon = 'file-text';
                     else if (act.type.includes('panduan')) icon = 'book-open';
-                    else if (act.type.includes('dokumen')) icon = 'files';
                     else if (act.type.includes('faq')) icon = 'help-circle';
                     
                     return `
@@ -1231,23 +1043,7 @@
                 }).join('');
             }
 
-            // Render SOP Table
-            const sopBody = document.querySelector('#sop .admin-table tbody');
-            if (sopBody) {
-                sopBody.innerHTML = db.sop.map((item, idx) => `
-                    <tr>
-                        <td>${item.kode || '-'}</td>
-                        <td style="font-weight:600; color:var(--text-main);">${item.judul || ''}</td>
-                        <td>${item.kategori || item.unit || ''}</td>
-                        <td>${item.tanggal || ''}</td>
-                        <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.deskripsi || ''}</td>
-                        <td>
-                            <button class="btn-action-edit" onclick="editDbRow('sop', ${idx})">Edit</button>
-                            <button class="btn-action-delete" onclick="deleteDbRow('sop', ${idx})">Hapus</button>
-                        </td>
-                    </tr>
-                `).join('');
-            }
+
 
             // Render Regulasi Table
             const regulasiBody = document.querySelector('#regulasi .admin-table tbody');
@@ -1284,21 +1080,7 @@
                 `).join('');
             }
 
-            // Render Dokumen Table
-            const dokumenBody = document.querySelector('#dokumen .admin-table tbody');
-            if (dokumenBody) {
-                dokumenBody.innerHTML = db.dokumen.map((item, idx) => `
-                    <tr>
-                        <td style="font-weight:600; color:var(--text-main);">${item.nama || ''}</td>
-                        <td>${item.tipe || ''}</td>
-                        <td>${item.tanggal || ''}</td>
-                        <td>
-                            <button class="btn-action-edit" onclick="editDbRow('dokumen', ${idx})">Edit</button>
-                            <button class="btn-action-delete" onclick="deleteDbRow('dokumen', ${idx})">Hapus</button>
-                        </td>
-                    </tr>
-                `).join('');
-            }
+
 
             // Render FAQ Table
             const faqBody = document.querySelector('#faq .admin-table tbody');
@@ -1367,10 +1149,8 @@
                 const db = AikonDB.get();
                 const row = db[table][index];
                 let title = '';
-                if (table === 'sop') title = row.judul;
-                else if (table === 'regulasi') title = row.nomor;
+                if (table === 'regulasi') title = row.nomor;
                 else if (table === 'panduan') title = row.judul;
-                else if (table === 'dokumen') title = row.nama;
                 else if (table === 'faq') title = row.pertanyaan;
                 else if (table === 'users') title = row.nama + " (NPP: " + row.npp + ")";
 
@@ -1410,25 +1190,7 @@
                     showToast(`Akun pegawai ${name} berhasil ditambahkan!`);
                 }
                 document.getElementById('formUser').style.display = "none";
-            } else if (type === 'sop') {
-                const kode = document.getElementById('sopKode').value;
-                const judul = document.getElementById('sopNama').value;
-                const kategori = document.getElementById('sopKategori').value;
-                const tanggal = document.getElementById('sopTanggal').value;
-                const link = document.getElementById('sopLink').value;
-                const deskripsi = document.getElementById('sopDeskripsi').value;
-                const sopData = { kode: kode, judul: judul, kategori: kategori, tanggal: tanggal, link: link, deskripsi: deskripsi };
 
-                if (isEdit) {
-                    AikonDB.updateRow('sop', editIndex, sopData);
-                    AikonDB.addActivity("Memperbarui SOP Kerja", judul, "SOP dengan kode " + kode + " telah diperbarui oleh Admin.", "sop-update");
-                    showToast('SOP kerja berhasil diperbarui!');
-                } else {
-                    AikonDB.addRow('sop', sopData);
-                    AikonDB.addActivity("Menambahkan SOP Kerja", judul, "SOP kerja baru dengan kode " + kode + " telah berhasil diunggah.", "sop-add");
-                    showToast('SOP kerja baru berhasil ditambahkan!');
-                }
-                document.getElementById('formSop').style.display = "none";
             } else if (type === 'regulasi') {
                 const nomor = document.getElementById('regulasiNomor').value;
                 const tentang = document.getElementById('regulasiTentang').value;
@@ -1458,31 +1220,15 @@
 
                 if (isEdit) {
                     AikonDB.updateRow('panduan', editIndex, panduanData);
-                    AikonDB.addActivity("Memperbarui Panduan Kerja", judul, "Panduan kerja operasional tentang " + modul + " telah diperbarui.", "panduan-update");
+                    AikonDB.addActivity("Memperbarui DJP/Panduan Kerja", judul, "DJP/Panduan kerja operasional tentang " + modul + " telah diperbarui.", "panduan-update");
                     showToast('Panduan berhasil diperbarui!');
                 } else {
                     AikonDB.addRow('panduan', panduanData);
-                    AikonDB.addActivity("Menambahkan Panduan Kerja", judul, "Panduan kerja operasional modul " + modul + " baru telah ditambahkan.", "panduan-add");
+                    AikonDB.addActivity("Menambahkan DJP/Panduan Kerja", judul, "DJP/Panduan kerja operasional modul " + modul + " baru telah ditambahkan.", "panduan-add");
                     showToast('Panduan baru berhasil ditambahkan!');
                 }
                 document.getElementById('formPanduan').style.display = "none";
-            } else if (type === 'dokumen') {
-                const nama = document.getElementById('dokumenNama').value;
-                const tipe = document.getElementById('dokumenTipe').value;
-                const tanggal = document.getElementById('dokumenTanggal').value;
-                const link = document.getElementById('dokumenLink').value;
-                const dokumenData = { nama: nama, tipe: tipe, tanggal: tanggal, link: link };
 
-                if (isEdit) {
-                    AikonDB.updateRow('dokumen', editIndex, dokumenData);
-                    AikonDB.addActivity("Memperbarui Dokumen", nama, "Berkas formulir resmi bertipe " + tipe + " telah diperbarui.", "dokumen-update");
-                    showToast('Dokumen berhasil diperbarui!');
-                } else {
-                    AikonDB.addRow('dokumen', dokumenData);
-                    AikonDB.addActivity("Menambahkan Dokumen", nama, "Berkas formulir resmi baru dengan format " + tipe + " telah diunggah.", "dokumen-add");
-                    showToast('Dokumen baru berhasil ditambahkan!');
-                }
-                document.getElementById('formDokumen').style.display = "none";
             } else if (type === 'faq') {
                 const q = document.getElementById('faqPertanyaan').value;
                 const a = document.getElementById('faqJawaban').value;
