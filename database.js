@@ -11,7 +11,8 @@ const DEFAULT_DATABASE = {
     faq: [],
     users: [],
     activities: [],
-    onboarding: []
+    onboarding: [],
+    feedback: []
 };
 
 // Initialize Local DB if empty or outdated (missing link properties or onboarding)
@@ -37,6 +38,7 @@ if (shouldResetDb) {
 
 // Main DB Controller
 window.AikonDB = {
+    _hasFetchedFromCloud: false,
     get: function () {
         return JSON.parse(localStorage.getItem('aikon_database')) || DEFAULT_DATABASE;
     },
@@ -109,16 +111,22 @@ window.AikonDB = {
     syncToCloud: function () {
         if (this._syncTimeout) clearTimeout(this._syncTimeout);
         
+        if (!this._hasFetchedFromCloud) {
+            console.warn("Sync to cloud dibatalkan: Data belum di-fetch dari cloud. Mencegah overwrite data kosong.");
+            return;
+        }
+        
         this._syncTimeout = setTimeout(() => {
             const db = this.get();
-            const tables = ['regulasi', 'panduan', 'faq', 'users', 'activities', 'onboarding'];
+            const tables = ['regulasi', 'panduan', 'faq', 'users', 'activities', 'onboarding', 'feedback'];
             const schemas = {
                 regulasi: ['id', 'nomor', 'tentang', 'jenis', 'tanggal', 'masa_berlaku', 'link', 'ringkasan'],
                 panduan: ['id', 'judul', 'modul', 'deskripsi', 'link'],
                 faq: ['id', 'pertanyaan', 'jawaban'],
                 users: ['id', 'nama', 'npp', 'unit', 'password', 'status'],
                 activities: ['id', 'action', 'title', 'desc', 'time', 'type'],
-                onboarding: ['id', 'title', 'content']
+                onboarding: ['id', 'title', 'content'],
+                feedback: ['id', 'user_npp', 'user_name', 'query', 'feedback_type', 'komentar', 'tanggal']
             };
 
             tables.forEach(table => {
@@ -160,6 +168,7 @@ window.AikonDB = {
                     });
 
                     localStorage.setItem('aikon_database', JSON.stringify(mergedDb));
+                    window.AikonDB._hasFetchedFromCloud = true;
                     window.dispatchEvent(new Event('aikon_db_changed'));
                     console.log('Successfully fetched and synchronized database from Google Sheets!');
                 }

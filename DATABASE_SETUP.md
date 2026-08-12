@@ -7,13 +7,14 @@ Ikuti langkah-langkah di bawah ini untuk menghubungkan website AIKON dengan spre
 ## Langkah 1: Buat Google Sheet
 1. Buka [Google Sheets](https://sheets.new).
 2. Ubah judul dokumen menjadi `AIKON Database`.
-3. Buat **6 sheet (tab)** di bagian bawah dengan nama persis seperti berikut:
+3. Buat **7 sheet (tab)** di bagian bawah dengan nama persis seperti berikut:
    - `sop`
    - `regulasi`
    - `panduan`
    - `dokumen`
    - `faq`
    - `users`
+   - `feedback`
 4. Di baris pertama (Header) setiap sheet, isi kolom-kolomnya sesuai tabel berikut:
 
 | Nama Sheet | Kolom A | Kolom B | Kolom C | Kolom D | Kolom E | Kolom F |
@@ -24,6 +25,7 @@ Ikuti langkah-langkah di bawah ini untuk menghubungkan website AIKON dengan spre
 | **dokumen** | `id` | `nama` | `tipe` | `tanggal` | `link` | |
 | **faq** | `id` | `pertanyaan` | `jawaban` | | | |
 | **users** | `id` | `npp` | `nama` | `unit` | `status` | |
+| **feedback** | `id` | `user_npp` | `user_name` | `query` | `feedback_type` | `komentar` | `tanggal` |
 
 ---
 

@@ -292,6 +292,10 @@
                 <i data-lucide="graduation-cap"></i>
                 <span>Update Onboarding</span>
             </button>
+            <button class="nav-item" onclick="switchPage('feedback', this)">
+                <i data-lucide="message-square"></i>
+                <span>Feedback AI</span>
+            </button>
         </nav>
         <div class="sidebar-footer">
             <a href="admin-login.html" class="nav-item">
@@ -865,6 +869,31 @@
                 </table>
             </div>
         </div>
+
+        <!-- SECTION 9: FEEDBACK AI -->
+        <div id="feedback" class="admin-page-content">
+            <header class="content-header">
+                <h1>Riwayat Feedback AI Chatbot</h1>
+                <p>Pantau kualitas jawaban asisten berdasarkan ulasan dari pegawai.</p>
+            </header>
+            
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%">Waktu</th>
+                            <th style="width: 15%">Nama Pegawai</th>
+                            <th style="width: 25%">Pertanyaan User</th>
+                            <th style="width: 15%">Membantu?</th>
+                            <th style="width: 30%">Komentar / Masukan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackList">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -1225,6 +1254,23 @@
                         <td>
                             <button class="btn-action-edit" onclick="editDbRow('onboarding', ${idx})">Edit Modul</button>
                         </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Render Feedback Table
+            const feedbackBody = document.getElementById('feedbackList');
+            if (feedbackBody) {
+                const feedbackData = (db.feedback || []).slice().reverse();
+                feedbackBody.innerHTML = feedbackData.map(item => `
+                    <tr>
+                        <td>${item.tanggal || ''}</td>
+                        <td style="font-weight:600; color:var(--text-main);">${item.user_name || ''}</td>
+                        <td style="max-width:200px; white-space:normal;">${item.query || ''}</td>
+                        <td>
+                            ${item.feedback_type === 'thumbs_up' ? '<span class="status-badge active"><i data-lucide="thumbs-up" size="12" style="vertical-align:middle; margin-right:4px;"></i> Ya</span>' : '<span class="status-badge" style="background:#FEF2F2; color:#DC2626;"><i data-lucide="thumbs-down" size="12" style="vertical-align:middle; margin-right:4px;"></i> Tidak</span>'}
+                        </td>
+                        <td style="white-space:normal; max-width:300px;">${item.komentar || '-'}</td>
                     </tr>
                 `).join('');
             }
