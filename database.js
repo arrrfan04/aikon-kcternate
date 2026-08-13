@@ -6,8 +6,10 @@ const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbyT92rCmLFZ28s
 
 
 const DEFAULT_DATABASE = {
+    sop: [],
     regulasi: [],
     panduan: [],
+    dokumen: [],
     faq: [],
     users: [],
     activities: [],
@@ -23,7 +25,7 @@ try {
         shouldResetDb = true;
     } else {
         const parsed = JSON.parse(existingDb);
-        if (!parsed.onboarding || !parsed.activities) {
+        if (!parsed.onboarding || !parsed.activities || !parsed.sop || !parsed.dokumen || !parsed.feedback) {
             shouldResetDb = true;
         }
     }
@@ -118,10 +120,12 @@ window.AikonDB = {
         
         this._syncTimeout = setTimeout(() => {
             const db = this.get();
-            const tables = ['regulasi', 'panduan', 'faq', 'users', 'activities', 'onboarding', 'feedback'];
+            const tables = ['sop', 'regulasi', 'panduan', 'dokumen', 'faq', 'users', 'activities', 'onboarding', 'feedback'];
             const schemas = {
+                sop: ['id', 'kode', 'judul', 'kategori', 'tanggal', 'masa_berlaku', 'link', 'deskripsi'],
                 regulasi: ['id', 'nomor', 'tentang', 'jenis', 'tanggal', 'masa_berlaku', 'link', 'ringkasan'],
                 panduan: ['id', 'judul', 'modul', 'deskripsi', 'link'],
+                dokumen: ['id', 'nama', 'tipe', 'tanggal', 'link'],
                 faq: ['id', 'pertanyaan', 'jawaban'],
                 users: ['id', 'nama', 'npp', 'unit', 'password', 'status'],
                 activities: ['id', 'action', 'title', 'desc', 'time', 'type'],
@@ -161,9 +165,21 @@ window.AikonDB = {
                     const localDb = window.AikonDB.get();
                     const mergedDb = { ...localDb };
                     
+                    // Date fields that need sanitization (ISO date string from Google Sheets)
+                    const DATE_FIELDS = ['tanggal', 'masa_berlaku'];
+
                     Object.keys(data).forEach(table => {
                         if (Array.isArray(data[table])) {
-                            mergedDb[table] = data[table];
+                            // Sanitize ISO date strings in each row
+                            mergedDb[table] = data[table].map(row => {
+                                const cleanRow = { ...row };
+                                DATE_FIELDS.forEach(field => {
+                                    if (cleanRow[field] && typeof cleanRow[field] === 'string' && cleanRow[field].includes('T') && cleanRow[field].endsWith('Z')) {
+                                        cleanRow[field] = cleanRow[field].split('T')[0];
+                                    }
+                                });
+                                return cleanRow;
+                            });
                         }
                     });
 
