@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="feedback-container" style="margin-top: 10px; border-top: 1px solid #E2E8F0; padding-top: 8px;">
                             <div style="font-size: 11px; color: #64748B; margin-bottom: 6px;">Apakah jawaban ini membantu?</div>
                             <div style="display: flex; gap: 8px;">
-                                <button onclick="handleFeedbackClick(this, '${text.replace(/'/g, "\\'")}', 'thumbs_up')" style="background: none; border: 1px solid #E2E8F0; border-radius: 4px; padding: 4px 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: #64748B;"><i data-lucide="thumbs-up" size="12"></i> Ya</button>
-                                <button onclick="handleFeedbackClick(this, '${text.replace(/'/g, "\\'")}', 'thumbs_down')" style="background: none; border: 1px solid #E2E8F0; border-radius: 4px; padding: 4px 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: #64748B;"><i data-lucide="thumbs-down" size="12"></i> Tidak</button>
+                                <button onclick="handleFeedbackClick(this, this.getAttribute('data-query'), 'thumbs_up')" data-query="${text.replace(/\"/g, '&quot;').replace(/'/g, '&#39;')}" style="background: none; border: 1px solid #E2E8F0; border-radius: 4px; padding: 4px 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: #64748B;"><i data-lucide="thumbs-up" size="12"></i> Ya</button>
+                                <button onclick="handleFeedbackClick(this, this.getAttribute('data-query'), 'thumbs_down')" data-query="${text.replace(/\"/g, '&quot;').replace(/'/g, '&#39;')}" style="background: none; border: 1px solid #E2E8F0; border-radius: 4px; padding: 4px 8px; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: #64748B;"><i data-lucide="thumbs-down" size="12"></i> Tidak</button>
                             </div>
                         </div>
                     `;
